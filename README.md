@@ -16,6 +16,13 @@
 - Bulma
 CHOOSE ONE
 
+Legend:
+O: optional
+C: client-side
+S: server-side
+A: application logic
+P: presentation
+?: to ask (teacher) or to be established (team)
 
 ## VISUALIZER
 
@@ -28,26 +35,26 @@ CHOOSE ONE
 - [ ] Barra del menu
 	- [ ] info
 	- [ ] catalogo
-	- [ ] ecc...(sitemap?!?)
+	- [ ] ?: ecc...
 - [ ] Info del video (da cercare su wikipedia dai dati di youtube)
 	- [ ] Nome canzone
 	- [ ] nome artista
 	- [ ] nome album
 	- [ ] anno
 	- [ ] codice YouTube
-	- [ ] membri della band
-	- [ ] genere musicale
-	- [ ] durata e qualità del video
-	- [ ] ecc.
+	- [ ] O: membri della band
+	- [ ] O: genere musicale
+	- [ ] O: durata e qualità del video
+	- [ ] O: ecc.
 - [ ] Area contenuti
 	- [ ] scrollabile
 	- [ ] Descrizione del video di YouTube
 	- [ ] commenti di YouTube
 	- [ ] contenuti di DBPedia
-		- [ ] sul brano
-		- [ ] sull'album
-		- [ ] sull'artista
-		- [ ] sul genere
+		- [ ] O: sul brano
+		- [ ] O: sull'album
+		- [ ] O: sull'artista
+		- [ ] O: sul genere
 	- [ ] tweet che menzionano il brano o l'artista
 	- [ ] ecc..
 - [ ] Area suggerimenti
@@ -61,17 +68,18 @@ CHOOSE ONE
 ## RECOMMENDER
 
 - [ ] Un modulo che genera liste di n video, 10 ≤ n ≤ 30. Usa molteplici algoritmi:
-	- [ ] Random: lista di video casuale (Scollegato dal video dell'area principale. solo video musicali)
+	- [ ] Random: lista di video casuale (Scollegato dal video dell'area principale)
+		- [ ] O: solo video musicali
 		- [ ] Output:
 			- [ ] Thumbnail
 			- [ ] titolo
 			- [ ] codice YouTube
 			- [ ] spiegazione della raccomandazione
-			- [ ] artista
-			- [ ] titolo
-			- [ ] album
-			- [ ] anno
-			- [ ] genere.
+			- [ ] O: artista
+			- [ ] O: titolo
+			- [ ] O: album
+			- [ ] O: anno
+			- [ ] O: genere
 	- [ ] Search: video che fanno match con la ricerca dell'utente (ok se n < 10)
 		- [ ] L'utente inserisce testo nel campo di search
 		- [ ] Scollegato dal video dell'area principale.
@@ -83,39 +91,40 @@ CHOOSE ONE
 			- [ ] titolo
 			- [ ] codice YouTube
 			- [ ] spiegazione della raccomandazione
-			- [ ] artista
-			- [ ] titolo
-			- [ ] album
-			- [ ] anno
-			- [ ] genere.
+			- [ ] O: artista
+			- [ ] O: titolo
+			- [ ] O: album
+			- [ ] O: anno
+			- [ ] O: genere
 	- [ ] Related: lista di video collegati secondo YouTube
 		- [ ] Output:
 			- [ ] Thumbnail
 			- [ ] titolo
 			- [ ] codice YouTube
 			- [ ] spiegazione della raccomandazione
-			- [ ] artista
-			- [ ] titolo
-			- [ ] album
-			- [ ] anno
-			- [ ] genere.
-	- [ ] Recent: lista di video visualizzati recentemente dall'utente (numero di elementi a scelta?)
+			- [ ] O: artista
+			- [ ] O: titolo
+			- [ ] O: album
+			- [ ] O: anno
+			- [ ] O: genere
+	- [ ] ?: Recent: lista di video visualizzati recentemente dall'utente (numero di elementi a scelta?)
 		- [ ] Il sistema ricorda quali video sono stati visualizzati recentemente dall'utente.
 		- [ ] Scollegato dal video dell'area principale.
 		- [ ] La lista è inizialmente vuota, poi si popola progressivamente di video.
 		- [ ] Ordinato temporalmente.
 		- [ ] Se lo stesso video viene visto più volte, compare una volta sola nella posizione più recente.
-		- [ ] Un video viene considerato visto solo se il player lo ha mostrato per più di 15 secondi (o percentuale vista). Se l'utente riguarda ancora lo stesso video, viene contato due volte.
+		- [ ] Un video viene considerato visto solo se il player lo ha mostrato per più di 15 secondi.
+		- [ ] Se l'utente riguarda ancora lo stesso video, viene contato due volte.
 		- [ ] Output:
 			- [ ] Thumbnail
 			- [ ] titolo
 			- [ ] codice YouTube
 			- [ ] spiegazione della raccomandazione
-			- [ ] artista
-			- [ ] titolo
-			- [ ] album
-			- [ ] anno
-			- [ ] genere.
+			- [ ] O: artista
+			- [ ] O: titolo
+			- [ ] O: album
+			- [ ] O: anno
+			- [ ] O: genere
 	- [ ] Fvitali: lista di video proposti da un'API di Fabio Vitali
 		- [ ] Popolarità globale: API globale
 		- [ ] Output:
@@ -123,44 +132,54 @@ CHOOSE ONE
 			- [ ] titolo
 			- [ ] codice YouTube
 			- [ ] spiegazione della raccomandazione
-			- [ ] artista
-			- [ ] titolo
-			- [ ] album
-			- [ ] anno
-			- [ ] genere.
+			- [ ] O: artista
+			- [ ] O: titolo
+			- [ ] O: album
+			- [ ] O: anno
+			- [ ] O: genere
 	- [ ] Popularity: raccomandazione per popolarità (di più a breve)
 		- [ ] assoluta
 			- [ ]  locale
-			- [ ]  globale
+				- [ ] visto solo se il player lo ha mostrato per più di 15 secondi
+				- [ ] O: visto se somma dei secondi=15 oppure percentuale della durata
+			- [ ]  O?: globale
 		- [ ] relativa
 			- [ ] locale
-			- [ ] globale
+				- [ ] visto solo se il player lo ha mostrato per più di 15 secondi
+				- [ ] O: visto se somma dei secondi=15 oppure percentuale della durata
+			- [ ] O: globale
 		- [ ] Il sistema tiene un contatore delle visualizzazione dei video da parte di tutti gli utenti, ed è in grado di elencarne i più visti.
-		- [ ] Popolarità relativa: la relazione tra il video raccomandante e il video raccomandato; relazione tra un video A e un video C passando da B?!? slide 32
+		- [ ] ?: Popolarità relativa: la relazione tra il video raccomandante e il video raccomandato; relazione tra un video A e un video C passando da B?!? slide 32
 		- [ ] Output:
 			- [ ] Thumbnail
 			- [ ] titolo
 			- [ ] codice YouTube
 			- [ ] spiegazione della raccomandazione
-			- [ ] artista
-			- [ ] titolo
-			- [ ] album
-			- [ ] anno
-			- [ ] genere.
-	- [ ] Similarity (artista, genere, membri della band, ecc.): due (tre) recommender diversi che ordinano dal più simile al meno simile, evitare video uguali
-		- [ ] ArtistSimilarity: una lista di video dello stesso artista del video principale, ordinati per album e anno di pubblicazione.
-		- [ ] GenreSimilarity: una lista di video di artisti ed album simili a quelli del video principale, ordinati per vicinanza di genere. Sbagliato includere video dello stesso artista.
-		- [ ] BandSimilarity: (solo per video di band) una lista di video di band in cui suonano membri della band del video principale, ordinati per vicinanza di anno con il video principale. Sbagliato includere video della stessa band.
+			- [ ] O: artista
+			- [ ] O: titolo
+			- [ ] O: album
+			- [ ] O: anno
+			- [ ] O: genere
+	- [ ] Similarity (artista, genere, membri della band, ecc.): due recommender diversi che ordinano dal più simile al meno simile, evitare video uguali
+		- [ ] ArtistSimilarity: una lista di video dello stesso artista del video principale
+			- [ ] O: ordinati per album
+			- [ ] O: ordinati per anno di pubblicazione
+		- [ ] GenreSimilarity: una lista di video di artisti ed album simili a quelli del video principale
+			- [ ] Non includere video dello stesso artista
+			- [ ] O: ordinati per vicinanza di genere
+		- [ ] O: BandSimilarity: (solo per video di band) una lista di video di band in cui suonano membri della band del video principale
+			- [ ] Non includere video della stessa band.
+			- [ ] O: ordinati per vicinanza di anno con il video principale
 		- [ ] Output:
 			- [ ] Thumbnail
 			- [ ] titolo
 			- [ ] codice YouTube
 			- [ ] spiegazione della raccomandazione
-			- [ ] artista
-			- [ ] titolo
-			- [ ] album
-			- [ ] anno
-			- [ ] genere.
+			- [ ] O: artista
+			- [ ] O: titolo
+			- [ ] O: album
+			- [ ] O: anno
+			- [ ] O: genere
 	- [ ] knowledge-based recommendation: Usate ontologie specializzate (ad es. Music Ontology)
 	- [ ] Knowledge Graphs: usare SPARQL per accedere alle info di dbpedia https://dbpedia.org/sparql oppure http://musicontology.com
 - [ ] Lista di partenza
