@@ -8,12 +8,18 @@
 ### Client-Side
 #### JS
 - JQuery
+- Angular
+- React
+- VueJS
+- Ember
 - etc.
+CHOOSE ONE
 
 #### CSS
 - SemanticUI
 - Bootstrap
 - Bulma
+- etc.
 CHOOSE ONE
 
 Legend:
