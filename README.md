@@ -1,21 +1,23 @@
 # alphaTube
 
-## Server-Side
-. nodejs
+## FRAMEWORK
 
-## Client-Side
-### JS
-. JQuery
-. etc.
+### Server-Side
+- nodejs
 
-### CSS
-. SemanticUI
-. Bootstrap
-. Bulma
+### Client-Side
+#### JS
+- JQuery
+- etc.
+
+#### CSS
+- SemanticUI
+- Bootstrap
+- Bulma
 CHOOSE ONE
 
 
-# VISUALIZER
+## VISUALIZER
 
 - [ ] player con i controlli
 - [ ] ricerca video:
@@ -56,7 +58,7 @@ CHOOSE ONE
 		- [ ] il motivo per cui viene raccomandato.
 
 
-# RECOMMENDER
+## RECOMMENDER
 
 - [ ] Un modulo che genera liste di n video, 10 ≤ n ≤ 30. Usa molteplici algoritmi:
 	- [ ] Random: lista di video casuale (Scollegato dal video dell'area principale. solo video musicali)
