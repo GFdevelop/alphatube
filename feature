@@ -26,10 +26,8 @@ C: algoritmi di correlazione (youtube, API di altri progetti, ecc...)
 C: mashup
 S: fornire (e usare) API globale
 S: gestione ID utenti (ID riconosciuto o nuovo ID)
-
-# STORAGE
-S: statistiche
 C: html5 webstorage
+S: db statistiche
 S: db utenti (opzionale 1)
 
 
@@ -71,11 +69,19 @@ Un modulo che genera liste di n video, 10 ≤ n ≤ 30. Usa molteplici algoritmi
 		Quattro recommender per raccomandare i video più popolari sulla base di quattro criteri diversi (assoluta-relativa join locale-globale)
 		Il sistema tiene un contatore delle visualizzazione dei video da parte di tutti gli utenti, ed è in grado di elencarne i più visti.
 		Popolarità relativa: la relazione tra il video raccomandante e il video raccomandato; relazione tra un video A e un video C passando da B?!? slide 32
-	– Similarity (artista, genere, membri della band, ecc.): lista di video dello stesso artista, dello stesso genere (altri artisti simili), di band in cui suonano alcuni membri della stessa band, ecc.
+	– Similarity (artista, genere, membri della band, ecc.): due (tre) recommender diversi che ordinano dal più simile al meno simile, evitare video uguali
+		• ArtistSimilarity: una lista di video dello stesso artista del video principale, ordinati per album e anno di pubblicazione.
+		• GenreSimilarity: una lista di video di artisti ed album simili a quelli del video principale, ordinati per vicinanza di genere. Sbagliato includere video dello stesso artista.
+		• BandSimilarity: (solo per video di band) una lista di video di band in cui suonano membri della band del video principale, ordinati per vicinanza di anno con il video principale. Sbagliato includere video della stessa band.
+	knowledge-based recommendation: Usate ontologie specializzate (ad es. Music Ontology)
+	Knowledge Graphs: usare SPARQL per accedere alle info di dbpedia https://dbpedia.org/sparql oppure http://musicontology.com
 	FORNIRE UNA SPIEGAZIONE DEL SUGGERIMENTO
 Lista di partenza
-• In un sistema reale tutti i video assumono naturalmente una storia di visualizzazioni sulla base della quale basare la raccomandazione.
-• Noi siamo pochi e abbiamo poco tempo, e per dimostrare che il sistema funziona dobbiamo creare una situazione fittizia di video molto commentati.
-• La classe intera deve quindi selezionare 40-50 video musicali, da specificare su un'apposita pagina del wiki, su cui si concentreranno gli sforzi iniziali del progetto.
-• Suggerimento: scegliete brani musicali molto diversi tra loro per genere, artista ed epoca storica (includere musica classica, jazz, musiche etniche?)
-• L'utente può selezionare qualunque video di YouTube, ma in prima pagina l'esaminatore può accedere ad uno dei 40-50 video di partenza scegliendolo da un apposita voce del menù e mostrare i suggerimenti su questi come partenza.
+	• In un sistema reale tutti i video assumono naturalmente una storia di visualizzazioni sulla base della quale basare la raccomandazione.
+	• Noi siamo pochi e abbiamo poco tempo, e per dimostrare che il sistema funziona dobbiamo creare una situazione fittizia di video molto commentati.
+	• La classe intera deve quindi selezionare 40-50 video musicali, da specificare su un'apposita pagina del wiki, su cui si concentreranno gli sforzi iniziali del progetto.
+	• Suggerimento: scegliete brani musicali molto diversi tra loro per genere, artista ed epoca storica (includere musica classica, jazz, musiche etniche?)
+	• L'utente può selezionare qualunque video di YouTube, ma in prima pagina l'esaminatore può accedere ad uno dei 40-50 video di partenza scegliendolo da un apposita voce del menù e mostrare i suggerimenti su questi come partenza.
+Catturare i pulsanti back and forward
+	• Se l'utente fa back o forward, evitate di ricaricare ogni volta tutti i dati del video che abbiamo visto pochi secondi fa.
+	• Usate cache e memoria locale del browser in maniera appropriata.
