@@ -7,20 +7,23 @@
 
 ### Client-Side
 #### JS
-- JQuery
-- React
+- Umbrella JS https://umbrellajs.com
 
 CHOOSE ONE
 
 #### CSS
-- SemanticUI
+- Picnic CSS https://picnicss.com
 
 CHOOSE ONE
 
 Legend:
+
 O:	optional
+
 C:	client-side
+
 S:	server-side
+
 ?:	to ask (teacher) or to be established (team)
 
 ## VISUALIZER (presentation)
