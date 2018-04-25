@@ -4,12 +4,27 @@
     <title>GammaTube</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="./css/bootstrap-grid.min.css" rel="stylesheet">
-    <link href="./css/bootstrap-reboot.min.css" rel="stylesheet">
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap/bootstrap-grid.min.css" rel="stylesheet">
+    <link href="./css/bootstrap/bootstrap-reboot.min.css" rel="stylesheet">
+    <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
     <style>
+    .colorR{
+      background-color: red;
+    }
+    .colorG{
+      background-color: yellow;
+    }
+    .paddingT{
+       padding-top: 20px;
+    }
 
+    body{
+      height: 100%;
+    }
+    .maxH{
+      height: 100%
+    }
     </style>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
     <script src="/search.js"></script>
@@ -59,15 +74,36 @@
 		</nav>
     </header>
 
-    <section>
+    <div class="row paddingT">
+    <section class="col-md-8 embed-responsive embed-responsive-16by9 maxH">
       <!-- video Francesco-->
-    <div id="search-container">
-    </div>
+		<div id="search-container">
+		</div>
+      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/sWEOoenLWNE?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </section>
 
-    <aside>
+    <div class="col-md-4 colorR">
       <article>
         <!-- wikipedia Mattia-->
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+        <p>wikibox</p>
+
       </article>
       <article>
         <!-- commenti Mattia-->
@@ -75,14 +111,32 @@
       <article>
         <!-- altre robe Mattia-->
       </article>
-    </aside>
-
+    </div>
     <section>
       <!-- recommender Francesco -->
+
+      <div class="card col-md-8">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group mr-2" role="group" aria-label="recommender group">
+            <button type="button" class="btn btn-light">Suggeriti</button>
+            <button type="button" class="btn btn-light">Consigliati</button>
+            <button type="button" class="btn btn-light">YouTube</button>
+            <button type="button" class="btn btn-light">Random</button>
+          </div>
+        </div>
+        <div class="card-body">
+
+        </div>
+      </div>
+
     </section>
+    </div>
+
+
 
     <footer>
-      
+
     </footer>
+
   </body>
 </html>
