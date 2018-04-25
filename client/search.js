@@ -3,9 +3,9 @@
 // https://developers.google.com/youtube/v3/code_samples/javascript
 
 // After the API loads, call a function to enable the search box.
-function handleAPILoaded() {
+/*function handleAPILoaded() {
   $('#search-button').attr('disabled', false);
-}
+}*/
 
 // Search for a specified string.
 function search() {
@@ -21,8 +21,8 @@ function onYouTubeApiLoad() {
   });
 
   request.execute(function(response) {
-    var str = JSON.stringify(response.result);
-    var str = JSON.stringify(response.result, null, 2);
-    $('#search-container').html('<pre>' + str + '</pre>');
+	//var str = JSON.stringify(response.result);
+	var str = JSON.stringify(response.result, null, 2);
+	$('#search-container').html('<pre>' + str + '</pre>');
   });
 }

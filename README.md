@@ -3,27 +3,24 @@
 ## FRAMEWORK
 
 ### Server-Side
-- nodejs
+- Node.js v8.10 (https://nodejs.org/)
 
 ### Client-Side
 #### JS
-- Umbrella JS https://umbrellajs.com
+- Bootstrap v4.1.0 (https://getbootstrap.com/)
+- jQuery JavaScript Library v3.3.1 (https://jquery.com/)
 
 CHOOSE ONE
 
 #### CSS
-- Picnic CSS https://picnicss.com
+- Bootstrap v4.1.0 (https://getbootstrap.com/)
 
 CHOOSE ONE
 
 Legend:
-
 O:	optional
-
 C:	client-side
-
 S:	server-side
-
 ?:	to ask (teacher) or to be established (team)
 
 ## VISUALIZER (presentation)
