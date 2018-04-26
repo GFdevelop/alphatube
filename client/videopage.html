@@ -29,15 +29,15 @@
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
     <script src="/search.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
   </head>
   <body>
 
     <header>
       <!-- navbar Gabriele -->
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-md navbar-light bg-light">
 			<a class="navbar-brand" href="/index.html">alphaTube</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -50,7 +50,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Link</a>
-					</li>
+					</li>	<!--
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Dropdown
@@ -61,14 +61,14 @@
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Something else here</a>
 						</div>
-					</li>
+					</li>	-->
 					<li class="nav-item">
 						<a class="nav-link disabled" href="#">Disabled</a>
 					</li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0" onsubmit="search()" action="javascript:void(0)">		<!-- https://stackoverflow.com/a/18772817/3476815 -->
 					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="query" required>
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button">Search</button>
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 				</form>
 			</div>
 		</nav>
@@ -77,8 +77,6 @@
     <div class="row paddingT">
     <section class="col-md-8 embed-responsive embed-responsive-16by9 maxH">
       <!-- video Francesco-->
-		<div id="search-container">
-		</div>
       <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/sWEOoenLWNE?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </section>
 
@@ -132,6 +130,8 @@
     </section>
     </div>
 
+	<div id="search-container">
+	</div>
 
 
     <footer>
