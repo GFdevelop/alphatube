@@ -15,7 +15,7 @@ function onYouTubeApiLoad() {
 	var list = gapi.client.youtube.search.list({	// https://developers.google.com/youtube/v3/docs/search/list#usage
 		q: q,
 		part: 'snippet',
-		maxResults: '25',
+		maxResults: '24',
 		type: 'video',
 		h1: 'en'
 	});
@@ -24,12 +24,24 @@ function onYouTubeApiLoad() {
 
 function onList(list) {
 	list.execute(function(response) {
-		var str = JSON.stringify(response.result, null, 4);
+		//var str = JSON.stringify(response.result, null, 4);
 		//$('#search-container').html('<pre>' + str + '</pre>');
-		console.log(str);
+		//console.log(str);
+		if ( $('#search-container').length ) $('#search-container').empty();
+		else $("body").after(
+			'<!--	https://mdbootstrap.com/components/bootstrap-video/#modal	-->' +
+			'<div class="row" id="search-container">' +
+			'</div>'
+		);
 		for (var i=0; i<response.items.length; i++) {
-			//$('#search-container').append('<pre>'+ JSON.stringify(response.items[i], null, 4) +'</pre>');
-			$('#search-container').append('<img src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">');
+			//$('#search-container').append('<img src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">');
+			$('#search-container').append(
+				'<div class="col-lg-4 col-md-6 mb-4">' +
+					'<a>' +
+						'<img class="img-fluid z-depth-1" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
+					'</a>' +
+				'</div>'
+			);
 		}
 	});
 }
