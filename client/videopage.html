@@ -24,12 +24,16 @@
     .maxH{
       height: 100%;
     }
-    </style>
+    </style> 
     <script src="./js/jquery/jquery-3.3.1.min.js"></script>
-    <script src="./js/search.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
     <script src="./js/bootstrap/bootstrap.min.js"></script>
     <script src="./js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./js/search.js"></script>
+    <!-- https://www.evemilano.com/async-defer/ -->
+    <script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()" 
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+	</script>
   </head>
   <body>
 
@@ -52,32 +56,18 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Info</a>
-					</li>		<!--
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Dropdown
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</div>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link disabled" href="#">Disabled</a>
-					</li>	-->
 				</ul>
-				<form class="form-inline my-2 my-lg-0" onsubmit="search()" action="javascript:void(0)">		<!-- https://stackoverflow.com/a/18772817/3476815 -->
+				<form class="form-inline my-2 my-lg-0" onsubmit="youtubeSearch()" action="javascript:void(0)">		<!-- https://stackoverflow.com/a/18772817/3476815 -->
 					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="query" required>
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button" disabled>Search</button>
 				</form>
 			</div>
 		</nav>
 		<!-- /navbar Gabriele -->
     </header>
 
-    <div class="row paddingT">
+    <div class="container row paddingT">
       <div class="col-md-8">
         <div class="embed-responsive embed-responsive-16by9"><!-- video Francesco-->
           <iframe class="embed-responsive-item"
@@ -199,17 +189,7 @@
       </div>
     </div>
 
-	<!--	https://mdbootstrap.com/components/bootstrap-video/#modal	-->
-	<!-- <div class="row" id="search-container">	-->
-		<!-- <div class="col-lg-4 col-md-6 mb-4">	-->
-			<!-- <a>
-				<img class="img-fluid z-depth-1" src="https://mdbootstrap.com/img/screens/yt/screen-video-1.jpg" alt="video">
-			</a>
-		</div>
-	</div>-->
-
-
-    <footer>
+	<footer>
     </footer>
   </body>
   <!-- /francesco -->
