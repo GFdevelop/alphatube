@@ -31,27 +31,26 @@
       padding-right: 0px;
       padding-left: 0px;
     }
-
-    .floatR {
-      float: right;
-    }
-
-    .floatL {
-      float: left;
-    }
   </style>
   <script src="./js/jquery/jquery-3.3.1.min.js"></script>
   <script src="./js/bootstrap/bootstrap.min.js"></script>
   <script src="./js/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="./js/search.js"></script>
+  <script src="./js/videoload.js"></script>
   <!-- https://www.evemilano.com/async-defer/ -->
   <script async defer src="https://apis.google.com/js/api.js"
       onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+      onreadystatechange="if (this.readyState === 'complete') this.onload()"> //A cosa serve onreadystatechange?
   </script>
 </head>
 
 <body>
+  <!-- TUTTO DEVE USARE FLOAT-LEFT E RIGHT -->
+
+  <!-- TODO: Eliminare da videopage.html tutte le parti non statiche -->
+  <!-- TODO: Gestione url tutto in javascript e Nodejs, no html -> template.html -->
+  <!-- TODO: Chashing del mondo -->
+  <!-- TODO: Asincronicità -->
 
   <header>
     <!-- navbar Gabriele -->
@@ -84,17 +83,15 @@
   </header>
 
   <div class="gutter-2 pt-1">
-    <div class="col-md-8 floatL">
+    <div class="col-md-8 float-left">
       <div class="p-1">
         <div class="embed-responsive embed-responsive-16by9"> <!-- video Francesco -->
-          <iframe class="embed-responsive-item"
-          src="https://www.youtube.com/embed/sWEOoenLWNE?rel=0&amp;showinfo=0"
-          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <div class="embed-responsive-item" id="player"></div>
         </div>
       </div>
     </div>
 
-    <div class="col-md-4 p-2 floatR"> <!--wikibox Mattia --> <!--colorR-->
+    <div class="col-md-4 p-2 float-right"> <!--wikibox Mattia --> <!--colorR-->
       <article>
         <!-- wikipedia Mattia-->
         <p>wikibox</p>
@@ -123,7 +120,7 @@
       </article>
     </div>
 
-    <div class="col-md-8 pt-2"> <!-- recommender Francesco --> <!--colorG-->
+    <div class="col-md-8 pt-2 float-left"> <!-- recommender Francesco --> <!--colorG-->
       <h3 class="pl-3">Consigliati</h3>
       <div class="container">
         <div class="row">
