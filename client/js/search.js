@@ -1,47 +1,73 @@
-// https://developers.google.com/youtube/v3/code_samples/javascript
-// https://google-developers.appspot.com/youtube/v3/code_samples/code_snippet_instructions
+/*
+ * example
+ * https://google-developers.appspot.com/youtube/v3/code_samples/
+ * https://gist.github.com/danviv/11156842
+*/
 
-// Search for a specified string.
-function search() {
-	gapi.client.setApiKey('AIzaSyCZIY9kX67U3u3wtgrO3FviBD_uIm5AQao');	// https://gist.github.com/danviv/11156842
-	gapi.client.load('youtube', 'v3', function() {
-		var list = onYouTubeApiLoad();	// https://developers.google.com/api-client-library/javascript/reference/referencedocs
-		onList(list);
-	});
+
+// https://developers.google.com/api-client-library/javascript/reference/referencedocs#loading-the-client-library
+function handleClientLoad() {
+	gapi.load('client', handleAPILoaded);	// Asynchronously loads the gapi libraries requested
 }
 
-function onYouTubeApiLoad() {
-	var q = $('#query').val();
-	var list = gapi.client.youtube.search.list({	// https://developers.google.com/youtube/v3/docs/search/list#usage
-		q: q,
-		part: 'snippet',
-		maxResults: '24',
-		type: 'video',
-		h1: 'en'
-	});
-	return list;
+function handleAPILoaded() {
+	$('#search-button').attr('disabled', false);
 }
 
-function onList(list) {
-	list.execute(function(response) {
-		//var str = JSON.stringify(response.result, null, 4);
-		//$('#search-container').html('<pre>' + str + '</pre>');
-		//console.log(str);
-		if ( $('#search-container').length ) $('#search-container').empty();
-		else $("body").after(
-			'<!--	https://mdbootstrap.com/components/bootstrap-video/#modal	-->' +
-			'<div class="row" id="search-container">' +
+// example <body onload="youtubeSearch(promiseName);">
+function youtubeSearch(promise, query, maxResults) {	//defaul value is supported in ECMA v6+
+	// https://developers.google.com/api-client-library/javascript/start/start-js
+	gapi.client.init({
+		'apiKey': 'AIzaSyCZIY9kX67U3u3wtgrO3FviBD_uIm5AQao',
+		'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
+	}).then(function() {
+		return gapi.client.request({
+			'method': 'GET',
+			'path': '/youtube/v3/search',
+			'params': {
+				'q': (query || $('#query').val()),
+				'part': 'snippet',
+				'maxResults': (maxResults || 24),
+				'type': 'video',
+				'videoCategoryId': '10'
+			}
+		});
+	}).then(function(response) {
+		promise = (promise || youtubeSearchResult);
+		return promise(response.result);
+	}, function(reason) {
+		console.log('Error: ' + reason.result.error.message);
+    });
+}
+
+function youtubeSearchResult(response) {
+	if ( $('#search-row-container').length ) $('#search-row-container').empty();
+	else $("body").before(
+		'<div class="container" id="search-container">' +
+			'<div class="row" id="search-row-container">' +
+			'</div>' +
+		'</div>'
+	);
+	for (var i=0; i<response.items.length; i++) {
+		$('#search-row-container').append(
+			'<div class="col-lg-3 col-md-4 col-sm-6 mt-2 mb-2 text-center">' +
+				'<a href="#">' +
+					'<img class="img-fluid z-depth-1" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
+				'</a>' +
 			'</div>'
 		);
-		for (var i=0; i<response.items.length; i++) {
-			//$('#search-container').append('<img src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">');
-			$('#search-container').append(
-				'<div class="col-lg-4 col-md-6 mb-4">' +
-					'<a>' +
-						'<img class="img-fluid z-depth-1" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
-					'</a>' +
-				'</div>'
-			);
-		}
+	}
+	
+	$( "#search-row-container > div > a" ).click(function() {
+		$('#search-container').remove();
 	});
+	
+	// TODO: https://www.codeply.com/go/JuADMG3eTG/bootstrap-image-hover-css-zoom-scale
+	// http://api.jquery.com/animate/
+	
+	// MOUSEOVER fires when the pointer moves into the child element as well, while
+	// MOUSEENTER fires only when the pointer moves into the bound element.
+	$("#search-row-container > div > a").mouseenter( function() {console.log('enter');} ).mouseleave( function() {console.log('out');} );
+	
+	// TODO: using cache
 }
