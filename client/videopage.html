@@ -13,12 +13,14 @@
   <script src="./js/jquery/jquery-3.3.1.min.js"></script>
   <script src="./js/bootstrap/bootstrap.min.js"></script>
   <script src="./js/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="./js/search.js"></script>
+  <script src="./js/nav.js"></script>
   <script src="./js/videoload.js"></script>
   <script src="./js/recommenderloader.js"></script>
   <!-- https://www.evemilano.com/async-defer/ -->
-  <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad();recommenderLoader()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    //A cosa serve onreadystatechange?
+  <script async defer src="https://apis.google.com/js/api.js" 
+		onload="this.onload=function(){};handleClientLoad();recommenderLoader()"
+		onreadystatechange="if (this.readyState === 'complete') this.onload()">
+		//A cosa serve onreadystatechange?
   </script>
 </head>
 
@@ -30,36 +32,35 @@
   <!-- TODO: Chashing del mondo -->
   <!-- TODO: Asincronicità -->
 
-  <header class="pb-1">
-    <!-- navbar Gabriele -->
-    <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <a class="navbar-brand" href="/index.html">alphaTube</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+	<header>
+		<!-- navbar Gabriele -->
+		<!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
+		<nav class="navbar navbar-expand-md navbar-light bg-light">
+			<a class="navbar-brand" href="/index.html">alphaTube</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Catalogo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Info</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" onsubmit="youtubeSearch()" action="javascript:void(0)">
-          <!-- https://stackoverflow.com/a/18772817/3476815 -->
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="query" required>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button" disabled>Search</button>
-        </form>
-      </div>
-    </nav>
-    <!-- /navbar Gabriele -->
-  </header>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Catalogo</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Info</a>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0" onsubmit="youtubeSearch()" action="javascript:void(0)">	<!-- https://stackoverflow.com/a/18772817/3476815 -->
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="query" required>
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button" disabled>Search</button>
+				</form>
+			</div>
+		</nav>
+		<!-- /navbar Gabriele -->
+	</header>
 
   <div class="p-1">
     <div class="col-md-8 float-left embed-responsive embed-responsive-16by9">
