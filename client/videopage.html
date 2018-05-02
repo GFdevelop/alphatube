@@ -3,29 +3,29 @@
 <html lang="en">
 
 <head>
-  <title>GammaTube</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="./css/bootstrap/bootstrap-grid.min.css" rel="stylesheet">
-  <link href="./css/bootstrap/bootstrap-reboot.min.css" rel="stylesheet">
-  <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<title>GammaTube</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="./css/bootstrap/bootstrap-grid.min.css" rel="stylesheet">
+	<link href="./css/bootstrap/bootstrap-reboot.min.css" rel="stylesheet">
+	<link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
-  <script src="./js/jquery/jquery-3.3.1.min.js"></script>
-  <script src="./js/bootstrap/bootstrap.min.js"></script>
-  <script src="./js/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="./js/nav.js"></script>
-  <script src="./js/videoload.js"></script>
-  <script src="./js/recommenderloader.js"></script>
-  <!-- https://www.evemilano.com/async-defer/ -->
-  <script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
+	<script src="./js/jquery/jquery-3.3.1.min.js"></script>
+	<script src="./js/bootstrap/bootstrap.min.js"></script>
+	<script src="./js/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src="./js/nav.js"></script>
+	<script src="./js/videoload.js"></script>
+	<script src="./js/recommenderloader.js"></script>
+	<!-- https://www.evemilano.com/async-defer/ -->
+	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
 </head>
 
 <body>
 
-  <!-- TODO: Eliminare da videopage.html tutte le parti non statiche -->
-  <!-- TODO: Gestione url tutto in javascript e Nodejs, no html -> template.html -->
-  <!-- TODO: Chashing del mondo -->
-  <!-- TODO: Asincronicità -->
+	<!-- TODO: Eliminare da videopage.html tutte le parti non statiche -->
+	<!-- TODO: Gestione url tutto in javascript e Nodejs, no html -> template.html -->
+	<!-- TODO: Chashing del mondo -->
+	<!-- TODO: Asincronicità -->
 
 
 		<!-- navbar Gabriele -->
@@ -56,42 +56,33 @@
 		</nav>
 		<!-- /navbar Gabriele -->
 
+	<!-- francesco -->
+	<div class="container pl-0 pr-0 ml-3 mt-3"> <!-- TODO: fixare lo spazio troppo eccessivo a destra e sinistra -->
+		<div class="row pl-0 pr-0 m-0">
+			<div class="col-md-8">
+				<div class="embed-responsive embed-responsive-16by9">
+					<!-- video Francesco -->
+					<div class="embed-responsive-item" id="player"></div>
+				</div>
+			</div>
+			
+			<!-- mattia -->
+			<div class="col-md-4">
+			</div>
+			<!-- /mattia -->
+			
+			<div class="col-12 pt-2">
+				<!-- recommender Francesco -->
+				<h3 class="pl-3 pt-3">Consigliati</h3>
+				<div class="row recommender"></div>
+			</div>
 
-  <div class="container pl-0 pr-0 ml-3 mt-3"> <!-- TODO: fixare lo spazio troppo eccessivo a destra e sinistra -->
-    <div class="row pl-0 pr-0 m-0">
-      <div class="col-md-8">
-        <div class="embed-responsive embed-responsive-16by9">
-          <!-- video Francesco -->
-          <div class="embed-responsive-item" id="player"></div>
-        </div>
-      </div>
+		</div>
+	</div>
+	<!-- /francesco -->
 
-      <div class="col-md-4">
-        <!--wikibox Mattia -->
-        <article>
-          <!-- wikipedia Mattia-->
-          <p>wikibox</p>
-        </article>
-        <article>
-          <!-- commenti Mattia-->
-        </article>
-        <article>
-          <!-- altre robe Mattia-->
-        </article>
-      </div>
-
-      <div class="col-12 pt-2">
-        <!-- recommender Francesco -->
-        <h3 class="pl-3 pt-3">Consigliati</h3>
-        <div class="row recommender"></div>
-      </div>
-
-    </div>
-  </div>
-
-  <footer>
-  </footer>
+	<footer>
+	</footer>
 </body>
-<!-- /francesco -->
 
 </html>
