@@ -34,6 +34,7 @@ function youtubeSearch(promise, query, maxResults) {	//defaul value is supported
 		});
 	}).then(function(response) {
 		promise = (promise || youtubeSearchResult);
+		console.log(response);
 		return promise(response.result);
 	}, function(reason) {
 		console.log('Error: ' + reason.result.error.message);
@@ -41,6 +42,7 @@ function youtubeSearch(promise, query, maxResults) {	//defaul value is supported
 }
 
 function youtubeSearchResult(response) {
+	console.log(response);
 	if ( $('#search-row-container').length ) $('#search-row-container').empty();
 	else $("body").before(
 		'<div class="container" id="search-container">' +
@@ -48,10 +50,13 @@ function youtubeSearchResult(response) {
 			'</div>' +
 		'</div>'
 	);
+	// TODO: make query string https://api.jquery.com/jquery.param/
+	// https://davidwalsh.name/query-string-javascript
+	// https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
 	for (var i=0; i<response.items.length; i++) {
 		$('#search-row-container').append(
 			'<div class="col-lg-3 col-md-4 col-sm-6 mt-2 mb-2 text-center">' +
-				'<a href="#">' +
+				'<a href="?' + $.param(response.items[i].id) + '">' +
 					'<img class="img-fluid z-depth-1" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
 				'</a>' +
 			'</div>'
