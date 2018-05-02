@@ -12,7 +12,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     videoId: new URLSearchParams(window.location.search).get('videoId'),
     events: {
-      'onReady': onPlayerReady,
+      //'onReady': onPlayerReady,
     },
     playerVars: {
       'rel': 0,
@@ -23,5 +23,5 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  event.target.stopVideo();
+  event.target.playVideo();
 }
