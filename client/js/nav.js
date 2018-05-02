@@ -34,7 +34,6 @@ function youtubeSearch(promise, query, maxResults) {	//defaul value is supported
 		});
 	}).then(function(response) {
 		promise = (promise || youtubeSearchResult);
-		console.log(response);
 		return promise(response.result);
 	}, function(reason) {
 		console.log('Error: ' + reason.result.error.message);
