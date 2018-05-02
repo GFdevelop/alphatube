@@ -17,11 +17,7 @@
   <script src="./js/videoload.js"></script>
   <script src="./js/recommenderloader.js"></script>
   <!-- https://www.evemilano.com/async-defer/ -->
-  <script async defer src="https://apis.google.com/js/api.js" 
-		onload="this.onload=function(){};handleClientLoad();recommenderLoader()"
-		onreadystatechange="if (this.readyState === 'complete') this.onload()">
-		//A cosa serve onreadystatechange?
-  </script>
+  <script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
 </head>
 
 <body>

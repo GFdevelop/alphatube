@@ -34,6 +34,7 @@ function youtubeSearch(promise, query, maxResults) {	//defaul value is supported
 		});
 	}).then(function(response) {
 		promise = (promise || youtubeSearchResult);
+		console.log(response);
 		return promise(response.result);
 	}, function(reason) {
 		console.log('Error: ' + reason.result.error.message);
@@ -50,10 +51,12 @@ function youtubeSearchResult(response) {
 		'</div>'
 	);
 	// TODO: make query string https://api.jquery.com/jquery.param/
+	// https://davidwalsh.name/query-string-javascript
+	// https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
 	for (var i=0; i<response.items.length; i++) {
 		$('#search-row-container').append(
 			'<div class="col-lg-3 col-md-4 col-sm-6 mt-2 mb-2 text-center">' +
-				'<a href="?' + response.items[i].id.videoId + '">' +
+				'<a href="?' + $.param(response.items[i].id) + '">' +
 					'<img class="img-fluid z-depth-1" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
 				'</a>' +
 			'</div>'
