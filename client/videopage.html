@@ -21,7 +21,6 @@
 </head>
 
 <body>
-  <!-- TUTTO DEVE USARE FLOAT-LEFT E RIGHT -->
 
   <!-- TODO: Eliminare da videopage.html tutte le parti non statiche -->
   <!-- TODO: Gestione url tutto in javascript e Nodejs, no html -> template.html -->
@@ -58,31 +57,37 @@
 		<!-- /navbar Gabriele -->
 	</header>
 
-  <div class="p-1">
-    <div class="col-md-8 float-left embed-responsive embed-responsive-16by9">
-      <!-- video Francesco -->
-      <div class="embed-responsive-item" id="player"></div>
+  <div class="container pl-0 pr-0"> <!-- TODO: fixare lo spazio troppo eccessivo a destra e sinistra -->
+    <div class="row">
+      <div class="col-md-8">
+        <div class="embed-responsive embed-responsive-16by9">
+          <!-- video Francesco -->
+          <div class="embed-responsive-item" id="player"></div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <!--wikibox Mattia -->
+        <article>
+          <!-- wikipedia Mattia-->
+          <p>wikibox</p>
+        </article>
+        <article>
+          <!-- commenti Mattia-->
+        </article>
+        <article>
+          <!-- altre robe Mattia-->
+        </article>
+      </div>
+
+      <div class="col-12 pt-2">
+        <!-- recommender Francesco -->
+        <h3 class="pl-3 pt-3">Consigliati</h3>
+        <div class="row recommender"></div>
+      </div>
+
     </div>
   </div>
-
-  <div class="col-md-4 float-right">
-    <!--wikibox Mattia -->
-    <article>
-      <!-- wikipedia Mattia-->
-      <p>wikibox</p>
-    </article>
-    <article>
-      <!-- commenti Mattia-->
-    </article>
-    <article>
-      <!-- altre robe Mattia-->
-    </article>
-  </div>
-
-  <div class="recommender">
-    <!-- recommender Francesco -->
-  </div>
-
 
   <footer>
   </footer>
