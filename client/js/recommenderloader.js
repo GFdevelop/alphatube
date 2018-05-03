@@ -1,7 +1,7 @@
 function recommenderLoader() {
   // TODO: Rimuovere urlVid e da statici e farli dinamici
   // TODO: Generare da[] e urlVid[] e con quello autogenerare le tumbnail
-  var da = ["da YouTube", "dal recommender 1", "dal recommender 2", "dal recommender 3", "dal recommender 4", "dal recommender 5"];
+  var da = ["Da YouTube", "Dal recommender 1", "Dal recommender 2", "Dal recommender 3", "Dal recommender 4", "Dal recommender 5"];
 
   var urlVid = [
      ["vSbshrvmfsY", "b4ozdiGys5g", "QQ_3S-IQm38", "eVTXPUF4Oz4"],
@@ -24,12 +24,17 @@ function recommenderLoader() {
 function singleFrame(da, urlVid, i) {
   prsObj = new Object();
   var frame = '' +
-  '<div class="col-4 text-center pb-3">' +
-    '<h6>' + da[i] + '</h6>' +
+  '<div class="col-4 pb-3">' +
+    '<h6>'
+      if (da[i] != undefined) {frame += da[i]}
+      else {frame += 'Dal Recommender'}
+    frame += '</h6>' +
     '<div id="carousel' + i + '" class="carousel slide" data-ride="carousel">' +
     '<ol class="carousel-indicators">'
       for (var e = 0; e < urlVid[i].length; e++) {
-        frame += '<li data-target="#carousel' + i + '" data-slide-to="' + e + '"></li>'
+        frame += '<li data-target="#carousel' + i + '" data-slide-to="' + e + '"'
+        if (e == 0) {frame += 'class="active"'}
+        frame += '></li>'
       }
     frame += '</ol>' +
     '<div class="carousel-inner">'
@@ -38,10 +43,15 @@ function singleFrame(da, urlVid, i) {
         if (e == 0) {frame += 'active'}
         prsObj.videoId = urlVid[i][e];
         //console.log(prsObj);
-        frame += '"><a href="./videopage.html?' + $.param(prsObj) +
-        '"><img class="d-block w-100" src="https://i.ytimg.com/vi/'
+        frame += '"><a href="./videopage.html?' + $.param(prsObj) +'">' +
+        '<div class="d-none d-md-block text-left text-muted bg-light pt-1 pl-1 pr-1">' +
+          '<h5>' + urlVid[i][e] + '</h5>' + // TODO: prendere titolo attraverso i'id
+          '<p>' + urlVid[i][e] + '</p>' +
+        '</div>' +
+        '<img class="d-block w-100" src="https://i.ytimg.com/vi/'
         frame += urlVid[i][e] // TODO: Assolutamente da cambiare
-        frame += '/mqdefault.jpg"></a></div>'
+        frame += '/mqdefault.jpg">' +
+        '</a></div>'
       }
     frame += '</div>' +
     '<a class="carousel-control-prev" href="#carousel' + i +
