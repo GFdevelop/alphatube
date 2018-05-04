@@ -10,12 +10,8 @@
 - Bootstrap v4.1.0 (https://getbootstrap.com/)
 - jQuery JavaScript Library v3.3.1 (https://jquery.com/)
 
-CHOOSE ONE
-
 #### CSS
 - Bootstrap v4.1.0 (https://getbootstrap.com/)
-
-CHOOSE ONE
 
 Legend:
 O:	optional
