@@ -24,7 +24,7 @@ function recommenderLoader() {
 function singleFrame(da, urlVid, i) {
   prsObj = new Object();
   var frame = '' +
-  '<div class="col-4 pb-3">' +
+  '<div class="col-6 col-md-4 col-lg-3 pb-3">' +
     '<div class="shadow rounded-top sFrm border">' +
       '<h6 class = "text-right p-1">'
         if (da[i] != undefined) {frame += da[i]}
@@ -46,9 +46,9 @@ function singleFrame(da, urlVid, i) {
             //console.log(prsObj);
             frame += '">' +
             '<a href="./videopage.html?' + $.param(prsObj) +'" style="text-decoration:none;">' +
-              '<div class="d-none d-md-block text-left text-muted pt-1 pl-1 pr-1 pb-0 mb-0">' +
-                '<h5>' + urlVid[i][e] + '</h5>' + // TODO: prendere gruppo e titolo attraverso i'id
-                '<h5> <small>' + urlVid[i][e] + '</small> </h5>' +
+              '<div class="d-none d-block text-left text-muted pt-1 pl-1 pr-1 pb-0 mb-0">' +
+                '<p class = "h5">' + urlVid[i][e] + '</p>' + // TODO: prendere gruppo e titolo attraverso i'id
+                '<p class = "h5"> <small>' + urlVid[i][e] + '</small> </p>' +
               '</div>' +
               '<div>' +
                 '<img class="d-block w-100" src="https://i.ytimg.com/vi/'
