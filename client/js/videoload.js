@@ -10,9 +10,9 @@ var player;
 function onYouTubeIframeAPIReady() {
 	// TODO: manage when url have no query ex: http://gabriele.fulgaro.tw.cs.unibo.it/videopage.html
   player = new YT.Player('player', {
-    videoId: new URLSearchParams(window.location.search).get('videoId'),
+    videoId: new URLSearchParams(window.location.search).get('videoID'),
     events: {
-      //'onReady': onPlayerReady,
+      'onReady': onPlayerReady,
     },
     playerVars: {
       'rel': 0,
