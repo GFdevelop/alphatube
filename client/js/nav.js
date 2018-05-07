@@ -55,7 +55,7 @@ function youtubeSearchResult(response) {
 	for (var i=0; i<response.items.length; i++) {
 		$('#search-row-container').append(
 			'<div class="col-lg-3 col-md-4 col-sm-6 mt-2 mb-2 text-center">' +
-				'<a href="?' + $.param(response.items[i].id) + '">' +
+				'<a href="#?' + $.param(response.items[i].id) + '">' +	// use # to make single page
 					'<img class="img-fluid z-depth-1" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
 				'</a>' +
 			'</div>'

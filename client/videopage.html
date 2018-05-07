@@ -6,17 +6,16 @@
 	<title>GammaTube</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="./css/bootstrap/bootstrap-grid.min.css" rel="stylesheet">
-	<link href="./css/bootstrap/bootstrap-reboot.min.css" rel="stylesheet">
-	<link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
-
-	<script src="./js/jquery/jquery-3.3.1.min.js"></script>
-	<script src="./js/bootstrap/bootstrap.min.js"></script>
-	<script src="./js/bootstrap/bootstrap.bundle.min.js"></script>
-	<script src="./js/nav.js"></script>
-	<script src="./js/videoload.js"></script>
-	<script src="./js/recommenderloader.js"></script>
-	<!-- https://www.evemilano.com/async-defer/ -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+    <!-- Custom css for Wikibox -->
+    <link href="css/wikibox.css" rel="stylesheet">
+	<!-- TODO: check async defer https://www.evemilano.com/async-defer/ -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script async defer src="./js/nav.js"></script>
+	<script async defer src="./js/videoload.js"></script>
+	<script async defer src="./js/recommenderloader.js"></script>
 	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
 </head>
 
@@ -30,8 +29,11 @@
 
 		<!-- navbar Gabriele -->
 		<!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
-		<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
-			<a class="navbar-brand" href="/index.html">alphaTube</a> <!-- TODO: usare CDN -->
+		<!-- https://bootsnipp.com/snippets/featured/navbar-fixed-on-scrolling-with-transition
+			https://bootstrapious.com/p/bootstrap-navbar
+			https://codepen.io/BuiltBySam/pen/merjWp -->
+		<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-primary">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
+			<a class="navbar-brand" href="/index.html">alphaTube</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -39,18 +41,24 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Catalogo</a>
+						<a class="nav-link" href="#">Catalog</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Info</a>
 					</li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0" onsubmit="youtubeSearch()" action="javascript:void(0)">	<!-- https://stackoverflow.com/a/18772817/3476815 -->
+				<!--	<select class="form-control mr-sm-2">
+						<option>Title</option>
+						<option>Song name</option>
+						<option>Artist name</option>
+						<option>YouTube ID</option>
+					</select>-->
 					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="query" required>
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button" disabled>Search</button>
+					<button class="btn btn-warning my-2 my-sm-0" type="submit" id="search-button" disabled>Search</button>
 				</form>
 			</div>
 		</nav>
@@ -67,9 +75,38 @@
 			</div>
 
 			<!-- mattia -->
-			<div class="col-md-4 mt-1 mt-md-0 border border-secondary ">
-				prova
-			</div>
+			<div class="col-md-4 mt-1 mt-md-0 pl-0 pr-0">
+                <ul class="nav nav-tabs nav-justified" role="tablist" id="wiki-tab"> <!-- OK for large and very small screen, I don't like very much on medium screen -->
+                    <li class="nav-item">
+                        <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="nav-description" aria-selected="true"><i class="fab fa-youtube yt"></i>description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="nav-comments" aria-selected="false"><i class="fab fa-youtube yt"></i>comments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="artist-tab" data-toggle="tab" href="#artist" role="tab" aria-controls="nav-artist" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Artist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="disk-tab" data-toggle="tab" href="#disk" role="tab" aria-controls="nav-disk" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Disk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="genre-tab" data-toggle="tab" href="#genre" role="tab" aria-controls="nav-genre" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Genre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="spotify-tab" data-toggle="tab" href="#spotify" role="tab" aria-controls="nav-spotify" aria-selected="false"><i class="fab fa-spotify spotify" id="spotify-tab"></i>Spotify</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="wiki-tab">
+                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">Lorem</div>
+                    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comment-tab">Ipsum</div>
+                    <div class="tab-pane fade" id="artist" role="tabpanel" aria-labelledby="artist-tab">Dolor</div>
+                    <div class="tab-pane fade" id="disk" role="tabpanel" aria-labelledby="disk-tab">Sit</div>
+                    <div class="tab-pane fade" id="genre" role="tabpanel" aria-labelledby="genre-tab">Amet</div>
+                    <div class="tab-pane fade" id="spotify" role="tabpanel" aria-labelledby="spotify-tab">consectetuer</div>
+                </div>
+                
+            </div>
+                
 			<!-- /mattia -->
 		</div>
 		<div class ="row pl-0 pr-0 m-0">
