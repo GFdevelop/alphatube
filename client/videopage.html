@@ -7,6 +7,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+    <!-- Custom css for Wikibox -->
+    <link href="css/wikibox.css" rel="stylesheet">
 	<!-- TODO: check async defer https://www.evemilano.com/async-defer/ -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -72,9 +75,38 @@
 			</div>
 
 			<!-- mattia -->
-			<div class="col-md-4 mt-1 mt-md-0 border border-secondary ">
-				prova
-			</div>
+			<div class="col-md-4 mt-1 mt-md-0 pl-0 pr-0">
+                <ul class="nav nav-tabs nav-justified" role="tablist" id="wiki-tab"> <!-- OK for large and very small screen, I don't like very much on medium screen -->
+                    <li class="nav-item">
+                        <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="nav-description" aria-selected="true"><i class="fab fa-youtube yt"></i>description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="nav-comments" aria-selected="false"><i class="fab fa-youtube yt"></i>comments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="artist-tab" data-toggle="tab" href="#artist" role="tab" aria-controls="nav-artist" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Artist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="disk-tab" data-toggle="tab" href="#disk" role="tab" aria-controls="nav-disk" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Disk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="genre-tab" data-toggle="tab" href="#genre" role="tab" aria-controls="nav-genre" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Genre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="spotify-tab" data-toggle="tab" href="#spotify" role="tab" aria-controls="nav-spotify" aria-selected="false"><i class="fab fa-spotify spotify" id="spotify-tab"></i>Spotify</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="wiki-tab">
+                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">Lorem</div>
+                    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comment-tab">Ipsum</div>
+                    <div class="tab-pane fade" id="artist" role="tabpanel" aria-labelledby="artist-tab">Dolor</div>
+                    <div class="tab-pane fade" id="disk" role="tabpanel" aria-labelledby="disk-tab">Sit</div>
+                    <div class="tab-pane fade" id="genre" role="tabpanel" aria-labelledby="genre-tab">Amet</div>
+                    <div class="tab-pane fade" id="spotify" role="tabpanel" aria-labelledby="spotify-tab">consectetuer</div>
+                </div>
+                
+            </div>
+                
 			<!-- /mattia -->
 		</div>
 		<div class ="row pl-0 pr-0 m-0">
