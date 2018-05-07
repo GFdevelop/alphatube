@@ -207,7 +207,7 @@ function singleFrame(da, rec) {
               '</div>' +
               '<div>' +
                 '<img class="d-block w-100" src="https://i.ytimg.com/vi/' +
-                rec[e].videoID + '/mqdefault.jpg" alt="' + rec[e].title + '">' +
+                rec[e].videoID + '/mqdefault.jpg" alt="' + rec[e].title + ' ">' +
               '</div>' +
             '</a>' +
           '</div>'
