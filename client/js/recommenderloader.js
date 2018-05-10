@@ -181,7 +181,7 @@ function recommenderLoader() {
 function singleFrame(da, rec) {
   var frame = '' +
   '<div class="col-6 col-md-4 col-lg-3 pb-3">' +
-    '<div class="shadow rounded-top sFrm border">' +
+    '<div class="shadow rounded sFrm border">' +
       '<h5 class = "text-right p-1 font-weight-bold">'
         if (da != undefined) {frame += da}
         else {frame += 'Dal Recommender'}
@@ -200,13 +200,13 @@ function singleFrame(da, rec) {
             if (e == 0) {frame += 'active'}
             //console.log(rec[e].videoID);
             frame += '">' +
-            '<a href="./videopage.html?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
-              '<div class="d-none d-block text-left text-muted bg-light pt-1 pl-1 pr-1 p-1 mb-0">' +
+            '<a href="#?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
+              '<div class="d-none d-block text-left text-muted bg-light p-1 mb-0">' +
                 '<p class = "h5">' + rec[e].artist + '</p>' +
                 '<p class = "h5"> <small>' + rec[e].title + '</small> </p>' +
               '</div>' +
               '<div>' +
-                '<img class="d-block w-100" src="https://i.ytimg.com/vi/' +
+                '<img class="d-block w-100 rounded-bottom" src="https://i.ytimg.com/vi/' +
                 rec[e].videoID + '/mqdefault.jpg" alt="' + rec[e].title + ' ">' +
               '</div>' +
             '</a>' +
@@ -234,7 +234,3 @@ $(document).ready(function(){
         $(this).removeClass("border-secondary");
     });
 });
-
-$('.carousel').carousel({
-  interval: 2000
-})
