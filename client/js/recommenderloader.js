@@ -180,47 +180,41 @@ function recommenderLoader() {
 
 function singleFrame(da, rec) {
   var frame = '' +
-  '<div class="col-6 col-md-4 col-lg-3 pb-3">' +
-    '<div class="shadow rounded sFrm border">' +
-      '<h5 class = "text-right p-1 font-weight-bold">'
-        if (da != undefined) {frame += da}
-        else {frame += 'Dal Recommender'}
-      frame += '</h5>' +
-      '<div id="carousel' + counter + '" class="carousel slide" data-ride="carousel">' +
-        '<ol class="carousel-indicators">'
-          for (var e = 0; e < rec.length; e++) {
-            frame += '<li data-target="#carousel' + counter + '" data-slide-to="' + e + '"'
-            if (e == 0) {frame += 'class="active"'}
-            frame += '></li>'
-          }
-        frame += '</ol>' +
-        '<div class="carousel-inner">'
-          for (e = 0; e < rec.length; e++) {
-            frame += '<div class=\"carousel-item '
-            if (e == 0) {frame += 'active'}
-            //console.log(rec[e].videoID);
-            frame += '">' +
-            '<a href="#?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
-              '<div class="d-none d-block text-left text-muted bg-light p-1 mb-0">' +
-                '<p class = "h5">' + rec[e].artist + '</p>' +
-                '<p class = "h5"> <small>' + rec[e].title + '</small> </p>' +
+    '<div id="carousel' + counter + '" class="carousel slide" data-ride="carousel">' +
+      '<ol class="carousel-indicators">'
+        for (var e = 0; e < rec.length; e++) {
+          frame += '<li data-target="#carousel' + counter + '" data-slide-to="' + e + '"'
+          if (e == 0) {frame += 'class="active"'}
+          frame += '></li>'
+        }
+      frame += '</ol>' +
+      '<div class="carousel-inner">'
+        for (e = 0; e < rec.length; e++) {
+          frame += '<div class=\"carousel-item '
+          if (e == 0) {frame += 'active'}
+          frame += '">' +
+          '<a href="#?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
+            '<div class="card rounded sFrm border">' +
+              '<div class="card-body text-secondary">' +
+                '<h5 class="card-title text-right text-dark font-weight-bold">'
+                if (da != undefined) {frame += da}
+                else {frame += 'Dal Recommender'}
+                frame += '<h5 class="card-title">' + rec[e].artist + '</h5>' +
+                '<p class="card-text">' + rec[e].title + '</p>' +
               '</div>' +
-              '<div>' +
-                '<img class="d-block w-100 rounded-bottom" src="https://i.ytimg.com/vi/' +
-                rec[e].videoID + '/mqdefault.jpg" alt="' + rec[e].title + ' ">' +
-              '</div>' +
-            '</a>' +
-          '</div>'
-          }
-        frame += '</div>' +
-        '<a class="carousel-control-prev" href="#carousel' + counter + // TODO: O trovare un modo per certrare le freccie o eliminarle
-        '" role="button" data-slide="prev"><span class="carousel-control-prev-icon"' +
-        'aria-hidden="true"></span><span class="sr-only">Previous</span></a>' +
-        '<a class="carousel-control-next" href="#carousel' + counter +
-        '" role="button" data-slide="next"><span class="carousel-control-next-icon"' +
-        'aria-hidden="true"></span><span class="sr-only">Next</span></a>' +
-      '</div>' +
-    '</div>' +
+              '<img class="card-img-bottom" src="https://i.ytimg.com/vi/' +
+              rec[e].videoID + '/mqdefault.jpg" alt="Card image cap">' +
+            '</div>' +
+          '</a>' +
+        '</div>'
+        }
+      frame += '</div>' +
+      '<a class="carousel-control-prev" href="#carousel' + counter + // TODO: O trovare un modo per certrare le freccie o eliminarle
+      '" role="button" data-slide="prev"><span class="carousel-control-prev-icon"' +
+      'aria-hidden="true"></span><span class="sr-only">Previous</span></a>' +
+      '<a class="carousel-control-next" href="#carousel' + counter +
+      '" role="button" data-slide="next"><span class="carousel-control-next-icon"' +
+      'aria-hidden="true"></span><span class="sr-only">Next</span></a>' +
   '</div>'
   counter = counter + 1;
   return frame;
