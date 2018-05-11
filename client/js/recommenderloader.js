@@ -183,27 +183,21 @@ function singleFrame(da, rec) {
     '<div id="carousel' + counter + '" class="carousel slide" data-ride="carousel">' +
       '<ol class="carousel-indicators">'
         for (var e = 0; e < rec.length; e++) {
-          frame += '<li data-target="#carousel' + counter + '" data-slide-to="' + e + '"'
-          if (e == 0) {frame += 'class="active"'}
-          frame += '></li>'
+          frame += '<li data-target="#carousel' + counter + '" data-slide-to="' + e + '"'; if(e == 0){frame += 'class="active"'}; frame += '></li>'
         }
       frame += '</ol>' +
       '<div class="carousel-inner">'
         for (e = 0; e < rec.length; e++) {
-          frame += '<div class=\"carousel-item '
-          if (e == 0) {frame += 'active'}
-          frame += '">' +
+        frame += '<div class=\"carousel-item '; if (e == 0) {frame += 'active'}; frame += '">' +
           '<a href="#?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
-            '<div class="card rounded sFrm border">' +
+            '<div class="card sFrm">' +
               '<div class="card-body text-secondary">' +
                 '<h5 class="card-title text-right text-dark font-weight-bold">'
-                if (da != undefined) {frame += da}
-                else {frame += 'Dal Recommender'}
+                if (da != undefined) {frame += da} else {frame += 'Dal Recommender'};
                 frame += '<h5 class="card-title">' + rec[e].artist + '</h5>' +
                 '<p class="card-text">' + rec[e].title + '</p>' +
               '</div>' +
-              '<img class="card-img-bottom" src="https://i.ytimg.com/vi/' +
-              rec[e].videoID + '/mqdefault.jpg" alt="Card image cap">' +
+              '<img class="card-img-bottom" src="https://i.ytimg.com/vi/' + rec[e].videoID + '/mqdefault.jpg" alt="Card image cap">' +
             '</div>' +
           '</a>' +
         '</div>'
