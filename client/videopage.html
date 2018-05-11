@@ -12,14 +12,6 @@
     <!-- Custom css for Wikibox -->
     <link href="css/wikibox.css" rel="stylesheet">
 	<!-- TODO: check async defer https://www.evemilano.com/async-defer/ -->
-	<script async defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script async defer src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-    <script async defer src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
-	<script async defer src="./js/nav.js"></script>
-	<script async defer src="./js/videoload.js"></script>
-	<script async defer src="./js/recommenderloader.js"></script>
-	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
 </head>
 
 <body>
@@ -122,7 +114,15 @@
 		</div>
 	</div>
 	<!-- /francesco -->
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+	<script src="./js/nav.js"></script>
+	<script src="./js/videoload.js"></script>
+	<script src="./js/recommenderloader.js"></script>
+	<script src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
+    <script src="./js/wikibox.js"></script>
 	<footer>
 	</footer>
 </body>
