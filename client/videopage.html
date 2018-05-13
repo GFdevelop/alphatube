@@ -22,7 +22,8 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script async defer src="./js/nav.js"></script>
 	<script async defer src="./js/videoload.js"></script>
-	<script async defer src="./js/recommenderloader.js" onload="recommenderLoader()"></script>
+	<script async defer src="./js/recommenderloader.js"></script>
+	<script async defer src="./js/loader.js" onload="load();"></script>
 	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();"></script>
 </head>
 
@@ -72,9 +73,9 @@
 		<!-- /navbar Gabriele -->
 
 	<!-- francesco -->
-	<div class="container-fluid pt-4"> <!-- TODO: fixare spacing destro --> <!-- FIXED by UniPolv -->
-		<div class="row pl-0 pr-0 m-0">
-			<div class="col-md-8">
+	<div class="container-fluid pt-3"> <!-- TODO: fixare spacing destro --> <!-- FIXED by UniPolv -->
+		<div class="row m-0">
+			<div class="col-md-8 p-0 pr-md-3">
 				<div class="embed-responsive embed-responsive-16by9">
 					<!-- video Francesco -->
 					<div class="embed-responsive-item" id="player"></div>
@@ -116,14 +117,12 @@
 
 			<!-- /mattia -->
 		</div>
-		<div class ="row pl-0 pr-0 m-0">
-			<!-- recommender Francesco -->
-			<h3 class="col-12 pl-3 pt-3">Consigliati</h3>
-			<div class="card-columns recommender"></div>
-		</div>
+
+		<!-- recommender Francesco -->
+		<h3 class="mt-3">Consigliati</h3>
+		<div class="card-columns recommender"></div>
 	</div>
 	<!-- /francesco -->
-
 	<footer>
 	</footer>
 </body>
