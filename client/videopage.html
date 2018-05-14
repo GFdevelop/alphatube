@@ -6,14 +6,24 @@
 	<title>GammaTube</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Material design -->
+	<!--<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+    <!-- Custom css for Wikibox -->
+    <link href="css/wikibox.css" rel="stylesheet">
 	<!-- TODO: check async defer https://www.evemilano.com/async-defer/ -->
+<!--<script async defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script async defer src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script async defer src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>-->
+
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script async defer src="./js/nav.js"></script>
 	<script async defer src="./js/videoload.js"></script>
-	<script async defer src="./js/recommenderloader.js"></script>
-	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
+	<script async defer src="./js/recommenderloader.js" onload="recommenderLoader();"></script>
+	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();"></script>
 </head>
 
 <body>
@@ -62,9 +72,9 @@
 		<!-- /navbar Gabriele -->
 
 	<!-- francesco -->
-	<div class="container-fluid pt-4"> <!-- TODO: fixare spacing destro --> <!-- FIXED by UniPolv -->
-		<div class="row pl-0 pr-0 m-0">
-			<div class="col-md-8">
+	<div class="container-fluid pt-3"> <!-- TODO: fixare spacing destro --> <!-- FIXED by UniPolv -->
+		<div class="row m-0">
+			<div class="col-md-8 p-0 pr-md-3">
 				<div class="embed-responsive embed-responsive-16by9">
 					<!-- video Francesco -->
 					<div class="embed-responsive-item" id="player"></div>
@@ -72,22 +82,46 @@
 			</div>
 
 			<!-- mattia -->
-			<div class="col-md-4 mt-1 mt-md-0 border border-secondary ">
-				prova
-			</div>
+			<div class="col-md-4 mt-1 mt-md-0 pl-0 pr-0">
+                <ul class="nav nav-tabs nav-justified" role="tablist" id="wiki-tab"> <!-- OK for large and very small screen, I don't like very much on medium screen -->
+                    <li class="nav-item">
+                        <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="nav-description" aria-selected="true"><i class="fab fa-youtube yt"></i>description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="nav-comments" aria-selected="false"><i class="fab fa-youtube yt"></i>comments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="artist-tab" data-toggle="tab" href="#artist" role="tab" aria-controls="nav-artist" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Artist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="disk-tab" data-toggle="tab" href="#disk" role="tab" aria-controls="nav-disk" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Disk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="genre-tab" data-toggle="tab" href="#genre" role="tab" aria-controls="nav-genre" aria-selected="false"><i class="fab fa-wikipedia-w"></i>Genre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="spotify-tab" data-toggle="tab" href="#spotify" role="tab" aria-controls="nav-spotify" aria-selected="false"><i class="fab fa-spotify spotify" id="spotify-tab"></i>Spotify</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="wiki-tab">
+                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">Lorem</div>
+                    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comment-tab">Ipsum</div>
+                    <div class="tab-pane fade" id="artist" role="tabpanel" aria-labelledby="artist-tab">Dolor</div>
+                    <div class="tab-pane fade" id="disk" role="tabpanel" aria-labelledby="disk-tab">Sit</div>
+                    <div class="tab-pane fade" id="genre" role="tabpanel" aria-labelledby="genre-tab">Amet</div>
+                    <div class="tab-pane fade" id="spotify" role="tabpanel" aria-labelledby="spotify-tab">consectetuer</div>
+                </div>
+
+            </div>
+
 			<!-- /mattia -->
 		</div>
-		<div class ="row pl-0 pr-0 m-0">
-			<div class="col-12 pt-2">
-				<!-- recommender Francesco -->
-				<h3 class="pl-3 pt-3">Consigliati</h3>
-				<div class="row recommender"></div>
-			</div>
 
-		</div>
+		<!-- recommender Francesco -->
+		<h3 class="mt-3">Consigliati</h3>
+		<div class="card-columns recommender"></div>
 	</div>
 	<!-- /francesco -->
-
 	<footer>
 	</footer>
 </body>
