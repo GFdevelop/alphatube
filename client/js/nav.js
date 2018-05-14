@@ -14,6 +14,31 @@ function handleAPILoaded() {
 	$('#search-button').attr('disabled', false);
 }
 
+var gapiObject = (function() {
+	var init = function() {
+		return gapi.client.init({
+			'apiKey': 'AIzaSyCZIY9kX67U3u3wtgrO3FviBD_uIm5AQao',
+			'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest']
+		});
+	};
+	return {
+		retReq: function(query,maxResults) {
+			init();
+			return gapi.client.request({
+				'method': 'GET',
+				'path': '/youtube/v3/search',
+				'params': {
+					'q': query,
+					'part': 'snippet',
+					'maxResults': maxResults,
+					'type': 'video',
+					'videoCategoryId': '10'
+				}
+			});
+		}
+	}
+})()
+
 // example <body onload="youtubeSearch(promiseName);">
 function youtubeSearch(promise, query, maxResults) {	//defaul value is supported in ECMA v6+
 	// https://developers.google.com/api-client-library/javascript/start/start-js
