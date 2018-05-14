@@ -1,5 +1,5 @@
 var counter = 0;
-exports.recommenderLoader = function () {
+function recommenderLoader() {
   // TODO: Rimuovere urlVid e da statici e farli dinamici
   // TODO: Generare da[] e urlVid[] e con quello autogenerare le tumbnail
 
@@ -174,9 +174,8 @@ exports.recommenderLoader = function () {
   recommender += singleFrame(da, recommender4);
   da = "Dal recommender 5";
   recommender += singleFrame(da, recommender5);
-
-  //$(".recommender").append(recommender);
-  return (recommender);
+  
+  $(".recommender").append(recommender);
 }
 
 function singleFrame(da, rec) {
@@ -191,7 +190,7 @@ function singleFrame(da, rec) {
       '<div class="carousel-inner">'
         for (e = 0; e < rec.length; e++) {
         frame += '<div class=\"carousel-item '; if (e == 0) {frame += 'active'}; frame += '">' +
-          '<a href="#?' + /*$.param(rec[e]) +*/'" style="text-decoration:none;">' +
+          '<a href="#?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
             '<div class="card-body text-secondary p-2">' +
               '<h5 class="card-title text-right text-dark font-weight-bold">'
                 if (da != undefined) {frame += da} else {frame += 'Dal Recommender'};
@@ -218,7 +217,6 @@ function singleFrame(da, rec) {
   return frame;
 }
 
-/*
 $(document).ready(function(){
     $("div.sFrm").mouseover(function(){
         $(this).addClass("border-secondary");
@@ -227,4 +225,3 @@ $(document).ready(function(){
         $(this).removeClass("border-secondary");
     });
 });
-*/
