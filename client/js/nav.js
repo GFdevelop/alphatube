@@ -27,7 +27,7 @@ function youtubeSearch(promise, query, maxResults) {	//defaul value is supported
 			'params': {
 				'q': (query || $('#query').val()),
 				'part': 'snippet',
-				'maxResults': (maxResults || 24),
+				'maxResults': (maxResults || 12),
 				'type': 'video',
 				'videoCategoryId': '10'
 			}
