@@ -39,10 +39,14 @@ function youtubeSearch(promise, query, maxResults) {	//defaul value is supported
 function youtubeSearchResult(response) {
 	console.log(response);
 	if ( $('#search-row-container').length ) $('#search-row-container').empty();
-	else $("body").before(
+	/*else $("body").before(
 		'<div class="container" id="search-container">' +
 			'<div class="row" id="search-row-container">' +
 			'</div>' +
+		'</div>'
+	);*/
+	else $("#collapseSearch div.card").append(
+		'<div class="row" id="search-row-container">' +
 		'</div>'
 	);
 	// TODO: make query string https://api.jquery.com/jquery.param/
