@@ -21,8 +21,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script async defer src="./js/nav.js"></script>
-	<script async defer src="./js/videoload.js"></script>
-	<script async defer src="./js/recommenderloader.js" onload="recommenderLoader();"></script>
+	<script async defer src="./js/video.js"></script>
+	<script async defer src="./js/recommender.js"></script>
+	<script async defer src="./js/loader.js" onload="pageLoader();"></script>
 	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();"></script>
 </head>
 
@@ -118,8 +119,8 @@
 		</div>
 
 		<!-- recommender Francesco -->
-		<h3 class="mt-3">Consigliati</h3>
-		<div class="card-columns recommender"></div>
+		<div class="loader"></div>
+
 	</div>
 	<!-- /francesco -->
 	<footer>
