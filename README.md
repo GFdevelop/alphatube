@@ -53,7 +53,7 @@ S:	server-side
 		- [ ] OC:	sull'album
 		- [ ] OC:	sull'artista
 		- [ ] OC:	sul genere
-	- [ ] C:	tweet che menzionano il brano o l'artista
+	- [ ] OC:	tweet che menzionano il brano o l'artista
 	- [ ] O?C:	instagram
 	- [ ] O?C:	lyric (musicmatch, ecc...)
 	- [ ] ?C:	ecc..

@@ -6,20 +6,27 @@
 	<title>GammaTube</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap Material design -->
-	<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-    <!-- Custom css for Wikibox -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+.text-wrap {
+  word-break: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+	</style>
     <link href="css/wikibox.css" rel="stylesheet">
-	<!-- TODO: check async defer https://www.evemilano.com/async-defer/ -->
-	<script async defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script async defer src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-    <script async defer src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
-	<script async defer src="./js/nav.js"></script>
-	<script async defer src="./js/videoload.js"></script>
-	<script async defer src="./js/recommenderloader.js"></script>
-	<script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad();recommenderLoader()"></script>
+	<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script defer src="https://apis.google.com/js/api.js"></script>
+	<script defer src="./js/nav-YTsearch.js" onload="handleClientLoad();"></script>
+	<script defer src="./js/video.js"></script>
+	<script defer src="./js/recommender.js"></script>
+	<script defer src="./js/loader.js" onload="pageLoader();"></script>
 </head>
 
 <body>
@@ -30,47 +37,57 @@
 	<!-- TODO: Asincronicità -->
 
 
-		<!-- navbar Gabriele -->
-		<!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
-		<!-- https://bootsnipp.com/snippets/featured/navbar-fixed-on-scrolling-with-transition
-			https://bootstrapious.com/p/bootstrap-navbar
-			https://codepen.io/BuiltBySam/pen/merjWp -->
-		<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-primary">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
-			<a class="navbar-brand" href="/index.html">alphaTube</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Catalog</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Info</a>
-					</li>
-				</ul>
-				<form class="form-inline my-2 my-lg-0" onsubmit="youtubeSearch()" action="javascript:void(0)">	<!-- https://stackoverflow.com/a/18772817/3476815 -->
-				<!--	<select class="form-control mr-sm-2">
+	<!-- navbar Gabriele -->
+	<!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
+	<!-- https://bootsnipp.com/snippets/featured/navbar-fixed-on-scrolling-with-transition
+		https://bootstrapious.com/p/bootstrap-navbar
+		https://codepen.io/BuiltBySam/pen/merjWp -->
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
+		<a class="navbar-brand" href="#">
+			<img src="./media/GammaTubeLogo.png" width="30" height="30" alt="gammaTube">
+			gammaTube
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Catalog</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Info</a>
+				</li>
+			</ul>
+			<form class="form-inline" id="searchForm" action="javascript:void(0)">
+				<div class="input-group">
+					<select class="custom-select col-4" id="searchType" name="type">
 						<option>Title</option>
 						<option>Song name</option>
 						<option>Artist name</option>
 						<option>YouTube ID</option>
-					</select>-->
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="query" required>
-					<button class="btn btn-warning my-2 my-sm-0" type="submit" id="search-button" disabled>Search</button>
-				</form>
-			</div>
-		</nav>
-		<!-- /navbar Gabriele -->
+					</select>
+					<input class="form-control" id="query" name="query" type="search" placeholder="Search" aria-label="Search" required>
+					<div class="input-group-append">
+						<button class="btn btn-warning" type="submit" id="search-button" aria-controls="Search" aria-expanded="false" disabled>
+							<i class="material-icons">search</i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</nav>
+	<div class="collapse mt-3" id="Search">	<!-- TODO: collapse because on click we hide element -->
+	</div>
+	<!-- /navbar Gabriele -->
 
 	<!-- francesco -->
-	<div class="container-fluid pt-4"> <!-- TODO: fixare spacing destro --> <!-- FIXED by UniPolv -->
-		<div class="row pl-0 pr-0 m-0">
-			<div class="col-md-8">
+	<div class="container-fluid pt-3"> <!-- TODO: fixare spacing destro --> <!-- FIXED by UniPolv -->
+		<div class="row m-0">
+			<div class="col-md-8 p-0 pr-md-3">
 				<div class="embed-responsive embed-responsive-16by9">
 					<!-- video Francesco -->
 					<div class="embed-responsive-item" id="player"></div>
@@ -112,17 +129,12 @@
 
 			<!-- /mattia -->
 		</div>
-		<div class ="row pl-0 pr-0 m-0">
-			<div class="col-12 pt-2">
-				<!-- recommender Francesco -->
-				<h3 class="pl-3 pt-3">Consigliati</h3>
-				<div class="card-columns recommender"></div>
-			</div>
 
-		</div>
+		<!-- recommender Francesco -->
+		<div class="loader"></div>
+
 	</div>
 	<!-- /francesco -->
-
 	<footer>
 	</footer>
 </body>
