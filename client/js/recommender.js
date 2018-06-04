@@ -160,7 +160,8 @@ function recommenderLoader() {
   	}
   ]
 
-  var recommender = "";
+  var recommender = '<h3 class="mt-3">Consigliati</h3>' +
+  '<div class="card-columns recommender">';
 
   var da = "Da YouTube";
   recommender += singleFrame(da, recommender0);
@@ -174,8 +175,8 @@ function recommenderLoader() {
   recommender += singleFrame(da, recommender4);
   da = "Dal recommender 5";
   recommender += singleFrame(da, recommender5);
-  
-  $(".recommender").append(recommender);
+  recommender += '</div>';
+  return (recommender);
 }
 
 function singleFrame(da, rec) {
@@ -189,7 +190,7 @@ function singleFrame(da, rec) {
       frame += '</ol>' +
       '<div class="carousel-inner">'
         for (e = 0; e < rec.length; e++) {
-        frame += '<div class=\"carousel-item '; if (e == 0) {frame += 'active'}; frame += '">' +
+        frame += '<div class="carousel-item '; if (e == 0) {frame += 'active'}; frame += '">' +
           '<a href="#?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
             '<div class="card-body text-secondary p-2">' +
               '<h5 class="card-title text-right text-dark font-weight-bold">'
