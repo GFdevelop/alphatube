@@ -42,43 +42,7 @@
 	<!-- https://bootsnipp.com/snippets/featured/navbar-fixed-on-scrolling-with-transition
 		https://bootstrapious.com/p/bootstrap-navbar
 		https://codepen.io/BuiltBySam/pen/merjWp -->
-	<nav class="navbar navbar-expand-md navbar-dark bg-primary">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
-		<a class="navbar-brand" href="#">
-			<img src="./media/GammaTubeLogo.png" width="30" height="30" alt="gammaTube">
-			gammaTube
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Catalog</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Info</a>
-				</li>
-			</ul>
-			<form class="form-inline" id="searchForm" action="javascript:void(0)">
-				<div class="input-group">
-					<select class="custom-select col-4" id="searchType" name="type">
-						<option>Title</option>
-						<option>Song name</option>
-						<option>Artist name</option>
-						<option>YouTube ID</option>
-					</select>
-					<input class="form-control" id="query" name="query" type="search" placeholder="Search" aria-label="Search" required>
-					<div class="input-group-append">
-						<button class="btn btn-warning" type="submit" id="search-button" aria-controls="Search" aria-expanded="false" disabled>
-							<i class="material-icons">search</i>
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary" id="navbar">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
 	</nav>
 	<div class="collapse mt-3" id="Search">	<!-- TODO: collapse because on click we hide element -->
 	</div>

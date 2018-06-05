@@ -21,7 +21,48 @@ function handleAPILoaded() {
 }
 
 function param(name) {
-    return (location.hash.split(name)[1] || '').split('&')[0];
+    return (location.hash.split(name + '=')[1] || '').split('&')[0];
+}
+
+function navbarLoader() {
+	$('#navbar').append(
+		`<a class="navbar-brand" href="#">
+			<img src="./media/GammaTubeLogo.png" width="30" height="30" alt="gammaTube">
+			gammaTube
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Catalog</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Info</a>
+				</li>
+			</ul>
+			<form class="form-inline" id="searchForm" action="javascript:void(0)">
+				<div class="input-group">
+					<select class="custom-select col-4" id="searchType" name="type">
+						<option>Title</option>
+						<option>Song name</option>
+						<option>Artist name</option>
+						<option>YouTube ID</option>
+					</select>
+					<input class="form-control" id="query" name="query" type="search" placeholder="Search" aria-label="Search" required>
+					<div class="input-group-append">
+						<button class="btn btn-warning" type="submit" id="search-button" aria-controls="Search" aria-expanded="false" disabled>
+							<i class="material-icons">search</i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>`
+	);
 }
 
 // example <body onload="youtubeSearch(promiseName);">
@@ -106,6 +147,8 @@ function youtubeSearchResult(response) {
 		$(this).addClass('col-lg-2 col-md-3 col-sm-4');
 		$(this).removeClass('col');
 	});
+	
+	// TODO: sFrm class for card
 	
 	// TODO: using cache
 }
