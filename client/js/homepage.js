@@ -17,19 +17,23 @@ function homeLoader(){
                        ' </div>' +
                    ' </div>'+
                     '</div>'+
-                     '<div class= "row">'
+                     '<div class= "card-deck">'
                          for (var i=0; i<data.length; i++){
-                             homepage +=   '<div class="card bg-dark mb-3 col-sm-6 col-md-4 col-lg-3 p-1"> '+
+                             homepage += '<div class="mb-2 col-sm-5 col-md-4 col-lg-3 p-1">' +
+                                 '<div class="card"> '+
                                     '<a href="./videopage.html?videoID='+ data[i].videoID+'"style="text-decoration:none;">'+
                              ' <img class="card-img-top" src="https://i.ytimg.com/vi/' + data[i].videoID + '/mqdefault.jpg" alt="Card image cap">'+
                              ' <div class="card-body">'+
-                             '<h5 class="card-title text-white">'+ data[i].title +'</h5>'+
-                             ' <p class="card-text text-white"> Category: ' + data[i].category +' <br>Artist: ' + data[i].artist +'</p>'+
+                             '<h5 class="card-title text-blue text-truncate"> <marquee>'+ data[i].title +' </marquee></h5>'+
+                             ' <p class="card-text text-orange"> Category: ' + data[i].category +' <br>Artist: ' + data[i].artist +'</p>'+
                              ' </div>'+
                              ' </a>'+
-                             ' </div>'
+                             ' </div>'+
+                                 '</div>'
                         }
+                
                     homepage += '</div>'
+                
               $(".homepage").append(homepage)  
     
     });
