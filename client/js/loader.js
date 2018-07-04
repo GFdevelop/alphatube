@@ -10,4 +10,14 @@ function pageLoader(){
 		window.history.pushState(null, null, location.pathname + $(this).attr('href')/* + '#Search'*/);
 		player.loadVideoById(location.search.split('videoID=')[1].split('&')[0]);
 	});
+    //~ var load;
+    //~ if (0 /*homepage*/){
+        //~ load = homepage();
+    //~ } else if (1 /*videopage*/){
+        //~ load = recommenderLoader();
+    //~ } else {
+        //~ $("body").addClass("bgn");
+        //~ load = loader404();
+    //~ }
+    //~ $(".loader").append(load);
 }
