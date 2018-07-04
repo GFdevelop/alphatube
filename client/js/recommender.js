@@ -191,7 +191,7 @@ function singleFrame(da, rec) {
       '<div class="carousel-inner">'
         for (e = 0; e < rec.length; e++) {
         frame += '<div class="carousel-item '; if (e == 0) {frame += 'active'}; frame += '">' +
-          '<a href="#?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
+          '<a href="?' + $.param(rec[e]) +'" style="text-decoration:none;">' +
             '<div class="card-body text-secondary p-2">' +
               '<h5 class="card-title text-right text-dark font-weight-bold">'
                 if (da != undefined) {frame += da} else {frame += 'Dal Recommender'};

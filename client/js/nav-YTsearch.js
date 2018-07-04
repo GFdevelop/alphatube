@@ -20,10 +20,6 @@ function handleAPILoaded() {
 	$('#searchForm').on("submit",function(){youtubeSearch();});
 }
 
-function param(name) {
-    return (location.hash.split(name + '=')[1] || '').split('&')[0];
-}
-
 function navbarLoader() {
 	$('#navbar').append(
 		`<a class="navbar-brand" href="#">
@@ -67,7 +63,11 @@ function navbarLoader() {
 
 // example <body onload="youtubeSearch(promiseName);">
 function youtubeSearch() {	//defaul value is supported in ECMA v6+
-	//location.hash = '#Search?' + $('#searchForm').serialize();
+	//var parsed = queryString.parse(location.search);
+	var query = location.search ? location.search + "&" : "?";
+	// match string that start with "type=" and all char except "&" for 2 times, match newline char or "&"
+	query = query.replace(/type=[^&]*.[^&]*[&]*/, '') + $('#searchForm').serialize();
+	window.history.pushState(null, null, location.pathname + query/* + '#Search'*/);
 	youtubeSearchResultContainer();
 	$('#Search').collapse('show');
 	gapi.client.request({
@@ -116,7 +116,7 @@ function youtubeSearchResult(response) {
 	for (var i=0; i<response.items.length; i++) {
 		$('#search-row-container').append(
 			'<div class="card card-columns col-lg-2 col-md-3 col-sm-4 px-0 mb-2">' +
-				'<a href="#?videoID=' + response.items[i].id.videoId + '">' +
+				'<a href="?videoID=' + response.items[i].id.videoId + '">' +
 					'<img class="card-img-top img-fluid" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
 					'<div class="card-body">' +
 						'<h6 class="card-title">' + response.items[i].snippet.title + '</h6>' +
