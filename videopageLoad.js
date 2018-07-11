@@ -1,28 +1,5 @@
-<!DOCTYPE html>
-<!-- francesco -->
-<html lang="en">
-
-<head>
-	<title>GammaTube</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="css/wikibox.css" rel="stylesheet">
-	<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script> -->
-	<script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script defer src="https://apis.google.com/js/api.js"></script>
-	<script defer src="js/nav-YTsearch.js" onload="handleClientLoad();"></script>
-	<script defer src="js/video.js"></script>
-	<script defer src="js/recommender.js"></script>
-	<script defer src="js/loader.js" onload="pageLoader();"></script>
-</head>
-
-<body>
-
+function videopageLoad(){
+    $("body").html(`
 	<nav class="navbar navbar-expand-md navbar-dark bg-primary" id="navbar">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
 	</nav>
 	<div class="collapse mt-3" id="Search">	<!-- TODO: collapse because on click we hide element -->
@@ -82,7 +59,5 @@
 	</div>
 	<!-- /francesco -->
 	<footer>
-	</footer>
-</body>
-
-</html>
+	</footer>`);
+}

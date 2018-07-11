@@ -21,7 +21,7 @@ function homeLoader(){
                          for (var i=0; i<data.length; i++){
                              homepage += '<div class="mb-2 col-sm-5 col-md-4 col-lg-3 p-1">' +
                                  '<div class="card sFrm"> '+
-                                    '<a href="./videopage.html?videoID='+ data[i].videoID+'"style="text-decoration:none;">'+
+                                    '<a href="?'+ $.param(data[i])+'"style="text-decoration:none;">'+
                              ' <img class="card-img-top" src="https://i.ytimg.com/vi/' + data[i].videoID + '/mqdefault.jpg" alt="Card image cap">'+
                              ' <div class="card-body">'+
                              '<h5 class="card-title text-blue text-truncate"> <marquee>'+ data[i].title +' </marquee></h5>'+
@@ -34,7 +34,7 @@ function homeLoader(){
                 
                     homepage += '</div>'
                 
-              $(".homepage").append(homepage)  
+              $("body").html(homepage)  
     
     });
 }

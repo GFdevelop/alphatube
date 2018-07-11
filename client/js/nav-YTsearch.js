@@ -17,7 +17,7 @@ function handleAPILoaded() {
 		'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest']
 	});
 	$('#search-button').attr('disabled', false);
-	$('#searchForm').on("submit",function(){youtubeSearch();});
+	$('#searchForm').on("submit",function(){/*youtubeSearch();*/});
 }
 
 function navbarLoader() {
