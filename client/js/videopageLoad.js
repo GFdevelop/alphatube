@@ -1,23 +1,21 @@
 function videopageLoad(){
     $("body").html(`
-	<nav class="navbar navbar-expand-md navbar-dark bg-primary" id="navbar">	<!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
-	</nav>
-	<div class="collapse mt-3" id="Search">	<!-- TODO: collapse because on click we hide element -->
-	</div>
+    <!-- Gabriele -->
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary" id="navbar"></nav> <!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
+	<div class="collapse mt-3" id="Search">	<!-- TODO: collapse because on click we hide element --> </div>
+	<!-- /Gabriele -->
 
-	<!-- /navbar Gabriele -->
-
-	<!-- francesco -->
+	<!-- Francesco -->
 	<div class="container-fluid pt-3"> <!-- TODO: fixare spacing destro --> <!-- FIXED by UniPolv -->
 		<div class="row m-0">
-				<div class="col-md-8 p-0 pr-md-3"id="tester">
-					<div class="embed-responsive embed-responsive-16by9">
-						<!-- video Francesco -->
-						<div class="embed-responsive-item" id="player"></div>
-					</div>
-				</div>
+            <div class="col-md-8 p-0 pr-md-3"id="tester">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <div class="embed-responsive-item" id="player"></div>
+                </div>
+            </div>
+            <!-- /Francesco -->
 
-			<!-- mattia -->
+			<!-- Mattia -->
 			<div class="col-md-4 mt-1 mt-md-0 pl-0 pr-0">
                 <ul class="nav nav-tabs nav-justified" role="tablist" id="wiki-tab"> <!-- OK for large and very small screen, I don't like very much on medium screen -->
                     <li class="nav-item">
@@ -47,17 +45,15 @@ function videopageLoad(){
                     <div class="tab-pane fade" id="genre" role="tabpanel" aria-labelledby="genre-tab">Amet</div>
                     <div class="tab-pane fade" id="spotify" role="tabpanel" aria-labelledby="spotify-tab">consectetuer</div>
                 </div>
-
             </div>
-
-			<!-- /mattia -->
 		</div>
+        <!-- /Mattia -->
 
-		<!-- recommender Francesco -->
-		<div class="loader"></div>
+		<!-- Francesco -->
+		<div class="recommender"></div>
 
 	</div>
-	<!-- /francesco -->
+	<!-- /Francesco -->
 	<footer>
 	</footer>`);
 }

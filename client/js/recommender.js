@@ -176,7 +176,7 @@ function recommenderLoader() {
   da = "Dal recommender 5";
   recommender += singleFrame(da, recommender5);
   recommender += '</div>';
-  return (recommender);
+  $(".recommender").append(recommender);
 }
 
 function singleFrame(da, rec) {

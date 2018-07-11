@@ -12,11 +12,11 @@ function loaderChoice(){
     //window.history.pushState(null, null, location.pathname + $(this).attr('href')/* + '#Search'*/);
     if(location.search){
         if (!location.search.split("videoID")) homeLoader();
-        else {videopageLoad();navbarLoader();}
+        else {videopageLoad();navbarLoader();recommenderLoader();}
     }else homeLoader();
     //else loader404();
 }
- /*   
+ /*
     var load = recommenderLoader();
 
   $(".loader").append(load);
@@ -24,7 +24,7 @@ function loaderChoice(){
 	//var tmp = $('#tester').html();
 	$("body").on("click", "a", function(e) {
 		e.preventDefault();
-		
+
 		player.loadVideoById(location.search.split('videoID=')[1].split('&')[0]);
 	});*/
     //~ var load;
