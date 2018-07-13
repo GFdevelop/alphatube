@@ -1,6 +1,6 @@
 function pageLoader(){
     loaderChoice();
-    $("body").on("click", "a", function(e){
+    $("body").on("click", "a", function(e){ // TODO: disabilitare il capture per le freccette del recommender
 		e.preventDefault();
         loaderChoice();
     });
