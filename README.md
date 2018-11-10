@@ -23,6 +23,7 @@ S:	server-side
 
 - [ ] C:	video page
 	- [ ] C:	player con i controlli
+	- [ ] C:	autoplay (riga 26 su video.js)
 - [ ] C:	ricerca video:
 	- [ ] C:	per titolo
 	- [ ] C:	per nome canzone
