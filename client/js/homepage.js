@@ -5,7 +5,7 @@ function homeLoader(){
                 '<div class="row justify-content-center">'+
                     '<div class="col-sm-6 col-md-5 col-lg-4 text-center mb-4">'+
                    ' <div class="ml-1 mr-1">'+
-                        '<img class= "img-fluid" src="media/GammaTubeLogo.png" alt= "Responsive Logo" >'+
+                        '<img class= "img-fluid" src="media/Logo.png" alt= "Responsive Logo" >'+
                        ' </div>'+
                         '<div class="text-center">'+
                         '<div class="input-group ">'+
@@ -21,7 +21,7 @@ function homeLoader(){
                          for (var i=0; i<data.length; i++){
                              homepage += '<div class="mb-2 col-sm-5 col-md-4 col-lg-3 p-1">' +
                                  '<div class="card sFrm"> '+
-                                    '<a href="?'+ $.param(data[i])+'"style="text-decoration:none;">'+
+                                    '<a href="videopage.html?'+ $.param(data[i])+'"style="text-decoration:none;">'+
                              ' <img class="card-img-top" src="https://i.ytimg.com/vi/' + data[i].videoID + '/mqdefault.jpg" alt="Card image cap">'+
                              ' <div class="card-body">'+
                              '<h5 class="card-title text-blue text-truncate"> <marquee>'+ data[i].title +' </marquee></h5>'+
