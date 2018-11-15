@@ -23,6 +23,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    event.target.playVideo();
+    //~ event.target.playVideo();
     buildWikiRequest();
 }

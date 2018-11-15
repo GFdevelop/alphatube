@@ -17,7 +17,7 @@ function handleAPILoaded() {
 		'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest']
 	});
 	$('#search-button').attr('disabled', false);
-	$('#searchForm').on("submit",function(){youtubeSearch();});
+	//~ $('#searchForm').on("submit",function(){youtubeSearch();});
 }
 
 function navbarLoader() {
@@ -32,7 +32,7 @@ function navbarLoader() {
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="index.html#">Home<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Catalog</a>
@@ -41,7 +41,7 @@ function navbarLoader() {
 					<a class="nav-link" href="#">Info</a>
 				</li>
 			</ul>
-			<form class="form-inline" id="searchForm" action="javascript:void(0)">
+			<form class="form-inline" id="searchForm" action="javascript:void(0)" onsubmit="youtubeSearch()">
 				<div class="input-group">
 					<select class="custom-select col-4" id="searchType" name="type">
 						<option>Title</option>
@@ -62,26 +62,46 @@ function navbarLoader() {
 }
 
 // example <body onload="youtubeSearch(promiseName);">
-function youtubeSearch() {	//defaul value is supported in ECMA v6+
-	//var parsed = queryString.parse(location.search);
-	var query = location.search ? location.search + "&" : "?";
-	// match string that start with "type=" and all char except "&" for 2 times, match newline char or "&"
-	query = query.replace(/type=[^&]*.[^&]*[&]*/, '') + $('#searchForm').serialize();
-	window.history.pushState(null, null, location.pathname + query/* + '#Search'*/);
-	youtubeSearchResultContainer();
+function youtubeSearch() {	//default value is supported in ECMA v6+
 	$('#Search').collapse('show');
-	gapi.client.request({
-		'method': 'GET',
-		'path': '/youtube/v3/search',
-		'params': {
-			'q': $('#query').val(),
-			'part': 'snippet',
-			'maxResults': 12,
-			'type': 'video',
-			'videoCategoryId': 10
-		}
-	}).then(function(response) {
-		//console.log(response);
+	var query = location.search ? location.search + "&" : "?";
+	// type=	from 'type='
+	// [^&]*	all before '&'
+	// &		'&'
+	// [^&]*	all before '&'
+	// &?		last '&' if exist
+	query = query.replace(/type=[^&]*&[^&]*&?/, '') + $('#searchForm').serialize();
+	history.pushState(null, null, query);
+	document.title = "GammaTube Search: " + $('#query').val();
+	youtubeSearchResultContainer();
+	
+	//~ gapi.client.request({
+		//~ 'method': 'GET',
+		//~ 'path': '/youtube/v3/search',
+		//~ 'params': {
+			//~ 'q': $('#query').val(),
+			//~ 'part': 'snippet',
+			//~ 'maxResults': 12,
+			//~ 'type': 'video',
+			//~ 'videoCategoryId': 10
+		//~ }
+	//~ }).then(function(response) {
+		//~ //console.log(response);
+		//~ youtubeSearchResult(response.result);
+	//~ });
+	
+	var pageToken;
+	var request = gapi.client.youtube.search.list({
+		q: $('#query').val(),
+		part: 'snippet',
+		maxResults: 12,
+		type: 'video',
+		videoCategoryId: 10,
+		pageToken: pageToken
+	});
+	
+	request.execute(function(response) {
+		console.log(response);
 		youtubeSearchResult(response.result);
 	});
 }
@@ -90,11 +110,9 @@ function youtubeSearchResultContainer() {
 	if ( $('#search-row-container').length ) $('#search-row-container').empty();
 	else $("#Search").append(
 		`<div class="container-fluid">
-			<div class="bg-light px-4 pt-3 pb-1">
-				<!--<h5 class="title text-center">Search result</h5>-->
-				<div class="row justify-content-center" id="search-row-container">
-				</div>
-				<nav aria-label="Page navigation example">
+			<div class="bg-light px-4 pt-3 pb-1 border">
+				<!--<h5 class="title text-center">Search results</h5>-->
+				<nav class="sticky-top" aria-label="Page navigation example">
 					<ul class="pagination justify-content-center">
 						<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 						<li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
@@ -103,6 +121,8 @@ function youtubeSearchResultContainer() {
 						<li class="page-item"><a class="page-link" href="#">Next</a></li>
 					</ul>
 				</nav>
+				<div class="row justify-content-center" id="search-row-container">
+				</div>
 			</div>
 		</div>`
 	);
@@ -120,7 +140,6 @@ function youtubeSearchResult(response) {
 					'<img class="card-img-top img-fluid" src="' + response.items[i].snippet.thumbnails.medium.url + '" alt="' + response.items[i].snippet.title + '">' +
 					'<div class="card-body">' +
 						'<h6 class="card-title">' + response.items[i].snippet.title + '</h6>' +
-/*'<p class="card-text text-wrap text-truncate">' + response.items[i].snippet.description + '</p>' +*/
 					'</div>' +
 				'</a>' +
 			'</div>'
@@ -152,17 +171,3 @@ function youtubeSearchResult(response) {
 	
 	// TODO: using cache
 }
-
-/*
-function truncate(length,str1,str2) {
-	var sum = str1.length + str2.length;
-	if (sum > length) {
-		return str1.substring(0, length - (sum - length) - 3) + '...';
-	}
-	else if (sum < length) {
-		var ret = str1;
-		for (var i=str1.length; i<(length - (sum - length)); i++) ret = ret + ' ';
-		return ret;
-	}
-	else return str1;
-}*/
