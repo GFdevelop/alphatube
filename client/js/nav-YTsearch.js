@@ -23,8 +23,8 @@ function handleAPILoaded() {
 function navbarLoader() {
 	$('#navbar').append(
 		`<a class="navbar-brand" href="#">
-			<img src="./media/GammaTubeLogo.png" width="30" height="30" alt="gammaTube">
-			gammaTube
+			<img src="./media/Logo.png" width="30" height="30" alt="aphaTube">
+			AlphaTube
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>

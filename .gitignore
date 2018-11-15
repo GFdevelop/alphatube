@@ -2,3 +2,5 @@ client/recommender\.html
 client/staticrecommender\.html
 client/js/recommenderbin\.js
 *.db
+
+.DS_Store
