@@ -15,8 +15,11 @@ function handleAPILoaded() {
 	gapi.client.init({
 		'apiKey': 'AIzaSyCZIY9kX67U3u3wtgrO3FviBD_uIm5AQao',
 		'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest']
-	});
+	}).then(function(){
+       wikiLoader(); 
+    });
 	$('#search-button').attr('disabled', false);
+    //wikiLoader();
 	//~ $('#searchForm').on("submit",function(){youtubeSearch();});
 }
 
