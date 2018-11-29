@@ -8,13 +8,14 @@ function pageLoader(){
 	
     loaderChoice();
     $("body").on("click", "a", function(e){ // TODO: disabilitare il capture per le freccette del recommender
-		e.preventDefault();        
+
+		e.preventDefault();
 		// TODO: console.log($(this).children('img').attr('alt'));
 		history.pushState(null, null, $(this).attr('href')/* + '#Search'*/);
-		player.loadVideoById(location.search.split('videoID=')[1].split('&')[0]);
-		//~ player.loadVideoById(location.search.match('videoID=(.*)')[1]);
-		//~ player.loadVideoById(currentURL.videoID);
         loaderChoice();
+		//~ player.loadVideoById(location.search.split('videoID=')[1].split('&')[0]);
+		//~ player.loadVideoById(location.search.match('videoID=(.*)')[1]);
+		player.loadVideoById(currentURL.videoID);
     });
 
 }

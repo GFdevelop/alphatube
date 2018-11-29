@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-primary" id="navbar"> <!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
+	<a class="navbar-brand" routerLink="/">
+		<img src="assets/img/Logo.png" width="30" height="30" alt="alphaTube">
+		{{ title }}
+	</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<a class="nav-link" [routerLink]="['/videopage', '001']">Videopage<span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" routerLink="/about">About</a>
+			</li>
+		</ul>
+		<form class="form-inline">
+			<div class="input-group">
+				<select class="custom-select col-4" name="type">
+					<option>Title</option>
+					<option>Song name</option>
+					<option>Artist name</option>
+					<option>YouTube ID</option>
+				</select>
+				<input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="query" (keyup.enter)="search()" required>
+				<div class="input-group-append">
+					<button class="btn btn-warning" type="submit" aria-controls="Search" aria-expanded="false" (click)="search()">
+						<i class="material-icons">search</i>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</nav>
+<pre>{{searchResults | json}}</pre>
