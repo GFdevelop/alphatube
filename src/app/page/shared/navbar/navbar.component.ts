@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SearchService } from '../../../shared/search/search.service';
+import { SearchService } from '../../../services/search/search.service';
 
 @Component({
   selector: 'app-navbar',
