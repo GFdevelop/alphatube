@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 //~ import { Router, NavigationExtras } from '@angular/router';
 
-import { SearchService } from '../../shared/search/search.service';
+import { SearchService } from '../../services/search/search.service';
 
 @Component({
   selector: 'app-search',
