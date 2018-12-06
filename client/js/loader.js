@@ -8,6 +8,7 @@ function pageLoader(){
 	
     loaderChoice();
     $("body").on("click", "a", function(e){ // TODO: disabilitare il capture per le freccette del recommender
+
 		e.preventDefault();
 		// TODO: console.log($(this).children('img').attr('alt'));
 		history.pushState(null, null, $(this).attr('href')/* + '#Search'*/);
@@ -20,9 +21,9 @@ function pageLoader(){
 }
 
 function _Videopage(){
-    //~ videopageLoad();
-    //~ navbarLoader();
-    //TODO: wikiloader();
+    videopageLoad();
+    navbarLoader();
+    //wikiLoader();
     recommenderLoader();
 }
 

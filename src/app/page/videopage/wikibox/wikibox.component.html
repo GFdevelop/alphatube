@@ -1,0 +1,28 @@
+<div class="col-md-4 mt-1 mt-md-0 pl-0 pr-0">
+	<tabset justified="true">
+		<tab>
+			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>description</ng-template>
+<!--
+				{{ytDescription?}}
+-->
+		</tab>
+		<tab>
+			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>comments</ng-template>
+<!--
+				{{ytComments?}}
+-->
+		</tab>
+		<tab>
+			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>artist</ng-template>
+				{{wikiArtist?.results.bindings[0].abstract.value}}
+		</tab>
+		<tab>
+			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>album</ng-template>
+				{{wikiAlbum?.results.bindings[0].abstract.value}}
+		</tab>
+		<tab>
+			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>genre</ng-template>
+				{{wikiGenre?.results.bindings[0].abstract.value}}
+		</tab>
+	</tabset>
+</div>
