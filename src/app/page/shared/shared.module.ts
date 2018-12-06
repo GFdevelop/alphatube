@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
@@ -10,11 +12,12 @@ import { NavbarComponent } from './navbar/navbar.component';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    CollapseModule.forRoot()
   ],
   exports: [
-  	RouterModule,
-  	NavbarComponent
+    RouterModule,
+    NavbarComponent
   ]
 })
 export class PageSharedModule { }

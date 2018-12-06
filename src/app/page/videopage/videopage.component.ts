@@ -13,7 +13,7 @@ export class VideopageComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-	  this.route.params.subscribe((params) => this.videoId = params.videoId);
+    this.route.params.subscribe((params) => this.videoId = params.videoId);
   }
 
 }

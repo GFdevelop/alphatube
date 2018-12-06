@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { SearchService } from '../../../shared/search/search.service';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,19 +10,26 @@ export class NavbarComponent implements OnInit {
 
   title = 'alphatube';
 
-  query: string;
-  searchResults: string[];
+  isCollapsed = true;
 
-  constructor(private searchService: SearchService) { }
+  types = [
+    { parameter: 'byTitle', label: 'Title' },
+    { parameter: 'bySong', label: 'Song name' },
+    { parameter: 'byArtist', label: 'Artist name' },
+    { parameter: 'byID', label: 'Youtube ID' }
+  ];
+
+  by: string;
+  q: string;
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    this.by = this.types[0].parameter;
   }
 
   search(): void {
-    this.searchService.getAll().subscribe(
-      (data: any) => { this.searchResults = data; },
-      error => console.log(error)
-    );
+    this.router.navigate(['/search', this.by, this.q]);
   }
 
 }

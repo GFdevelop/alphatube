@@ -1,36 +1,28 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary" id="navbar"> <!-- WHATIS: with sticky-top the navbar scroll on viewport but stay fixed on top of its container if this not end -->
 	<a class="navbar-brand" routerLink="/">
-		<img src="assets/img/Logo.png" width="30" height="30" alt="alphaTube">
+		<img class="d-inline-block align-top" src="assets/img/Logo.png" width="30" height="30" alt="alphaTube">
 		{{ title }}
 	</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	<button class="navbar-toggler btn-danger" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" [routerLink]="['/videopage', '001']">Videopage<span class="sr-only">(current)</span></a>
-			</li>
-			<li class="nav-item active">
-				<a class="nav-link" routerLink="/about">About</a>
-			</li>
-		</ul>
-		<form class="form-inline">
+	<div class="collapse navbar-collapse" [collapse]="isCollapsed" id="navbarSupportedContent">
+		<div class="navbar-nav mr-auto">
+			<a class="nav-item nav-link active" [routerLink]="['/videopage', '001']">Videopage<span class="sr-only">(current)</span></a>
+			<a class="nav-item nav-link active" routerLink="/about">About</a>
+		</div>
+		<form class="form-inline" (ngSubmit)="search()" #form="ngForm">
 			<div class="input-group">
-				<select class="custom-select col-4" name="type">
-					<option>Title</option>
-					<option>Song name</option>
-					<option>Artist name</option>
-					<option>YouTube ID</option>
+				<select class="custom-select col-4" name="by" [(ngModel)]="by" required>
+					<option *ngFor="let type of types" [ngValue]="type.parameter">{{type.label}}</option>
 				</select>
-				<input class="form-control" name="query" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="query" (keyup.enter)="search()" required>
+				<input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="q" required>
 				<div class="input-group-append">
-					<button class="btn btn-warning" type="submit" aria-controls="Search" aria-expanded="false" (click)="search()">
-						<i class="material-icons">search</i>
+					<button class="btn btn-danger" type="submit" aria-controls="Search" aria-expanded="false" [disabled]="form.invalid">
+						<i class="material-icons">search</i>	<!-- TODO: icons -->
 					</button>
 				</div>
 			</div>
 		</form>
 	</div>
 </nav>
-<pre>{{searchResults | json}}</pre>
