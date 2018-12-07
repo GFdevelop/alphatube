@@ -6,18 +6,38 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SearchService {
 
+  apiRef = 'https://www.googleapis.com/youtube/v3';
+  devKey = 'AIzaSyCZIY9kX67U3u3wtgrO3FviBD_uIm5AQao';
+
   constructor(private http: HttpClient) { }
 
-  getAll(q: string) {
-    return this.http.get('https://www.googleapis.com/youtube/v3/search' +
-      '?part=snippet' +
-      '&maxResults=12' +
-      '&q=' + q +
-      '&type=video' +
-      '&videoCategoryId=10' +
-      '&videoEmbeddable=true' +
-      '&videoSyndicated=true' +
-      '&key=AIzaSyCZIY9kX67U3u3wtgrO3FviBD_uIm5AQao'
+  getSearch(q: string) {
+    return this.http.get(this.apiRef + '/search',
+      {
+        params: {
+          part: 'snippet',
+          maxResults: '12',
+          q: q,
+          type: 'video',
+          videoCategoryId: '10',
+          videoEmbeddable: 'true',
+          videoSyndicated: 'true',
+          key: this.devKey
+        }
+      }
+    );
+  }
+
+  getVideo(q: string) {
+    return this.http.get(this.apiRef + '/videos',
+      {
+        params: {
+          part: 'snippet',
+          id: q,
+          videoCategoryId: '10',
+          key: this.devKey
+        }
+      }
     );
   }
 }

@@ -14,8 +14,6 @@ export class NavbarComponent implements OnInit {
 
   types = [
     { parameter: 'byTitle', label: 'Title' },
-    { parameter: 'bySong', label: 'Song name' },
-    { parameter: 'byArtist', label: 'Artist name' },
     { parameter: 'byID', label: 'Youtube ID' }
   ];
 
@@ -29,7 +27,12 @@ export class NavbarComponent implements OnInit {
   }
 
   search(): void {
-    this.router.navigate(['/search', this.by, this.q]);
+    var page: string;
+
+    if (this.by == 'byID') page = '/videopage';
+    else page = '/search';
+
+    this.router.navigate([page, this.q]);
   }
 
 }

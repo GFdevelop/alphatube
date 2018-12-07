@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-//~ import { Router, NavigationExtras } from '@angular/router';
 
 import { SearchService } from '../../services/search/search.service';
 
@@ -16,17 +15,14 @@ export class SearchComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private searchService: SearchService,
-    //~ private router: Router
   ) { }
 
   ngOnInit() {
-	this.route.params.subscribe((params) => {
-      this.searchService.getAll(params.q).subscribe(
+    this.route.params.subscribe((params) => {
+      this.searchService.getSearch(params.q).subscribe(
         (data: any) => {
           this.searchResults = data;
-          //~ if (this.searchResults.items[0].id.videoId == params.q) this.searchResults.items.splice(1, 11);
-          console.log(this.searchResults);
-          //~ this.router.navigate(['/videopage', params.q]);
+          //~ console.log(this.searchResults);
         },
         error => console.log(error)
         );
