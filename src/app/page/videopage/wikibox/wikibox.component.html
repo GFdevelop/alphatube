@@ -1,15 +1,25 @@
 <tabset justified="true">
 		<tab>
 			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>description</ng-template>
-<!--
-				{{ytDescription?}}
--->
+				{{description?.items[0].snippet.description}}
+				<br>TAGS:<br>
+				{{description?.items[0].snippet.tags}}
+				<br>VIEWS:<br>
+				{{description?.items[0].statistics.viewCount}}
+				<br>LIKE:<br>
+				{{description?.items[0].statistics.likeCount}}
+				<br>DISLIKE:<br>
+				{{description?.items[0].statistics.dislikeCount}}
 		</tab>
 		<tab>
 			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>comments</ng-template>
-<!--
-				{{ytComments?}}
--->
+				<div *ngFor = "let item of comments">
+					<img src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
+					{{item.snippet.topLevelComment.snippet.authorDisplayName}}
+					{{item.snippet.topLevelComment.snippet.textDisplay}}
+					{{item.snippet.topLevelComment.snippet.likeCount}}
+					///*** ***\\\
+				</div>
 		</tab>
 		<tab>
 			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>artist</ng-template>

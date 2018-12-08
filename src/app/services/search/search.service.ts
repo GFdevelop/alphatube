@@ -40,22 +40,28 @@ export class SearchService {
       }
     );
   }
+  
+  getDescription(videoID: string) {
+    return this.http.get(this.apiRef + '/videos', {
+        params: {
+          part: 'snippet,statistics',
+		  id: videoID,
+		  fields: 'items(snippet(description,tags),statistics(commentCount,dislikeCount,likeCount,viewCount))',
+		  key: this.devKey
+        }
+      });
+  }
+  
+  getComments(videoID: string) {
+    return this.http.get(this.apiRef + '/commentThreads', {
+        params: {
+          part: 'snippet',
+		  maxResults: '12',
+		  order: 'relevance',
+		  videoId: videoID,
+		  fields: 'items(snippet(topLevelComment(snippet(authorDisplayName,authorProfileImageUrl,likeCount,textDisplay))))',
+		  key: this.devKey
+        }
+      });
+  }
 }
-
-//~ export class SearchResult {
-  //~ videoId: string;
-  //~ publishedAt: string;
-  //~ title: string;
-  //~ description: string;
-  //~ thumbnail: string;
-  //~ channelTitle: string;
-
-  //~ constructor(obj?: any) {
-    //~ this.videoId = obj.items.id.videoId;
-    //~ this.publishedAt = obj.items.snippet.publishedAt;
-    //~ this.title = obj.items.snippet.title;
-    //~ this.description = obj.items.snippet.description;
-    //~ this.thumbnail = obj.items.snippet.thumbnails.medium.url;
-    //~ this.channelTitle = obj.items.snippet.channelTitle;
-  //~ }
-//~ }
