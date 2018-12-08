@@ -23,7 +23,7 @@ export class WikiboxComponent implements OnInit {
 		this.route.params.pipe(
 			(params) => {
 				this.videoId = params._value.videoId;
-				//~ console.log(this.videoId);
+				console.log(this.videoId);
 			});
 	     
 	//~ Populate YouTube tabs

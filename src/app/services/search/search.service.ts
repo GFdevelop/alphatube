@@ -59,7 +59,7 @@ export class SearchService {
 		  maxResults: '12',
 		  order: 'relevance',
 		  videoId: videoID,
-		  fields: 'items(snippet(topLevelComment(snippet(authorDisplayName,authorProfileImageUrl,likeCount,textDisplay))))',
+		  fields: 'items(snippet(topLevelComment(snippet(authorDisplayName,authorProfileImageUrl,likeCount,textOriginal))))',
 		  key: this.devKey
         }
       });

@@ -13,12 +13,21 @@
 		</tab>
 		<tab>
 			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>comments</ng-template>
-				<div *ngFor = "let item of comments">
-					<img src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
-					{{item.snippet.topLevelComment.snippet.authorDisplayName}}
-					{{item.snippet.topLevelComment.snippet.textDisplay}}
-					{{item.snippet.topLevelComment.snippet.likeCount}}
-					///*** ***\\\
+				<div class="p-2 col-12" *ngFor = "let item of comments">
+					<div class="card bg-light border-secondary">
+						<div class="card-header font-weight-bold">
+							<img class="pr-1" src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
+							{{item.snippet.topLevelComment.snippet.authorDisplayName}}
+						</div>
+						<div class="card-body">
+							<p class="card-text">
+								{{item.snippet.topLevelComment.snippet.textOriginal}}
+							</p>
+							<p class="text-right">
+								<i class="pr-1 fas fa-thumbs-up"></i>{{item.snippet.topLevelComment.snippet.likeCount}}
+							</p>
+						</div>
+					</div>
 				</div>
 		</tab>
 		<tab>
