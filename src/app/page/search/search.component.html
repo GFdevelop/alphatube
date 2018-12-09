@@ -12,13 +12,13 @@
         <div class="col-12 col-lg-6 col-md-6 my-2 p-0" *ngFor="let result of searchResults?.items">     <!-- ? Safe Navigation Operator to avoid null or undefined-->
             <div class="row mx-2 py-2 bg-white border h-100 align-items-center">
                 <div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">
-                    <a routerLink="/videopage/{{result.id.videoId}}">
-                        <img class="col-12" src="{{result.snippet.thumbnails.medium.url}}" alt="{{result.snippet.title}}">
+                    <a routerLink="/videopage/{{result.id.videoId}}" aria-hidden="true" tabindex="-1">
+                        <img class="col-12" src="{{result.snippet.thumbnails.medium.url}}" alt="{{result.snippet.title}}" title="{{result.snippet.title}}">
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">
                     <div class="container-fluid">
-                        <a routerLink="/videopage/{{result.id.videoId}}">
+                        <a routerLink="/videopage/{{result.id.videoId}}" attr.aria-label="{{ result.snippet.title }} by {{ result.snippet.channelTitle }} {{ result.snippet.publishedAt }}">
                             <h6 class="card-title font-weight-bold">{{result.snippet.title}}</h6>
                         </a>
                         <p class="card-subtitle">{{result.snippet.channelTitle}}</p>
