@@ -1,49 +1,39 @@
 /*#E7DFDD* #61ffbb #ff6f61*/
 
-.bg-primary{
-     background-color: #5F4C89 !important;
+.bg-primary{ background-color: #5F4C89 !important; }
+
+.btn-primary{
+    background-color: #5F4C89;
+    border-color: #5F4C89;
+}
+.btn-primary:hover{
+    background-color: #46385e;
+    border-color: #46385e;
 }
 
-.btn-danger{
-    background-color: #79eb4c !important;
-    border-color: transparent !important;
-    color: #495057 !important; /* TODO: farlo anche al toggler-icon */
-}
-
-.btn-danger:disabled{
-    background-color: #80f750 !important;
-}
-
-.btn-secondary:not(:disabled):not(.disabled).active {
-    background-color: #59a636;
-}
-
-.btn-secondary:hover {
-    background-color: #67bf3e;
-}
-
-.btn-secondary {
+.btn-secondary:not(:disabled):not(.disabled).active{ background-color: #59a636; }
+.btn-secondary:hover{ background-color: #67bf3e; }
+.btn-secondary{
     color: #fff;
     background-color: #79eb4c;
     border-color: transparent !important;
 }
 
-#Search{
-    border-color: #79eb4c !important;
+.btn-danger{
+    background-color: #79eb4c;
+    border-color: transparent !important;
+    color: #495057 !important; /* TODO: farlo anche al toggler-icon */
 }
+.btn-danger:disabled{ background-color: #80f750; }
 
-.card, a.nav-link{
-    background-color: transparent !important;
-}
+.form-control{ border-color: #79eb4c; }
 
-.border-primary{ /* TODO: metterlo anche alla wikibox */
-    border-color: #E0E0E0 !important;
-}
+a{ color: #5F4C89;}
+a:hover{ color: #A239CA;}
 
-.border-primary:hover{
-    border-color: #A239CA !important;
-}
+.card, a.nav-link{ background-color: transparent; }
 
-body{
-    background-color: #FBFBFB !important;
-}
+.border-primary{ border-color: #E0E0E0 !important; /* TODO: metterlo anche alla wikibox */ }
+.border-primary:hover{ border-color: #A239CA !important; }
+
+body{ background-color: #FBFBFB; }
