@@ -14,6 +14,24 @@
     background-color: #80f750 !important;
 }
 
+.btn-secondary:not(:disabled):not(.disabled).active {
+    background-color: #59a636;
+}
+
+.btn-secondary:hover {
+    background-color: #67bf3e;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #79eb4c;
+    border-color: transparent !important;
+}
+
+#Search{
+    border-color: #79eb4c !important;
+}
+
 .card, a.nav-link{
     background-color: transparent !important;
 }

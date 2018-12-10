@@ -1,15 +1,34 @@
 <tabset justified="true">
 		<tab>
 			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>description</ng-template>
-<!--
-				{{ytDescription?}}
--->
+				{{description?.items[0].snippet.description}}
+				<br>TAGS:<br>
+				{{description?.items[0].snippet.tags}}
+				<br>VIEWS:<br>
+				{{description?.items[0].statistics.viewCount}}
+				<br>LIKE:<br>
+				{{description?.items[0].statistics.likeCount}}
+				<br>DISLIKE:<br>
+				{{description?.items[0].statistics.dislikeCount}}
 		</tab>
 		<tab>
 			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>comments</ng-template>
-<!--
-				{{ytComments?}}
--->
+				<div class="p-2 col-12" *ngFor = "let item of comments">
+					<div class="card bg-light border-secondary">
+						<div class="card-header font-weight-bold">
+							<img class="pr-1" src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
+							{{item.snippet.topLevelComment.snippet.authorDisplayName}}
+						</div>
+						<div class="card-body">
+							<p class="card-text">
+								{{item.snippet.topLevelComment.snippet.textOriginal}}
+							</p>
+							<p class="text-right">
+								<i class="pr-1 fas fa-thumbs-up"></i>{{item.snippet.topLevelComment.snippet.likeCount}}
+							</p>
+						</div>
+					</div>
+				</div>
 		</tab>
 		<tab>
 			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>artist</ng-template>
