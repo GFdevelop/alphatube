@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
+import { FvitaliService } from '../../../services/fvitali/fvitali.service';
+import { Video } from '../../../services/fvitali/video';
 
 @Component({
   selector: 'app-recommender',
   templateUrl: './recommender.component.html',
-  styleUrls: ['./recommender.component.css']
+  styleUrls: ['./recommender.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class RecommenderComponent implements OnInit {
+    videos: Array<Video>;
 
-  constructor() { }
+    constructor(private fvitaliService: FvitaliService) { }
 
-  ngOnInit() {
-  }
-
+    ngOnInit() {
+        this.fvitaliService.getAll().subscribe(
+          (data: any) => { this.videos = data; },
+          error => console.log(error)
+        );
+    }
 }
