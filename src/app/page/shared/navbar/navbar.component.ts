@@ -8,14 +8,9 @@ import { Router, NavigationExtras } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  title = 'alphatube';
+  title = 'alphatube';  // TODO: use global variable
 
   isCollapsed = true;
-
-  types = [
-    { parameter: 'byTitle', label: 'Title' },
-    { parameter: 'byID', label: 'Youtube ID' }
-  ];
 
   by: string;
   q: string;
@@ -23,13 +18,13 @@ export class NavbarComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.by = this.types[0].parameter;
+    this.by = 'Title';
   }
 
   search(): void {
     var page: string;
 
-    if (this.by == 'byID') page = '/videopage';
+    if (this.by == 'ID') page = '/videopage';
     else page = '/search';
 
     this.router.navigate([page, this.q]);
