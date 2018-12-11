@@ -1,45 +1,72 @@
-<tabset justified="true">
-		<tab>
-			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>description</ng-template>
-				{{description?.items[0].snippet.description}}
-				<br>TAGS:<br>
-				{{description?.items[0].snippet.tags}}
-				<br>VIEWS:<br>
-				{{description?.items[0].statistics.viewCount}}
-				<br>LIKE:<br>
-				{{description?.items[0].statistics.likeCount}}
-				<br>DISLIKE:<br>
-				{{description?.items[0].statistics.dislikeCount}}
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>comments</ng-template>
-				<div class="p-2 col-12" *ngFor = "let item of comments">
-					<div class="card bg-light border-secondary">
-						<div class="card-header font-weight-bold">
-							<img class="pr-1" src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
-							{{item.snippet.topLevelComment.snippet.authorDisplayName}}
+<tabset [justified]="true" type="pills">
+	<tab>
+		<ng-template tabHeading>
+			<i class="fab fa-youtube"></i><br>
+			YouTube
+		</ng-template>
+		 
+		<accordion [closeOthers]="true">
+			<accordion-group heading="Description" [isOpen]="true">
+				<div class="container-fluid scrollable">
+					<div class="card">
+						<div class="card-header">
+							TAGS: work in progress...
 						</div>
 						<div class="card-body">
 							<p class="card-text">
-								{{item.snippet.topLevelComment.snippet.textOriginal}}
+								{{description?.items[0].snippet.description}}
 							</p>
-							<p class="text-right">
-								<i class="pr-1 fas fa-thumbs-up"></i>{{item.snippet.topLevelComment.snippet.likeCount}}
+						</div>
+						<div class="card-footer">
+							<p>
+								<i class="mr-1 fas fa-eye"></i>{{description?.items[0].statistics.viewCount}}
+							</p>
+							<p>
+								<i class="mr-1 fas fa-thumbs-up"></i>{{description?.items[0].statistics.likeCount}}
+							</p>
+							<p>
+								<i class="mr-1 fas fa-thumbs-down"></i>{{description?.items[0].statistics.dislikeCount}}
 							</p>
 						</div>
 					</div>
 				</div>
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>artist</ng-template>
-				{{wikiArtist?.results.bindings[0].abstract.value}}
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>album</ng-template>
-				{{wikiAlbum?.results.bindings[0].abstract.value}}
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>genre</ng-template>
-				{{wikiGenre?.results.bindings[0].abstract.value}}
-		</tab>
-	</tabset>
+			</accordion-group>
+			<accordion-group heading="Comments">
+				<div class="container-fluid scrollable">
+					<div class="mb-2 card bg-light border-secondary" *ngFor="let item of comments">
+						<div class="card-header font-weight-bold">
+							<img class="avatar mr-1" src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
+							{{item?.snippet.topLevelComment.snippet.authorDisplayName}}
+						</div>
+						<div class="card-body">
+							<p class="card-text">
+								{{item?.snippet.topLevelComment.snippet.textOriginal}}
+							</p>
+							<p class="text-right">
+								<i class="pr-1 fas fa-thumbs-up"></i>{{item?.snippet.topLevelComment.snippet.likeCount}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</accordion-group>
+		</accordion>
+	</tab>
+	<tab>
+		<ng-template tabHeading>
+			<i class="fas fa-project-diagram"></i><br>
+			DBpedia
+		</ng-template>
+	</tab>
+	<tab>
+		<ng-template tabHeading>
+			<i class="fas fa-music"></i><br>
+			Musicxmatch
+		</ng-template>
+	</tab>
+	<tab>
+		<ng-template tabHeading>
+			<i class="fab fa-twitter"></i><br>
+			Twitter
+		</ng-template>
+	</tab>
+</tabset>

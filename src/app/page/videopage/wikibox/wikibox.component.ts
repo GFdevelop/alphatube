@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { DbpediaService } from '../../../services/dbpedia/dbpedia.service'
 import { SearchService } from '../../../services/search/search.service'
-import { Comment } from '../../../services/search/comment'
 
 @Component({
   selector: 'app-wikibox',
@@ -12,7 +11,7 @@ import { Comment } from '../../../services/search/comment'
 })
 export class WikiboxComponent implements OnInit {
 
-  videoId: string;
+  videoId: string; 
   wikidata: any;
   comments: any;
   description: any;
