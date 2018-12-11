@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { environment } from '../../../../environments/environment';
+
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-navbar',
@@ -9,16 +10,20 @@ import { environment } from '../../../../environments/environment';
 })
 export class NavbarComponent implements OnInit {
 
-  title = environment.project;
+  title: string;
 
   isCollapsed = true;
 
   by: string;
   q: string;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private app: AppComponent
+  ) { }
 
   ngOnInit() {
+    this.title = this.app.appName;
     this.by = 'Title';
   }
 
