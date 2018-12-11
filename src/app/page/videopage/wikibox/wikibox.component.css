@@ -7,6 +7,10 @@
 
 .scrollable{
 	overflow-y: auto;
+/*
+	Fix this messy
+*/
+	min-height: 450px;
 	max-height: 450px;
 }
 
@@ -32,6 +36,9 @@
   background: #555; 
 }
 
+/*
+Remove this
+*/
 div.container-fluid{
 	padding: 0;
 }

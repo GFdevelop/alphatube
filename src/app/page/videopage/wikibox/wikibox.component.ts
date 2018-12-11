@@ -15,6 +15,7 @@ export class WikiboxComponent implements OnInit {
   wikidata: any;
   comments: any;
   description: any;
+  tags: any;
   
   constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: SearchService) { }
 
@@ -22,14 +23,14 @@ export class WikiboxComponent implements OnInit {
 		this.route.params.pipe(
 			(params) => {
 				this.videoId = params._value.videoId;
-				console.log(this.videoId);
+				//~ console.log(this.videoId);
 			});
 	     
 	//~ Populate YouTube tabs
 	this.yt.getComments(this.videoId).subscribe(
 	  (data: any) => {
 		  this.comments = data.items;
-		  console.log(this.comments); 
+		  //~ console.log(this.comments); 
 	    },
       error => console.log(error)
     );
@@ -37,7 +38,8 @@ export class WikiboxComponent implements OnInit {
     this.yt.getDescription(this.videoId).subscribe(
 	  (data: any) => {
 		  this.description = data;
-		  //~ console.log(this.description); 
+		  this.tags = data.items[0].snippet.tags;
+		  //~ console.log(this.tags); 
 		},
       error => console.log(error)
     );
