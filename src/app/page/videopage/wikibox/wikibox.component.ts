@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { DbpediaService } from '../../../services/dbpedia/dbpedia.service'
 import { SearchService } from '../../../services/search/search.service'
-import { Comment } from '../../../services/search/comment'
 
 @Component({
   selector: 'app-wikibox',
@@ -16,38 +15,38 @@ export class WikiboxComponent implements OnInit {
   wikidata: any;
   comments: any;
   description: any;
-  
+
   constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: SearchService) { }
 
   ngOnInit() {
-		this.route.params.pipe(
-			(params) => {
-				this.videoId = params._value.videoId;
-				console.log(this.videoId);
-			});
-	     
-	//~ Populate YouTube tabs
-	this.yt.getComments(this.videoId).subscribe(
-	  (data: any) => {
-		  this.comments = data.items;
-		  console.log(this.comments); 
-	    },
+                this.route.params.pipe(
+                        (params) => {
+                                this.videoId = params._value.videoId;
+                                console.log(this.videoId);
+                        });
+
+        Populate YouTube tabs
+        this.yt.getComments(this.videoId).subscribe(
+          (data: any) => {
+                  this.comments = data.items;
+                  console.log(this.comments);
+            },
       error => console.log(error)
     );
-    
+
     this.yt.getDescription(this.videoId).subscribe(
-	  (data: any) => {
-		  this.description = data;
-		  //~ console.log(this.description); 
-		},
+          (data: any) => {
+                  this.description = data;
+                  console.log(this.description);
+                },
       error => console.log(error)
     );
-	//~ Populate DBpedia tabs
-	this.dbs.getSPARQL().subscribe(
+        Populate DBpedia tabs
+        this.dbs.getSPARQL().subscribe(
       (data: any) => {
-				this.wikidata = data;
-				//~ console.log(this.wikidata); 
-		},
+                                this.wikidata = data;
+                                console.log(this.wikidata);
+                },
       error => console.log(error)
     );
   }
