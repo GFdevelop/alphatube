@@ -1,2 +1,37 @@
 :host >>> .yt { color: red; }
 :host >>> .wiki { color: black; }
+
+.avatar{
+	box-shadow: 0 0 5px black;
+}
+
+.scrollable{
+	overflow-y: auto;
+	max-height: 450px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+div.container-fluid{
+	padding: 0;
+}

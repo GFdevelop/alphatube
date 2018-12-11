@@ -11,7 +11,7 @@ import { SearchService } from '../../../services/search/search.service'
 })
 export class WikiboxComponent implements OnInit {
 
-  videoId: string;
+  videoId: string; 
   wikidata: any;
   comments: any;
   description: any;
