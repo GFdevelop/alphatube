@@ -39,7 +39,7 @@ export class WikiboxComponent implements OnInit {
 	  (data: any) => {
 		  this.description = data;
 		  this.tags = data.items[0].snippet.tags;
-		  //~ console.log(this.tags); 
+		  //~ console.log(this.tags);  
 		},
       error => console.log(error)
     );
