@@ -11,6 +11,7 @@ import { SearchService } from '../../services/search/search.service';
 export class SearchComponent implements OnInit {
 
   searchResults: any;
+  q: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,6 +20,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
+      this.q = params.q;
       this.searchService.getSearch(params.q).subscribe(
         (data: any) => {
           this.searchResults = data;
