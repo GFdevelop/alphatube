@@ -1,12 +1,13 @@
-:host >>> .yt { color: red; }
-:host >>> .wiki { color: black; }
-
 .avatar{
 	box-shadow: 0 0 5px black;
 }
 
 .scrollable{
 	overflow-y: auto;
+/*
+	Fix this messy
+*/
+	min-height: 450px;
 	max-height: 450px;
 }
 
@@ -30,8 +31,4 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
-}
-
-div.container-fluid{
-	padding: 0;
 }
