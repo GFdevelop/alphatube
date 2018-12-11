@@ -11,7 +11,7 @@ import { SearchService } from '../../../services/search/search.service'
 })
 export class WikiboxComponent implements OnInit {
 
-  videoId: string; 
+  videoId: string;
   wikidata: any;
   comments: any;
   description: any;
@@ -25,7 +25,7 @@ export class WikiboxComponent implements OnInit {
                                 console.log(this.videoId);
                         });
 
-        Populate YouTube tabs
+        //~ Populate YouTube tabs
         this.yt.getComments(this.videoId).subscribe(
           (data: any) => {
                   this.comments = data.items;
@@ -41,7 +41,7 @@ export class WikiboxComponent implements OnInit {
                 },
       error => console.log(error)
     );
-        Populate DBpedia tabs
+        //~ Populate DBpedia tabs
         this.dbs.getSPARQL().subscribe(
       (data: any) => {
                                 this.wikidata = data;
