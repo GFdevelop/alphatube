@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
       this.searchService.getSearch(params.q).subscribe(
         (data: any) => {
           this.searchResults = data;
-          //~ console.log(this.searchResults);
+          // ~ console.log(this.searchResults);
         },
         error => console.log(error)
         );

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Page404Component } from './page404.component';
+import { RouterModule} from '@angular/router';
 
-import { RouterModule, Routes} from '@angular/router';
+import { Page404Component } from './page404.component';
 
 @NgModule({
   declarations: [Page404Component],
