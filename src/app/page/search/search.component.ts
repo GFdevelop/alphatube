@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { SearchService } from '../../services/search/search.service';
+import { YoutubeService } from '../../services/youtube/youtube.service';
 
 @Component({
   selector: 'app-search',
@@ -15,13 +15,13 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private searchService: SearchService,
+    private yt: YoutubeService,
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.q = params.q;
-      this.searchService.getSearch(params.q).subscribe(
+      this.yt.getSearch(params.q).subscribe(
         (data: any) => {
           this.searchResults = data;
           // ~ console.log(this.searchResults);

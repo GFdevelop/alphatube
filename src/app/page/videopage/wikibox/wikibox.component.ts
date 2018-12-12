@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { DbpediaService } from '../../../services/dbpedia/dbpedia.service';
-import { SearchService } from '../../../services/search/search.service';
+import { YoutubeService } from '../../../services/youtube/youtube.service';
 
 @Component({
   selector: 'app-wikibox',
@@ -17,7 +17,7 @@ export class WikiboxComponent implements OnInit {
   description: any;
   tags: any;
 
-  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: SearchService) { }
+  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService) { }
 
   ngOnInit() {
         this.route.params.subscribe(
@@ -35,7 +35,7 @@ export class WikiboxComponent implements OnInit {
       error => console.log(error)
     );
 
-    this.yt.getDescription(this.videoId).subscribe(
+    this.yt.getVideo(this.videoId).subscribe(
           (data: any) => {
                   this.description = data;
                   this.tags = data.items[0].snippet.tags;
