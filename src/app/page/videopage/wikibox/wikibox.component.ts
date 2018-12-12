@@ -30,7 +30,7 @@ export class WikiboxComponent implements OnInit {
           error => console.log(error)
         );
         // ~ Populate info section
-        this.yt.getVideo(this.videoId).subscribe(
+        this.yt.getVideo(params.videoId).subscribe(
           (data: any) => {
             this.description = data;
             this.tags = data.items[0].snippet.tags;
