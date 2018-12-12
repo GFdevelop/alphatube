@@ -20,9 +20,9 @@ export class WikiboxComponent implements OnInit {
   constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: SearchService) { }
 
   ngOnInit() {
-        this.route.params.pipe(
+        this.route.params.subscribe(
                 (params) => {
-                        this.videoId = params._value.videoId;
+                        this.videoId = params.videoId;
                         // ~ console.log(this.videoId);
                 });
 
