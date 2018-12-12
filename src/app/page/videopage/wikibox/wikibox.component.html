@@ -1,26 +1,76 @@
-<tabset justified="true">
-		<tab>
-			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>description</ng-template>
-<!--
-				{{ytDescription?}}
--->
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-youtube yt"></i><br>comments</ng-template>
-<!--
-				{{ytComments?}}
--->
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>artist</ng-template>
-				{{wikiArtist?.results.bindings[0].abstract.value}}
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>album</ng-template>
-				{{wikiAlbum?.results.bindings[0].abstract.value}}
-		</tab>
-		<tab>
-			<ng-template tabHeading><i class="fab fa-wikipedia-w wiki"></i><br>genre</ng-template>
-				{{wikiGenre?.results.bindings[0].abstract.value}}
-		</tab>
-	</tabset>
+<tabset [justified]="true" type="pills">
+	<tab class="pt-1">
+		<ng-template tabHeading>
+			<i class="fab fa-youtube"></i><br>
+			YouTube
+		</ng-template>
+		 
+		<accordion [closeOthers]="true">
+			<accordion-group heading="Description" [isOpen]="true">
+				<div class="container-fluid scrollable p-0">
+					<div class="card">
+						<div class="card-header text-justify">
+							<span class="badge badge-secondary p-2 m-1" *ngFor="let tag of tags">
+								<a [routerLink]="['/search', tag]" class="text-white">
+									#{{tag || "I look for #tags, but I have failed :C"}}
+								</a>
+							</span>
+						</div>
+						<div class="card-body">
+							<p class="card-text">
+								{{description?.items[0].snippet.description || "Description not available :C"}}
+							</p>
+						</div>
+						<div class="card-footer text-center">
+							<span class="badge badge-info p-3 m-1 mr-5">
+								<i class="mr-1 fas fa-eye"></i>{{description?.items[0].statistics.viewCount}}
+							</span>
+							<span class="badge badge-success p-3 m-1">
+								<i class="mr-1 fas fa-thumbs-up"></i>{{description?.items[0].statistics.likeCount}}
+							</span>
+							<span class="badge badge-danger p-3 m-1">
+								<i class="mr-1 fas fa-thumbs-down"></i>{{description?.items[0].statistics.dislikeCount}}
+							</span>
+						</div>
+					</div>
+				</div>
+			</accordion-group>
+			<accordion-group heading="Comments">
+				<div class="container-fluid scrollable p-0">
+					<div class="mb-2 card bg-light border-secondary" *ngFor="let item of comments">
+						<div class="card-header font-weight-bold">
+							<img class="avatar mr-1" src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
+							{{item?.snippet.topLevelComment.snippet.authorDisplayName}}
+						</div>
+						<div class="card-body">
+							<p class="card-text">
+								{{item?.snippet.topLevelComment.snippet.textOriginal}}
+							</p>
+							<p class="text-right">
+								<i class="pr-1 fas fa-thumbs-up"></i>{{item?.snippet.topLevelComment.snippet.likeCount}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</accordion-group>
+		</accordion>
+	</tab>
+	<tab class="pt-1">
+		<ng-template tabHeading>
+			<i class="fas fa-project-diagram"></i><br>
+			DBpedia
+		</ng-template>
+	</tab>
+	<tab class="pt-1">
+		<ng-template tabHeading>
+			<i class="fas fa-music"></i><br>
+			Musicxmatch
+		</ng-template>
+	</tab>
+	<tab class="pt-1">
+		<ng-template tabHeading>
+			<i class="fab fa-twitter"></i><br>
+			Twitter
+		</ng-template>
+	</tab>
+</tabset>

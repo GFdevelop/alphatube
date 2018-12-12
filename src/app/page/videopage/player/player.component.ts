@@ -11,9 +11,9 @@ import { Observable, of } from 'rxjs';
 })
 
 export class PlayerComponent implements OnInit {
-    url : any ;
-    videoID: string = undefined;
-    baseUrl: string = 'http://www.youtube.com/embed/';
+    url: any;
+    videoID: string;
+    baseUrl = 'http://www.youtube.com/embed/';
 
 
     constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute) {
@@ -22,7 +22,7 @@ export class PlayerComponent implements OnInit {
 
     ngOnInit() {
         this.route.paramMap.subscribe( params => {
-            this.videoID = params.get('videoId')
+            this.videoID = params.get('videoId');
             this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl + this.videoID);
         });
     }
