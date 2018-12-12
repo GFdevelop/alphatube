@@ -12,7 +12,7 @@ import { Video } from '../../services/fvitali/video';
 export class HomeComponent implements OnInit {
 
   startingList: Array<Video>;
-  
+
   constructor(private fvitaliService: FvitaliService) { }
 
   ngOnInit() {

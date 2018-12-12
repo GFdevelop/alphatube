@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
+
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-navbar',
@@ -8,25 +10,25 @@ import { Router, NavigationExtras } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  title = 'alphatube';  // TODO: use global variable
+  title: string;
 
   isCollapsed = true;
 
   by: string;
   q: string;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private app: AppComponent
+  ) { }
 
   ngOnInit() {
+    this.title = this.app.appName;
     this.by = 'Title';
   }
 
   search(): void {
-    var page: string;
-
-    if (this.by == 'ID') page = '/videopage';
-    else page = '/search';
-
+    const page = (this.by === 'ID') ? '/videopage' : '/search';
     this.router.navigate([page, this.q]);
   }
 
