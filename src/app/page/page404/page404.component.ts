@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy} from '@angular/core';
 
 @Component({
   selector: 'app-page404',
   templateUrl: './page404.component.html',
-  styleUrls: ['./page404.component.css']
+  styleUrls: ['./page404.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class Page404Component implements OnInit {
+export class Page404Component implements OnInit, OnDestroy {
 
-  constructor() { }
+    bodyTag: HTMLBodyElement = document.getElementsByTagName('body')[0];
 
-  ngOnInit() {
-  }
+    constructor() { }
+
+    ngOnInit() {
+        this.bodyTag.classList.add('videonoise');
+    }
+
+    ngOnDestroy() {
+        this.bodyTag.classList.remove('videonoise');    
+    }
 
 }
