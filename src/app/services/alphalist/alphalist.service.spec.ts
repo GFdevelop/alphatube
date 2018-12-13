@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FvitaliService } from './fvitali.service';
+import { AlphalistService } from './alphalist.service';
 
-describe('FvitaliService', () => {
+describe('AlphalistService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: FvitaliService = TestBed.get(FvitaliService);
+    const service: AlphalistService = TestBed.get(AlphalistService);
     expect(service).toBeTruthy();
   });
 });
