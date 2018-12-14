@@ -17,7 +17,7 @@ export class Page404Component implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.bodyTag.classList.remove('videonoise');    
+        this.bodyTag.classList.remove('videonoise');
     }
 
 }
