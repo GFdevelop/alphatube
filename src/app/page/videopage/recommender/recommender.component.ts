@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
-import { FvitaliService } from '../../../services/fvitali/fvitali.service';
-import { Video } from '../../../services/fvitali/video';
+import { AlphalistService } from '../../../services/alphalist/alphalist.service';
 
 @Component({
   selector: 'app-recommender',
@@ -9,12 +8,12 @@ import { Video } from '../../../services/fvitali/video';
   encapsulation: ViewEncapsulation.None
 })
 export class RecommenderComponent implements OnInit {
-    videos: Array<Video>;
+    videos: any;
 
-    constructor(private fvitaliService: FvitaliService) { }
+    constructor(private alphalistService: AlphalistService) { }
 
     ngOnInit() {
-        this.fvitaliService.getAll().subscribe(
+        this.alphalistService.getAll().subscribe(
           (data: any) => { this.videos = data; },
           error => console.log(error)
         );

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class FvitaliService {
+export class AlphalistService {
 
   private URL = 'http://site1825.tw.cs.unibo.it/video.json';
 
