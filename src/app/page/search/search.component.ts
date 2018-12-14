@@ -21,7 +21,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.q = params.q;
-      this.yt.getSearch(params.q).subscribe(
+      this.yt.getSearch('q', params.q).subscribe(
         (data: any) => {
           this.searchResults = data;
           // ~ console.log(this.searchResults);

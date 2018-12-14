@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
+
 export class YoutubeService {
 
   apiRef = 'https://www.googleapis.com/youtube/v3';
@@ -11,17 +12,19 @@ export class YoutubeService {
 
   constructor(private http: HttpClient) { }
 
-  getSearch(q: string) {
+  getSearch(name: string, value: string) {
     return this.http.get(this.apiRef + '/search',
       {
         params: {
           part: 'snippet',
           maxResults: '12',
-          q: q,
+          [name]: value, // developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names
           type: 'video',
           videoCategoryId: '10',
           videoEmbeddable: 'true',
           videoSyndicated: 'true',
+          fields: 'etag,items(etag,id/videoId,snippet(channelTitle,publishedAt,thumbnails/medium/url,title)),' +
+                  'nextPageToken,pageInfo/totalResults,prevPageToken',
           key: this.devKey
         }
       }
@@ -34,7 +37,8 @@ export class YoutubeService {
         params: {
           part: 'snippet,player,statistics',
           id: videoId,
-          fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title),statistics(dislikeCount,likeCount,viewCount)),visitorId',
+          fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title),' +
+                  'statistics(dislikeCount,likeCount,viewCount)),visitorId',
           key: this.devKey
         }
       }
