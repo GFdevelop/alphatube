@@ -12,23 +12,21 @@ export class YoutubeService {
 
   constructor(private http: HttpClient) { }
 
-  getSearch(name: string, value: string) {
-    return this.http.get(this.apiRef + '/search',
-      {
-        params: {
-          part: 'snippet',
-          maxResults: '12',
-          [name]: value, // developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names
-          type: 'video',
-          videoCategoryId: '10',
-          videoEmbeddable: 'true',
-          videoSyndicated: 'true',
-          fields: 'etag,items(etag,id/videoId,snippet(channelTitle,publishedAt,thumbnails/medium/url,title)),' +
-                  'nextPageToken,pageInfo/totalResults,prevPageToken',
-          key: this.devKey
-        }
-      }
-    );
+  getSearch(opt: any) {
+    let params = {
+      part: 'snippet',
+      maxResults: '12',
+      type: 'video',
+      videoCategoryId: '10',
+      videoEmbeddable: 'true',
+      videoSyndicated: 'true',
+      fields: 'etag,items(etag,id/videoId,snippet(channelTitle,publishedAt,thumbnails/medium/url,title)),' +
+              'nextPageToken,pageInfo/totalResults,prevPageToken',
+      key: this.devKey
+    }
+    params = {...params, ...opt}; // blog.mariusschulz.com/2016/12/23/typescript-2-1-object-rest-and-spread#object-spread-properties
+
+    return this.http.get(this.apiRef + '/search', { params });
   }
 
   getVideo(videoId: string) {
