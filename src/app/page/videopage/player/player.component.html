@@ -1,6 +1,8 @@
-<div *ngIf="videoID" class="embed-responsive embed-responsive-16by9">
+<div class="embed-responsive embed-responsive-16by9">
     <iframe class="embed-responsive-item border border-primary"
         [src]='url'
         allowfullscreen>
     </iframe>
+    <!--accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture-->
 </div>
+<h3 class="text-truncate">{{videoName}}</h3>
