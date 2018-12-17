@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
+import { YoutubeService } from '../../../services/youtube/youtube.service';
+
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
@@ -11,19 +13,22 @@ import { Observable, of } from 'rxjs';
 })
 
 export class PlayerComponent implements OnInit {
+    videoName: string;
     url: any;
-    videoID: string;
     baseUrl = 'http://www.youtube.com/embed/';
 
-
-    constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute) {
-
-    }
+    constructor(
+        private sanitizer: DomSanitizer,
+        private route: ActivatedRoute,
+        private videoInfo: YoutubeService
+    ) {}
 
     ngOnInit() {
-        this.route.paramMap.subscribe( params => {
-            this.videoID = params.get('videoId');
-            this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl + this.videoID);
+        this.route.params.subscribe( params => {
+            this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl + params.videoId);
+            this.videoInfo.getVideo(params.videoId).subscribe(
+                (data:any) => {this.videoName = data.items[0].snippet.title}
+            );
         });
     }
 

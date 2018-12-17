@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+/*#E7DFDD* #61ffbb #ff6f61*/
+/*.bg-primary{ background-color: #5F4C89 !important; }
+
+.btn-primary{
+    background-color: #5F4C89;
+    border-color: #5F4C89;
+}
+.btn-primary:hover{
+    background-color: #46385e;
+    border-color: #46385e;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active{ background-color: #59a636; }
+.btn-secondary:hover{ background-color: #67bf3e; }
+.btn-secondary{
+    color: #fff;
+    background-color: #79eb4c;
+    border-color: transparent !important;
+}
+
+.btn-danger{
+    background-color: #79eb4c !important;
+    border-color: transparent !important;
+    color: #495057 !important; /* TODO: farlo anche al toggler-icon * /
+}
+.btn-danger:disabled{ background-color: #80f750; }
+
+.form-control{ border-color: #79eb4c; }
+
+a{ color: #5F4C89;}
+a:hover{ color: #A239CA;}
+
+.card{ background-color: transparent; }
+
+.border-primary{ border-color: #E0E0E0 !important; /* TODO: metterlo anche alla wikibox * / }
+.border-primary:hover{ border-color: #A239CA !important; }
+
+body{ background-color: #FBFBFB; }
+*/
