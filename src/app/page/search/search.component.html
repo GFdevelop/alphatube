@@ -9,15 +9,15 @@
 
 <!--	https://almerosteyn.com/2017/03/accessible-react-navigation	-->
 <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">	<!-- TODO: component??? -->
-	Search results list for {{q}}
+	Search results for {{params.q}}
 </div>
 
 <div class="mx-2" role="main">
-	<div class="row text-center text-xl-left text-md-center text-sm-left <!-- justify-content-center -->" role="list">
+	<div class="row text-center text-xl-left text-md-center text-sm-left <!-- justify-content-center -->" role="list" #list>
 <!--
 		<div class="container-fluid text-center">
 			<h3 class="card-title mt-3 font-weight-bold">
-				Search results
+				Search results for {{params.q}}
 			</h3>
 		</div>
 -->
