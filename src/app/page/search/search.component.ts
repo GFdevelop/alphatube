@@ -35,7 +35,6 @@ export class SearchComponent implements OnInit {
         if (this.searchResults) {
           this.searchResults.nextPageToken = data.nextPageToken;
           this.searchResults.items = this.searchResults.items.concat(data.items);
-          this.message = 'Search results added';
         } else {
           this.searchResults = data;
           this.message = 'Search results for ' + this.params.q;
@@ -44,7 +43,7 @@ export class SearchComponent implements OnInit {
       },
       error => {
         if (navigator.onLine === false) {
-          alert('No internet connection');
+          console.error('No internet connection');
         }
       }
     );
