@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
-
 import { YoutubeService } from '../../../services/youtube/youtube.service';
 
 @Component({

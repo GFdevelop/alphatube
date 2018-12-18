@@ -1,6 +1,8 @@
 .carousel-control{
-    padding-top:200px;
-    max-height: 40px;
+    margin-top: calc(30% + 78px);
+    max-height: 30px;
+    max-width: 35px;
+    background-color: #000000;
 }
 .carousel-indicators{
     margin-bottom: 0px;
