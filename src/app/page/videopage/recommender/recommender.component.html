@@ -5,7 +5,7 @@
             <carousel>
                 <div *ngFor="let video of buffer; let i=index">
                     <slide *ngIf="i<10">
-                        <a [routerLink]="['/videopage',video.videoID]" style="text-decoration:none;">
+                        <a [routerLink]="['/videopage',video.videoID? video.videoID : video.id.videoId]" style="text-decoration:none;">
                             <div class="card-body p-2">
                                 <h5 class="card-title text-truncate text-right text-dark font-weight-bold">From {{videoNameBuffer[e]}}</h5>
                                 <p class="card-text text-truncate mb-1 h6">{{video.title? video.title : video.snippet.title}}</p>
