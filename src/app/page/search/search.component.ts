@@ -25,6 +25,8 @@ export class SearchComponent implements OnInit {
       this.searchResults = null;
       this.params = {q: urlParams.q};
       this.search(this.params);
+
+      localStorage.q = urlParams.q;
     });
   }
 
