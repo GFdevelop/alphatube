@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { YoutubeService } from '../../services/youtube/youtube.service';
@@ -10,8 +10,10 @@ import { YoutubeService } from '../../services/youtube/youtube.service';
 })
 export class SearchComponent implements OnInit {
 
+  message: string;
   searchResults: any;
-  q: string;
+  params: any;
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,16 +21,50 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.q = params.q;
-      this.yt.getSearch('q', params.q).subscribe(
-        (data: any) => {
-          this.searchResults = data;
-          // ~ console.log(this.searchResults);
-        },
-        error => console.log(error)
-        );
+    this.route.params.subscribe((urlParams) => {
+      this.searchResults = null;
+      this.params = {q: urlParams.q};
+      this.search(this.params);
+
+      localStorage.q = urlParams.q;
     });
   }
 
+  search(opt: any) {
+    // ~ console.log(navigator);
+    this.yt.getSearch(opt).subscribe(
+      (data: any) => {
+        if (this.searchResults) {
+          this.searchResults.nextPageToken = data.nextPageToken;
+          this.searchResults.items = this.searchResults.items.concat(data.items);
+        } else {
+          this.searchResults = data;
+          this.message = 'Search results for ' + this.params.q;
+        }
+        this.loading = false;
+      },
+      error => {
+        if (navigator.onLine === false) {
+          console.error('No internet connection');
+        }
+      }
+    );
+  }
+
+  @ViewChild('list') list: ElementRef;
+
+  @HostListener('window:scroll', ['$event']) onWindowScroll() {
+    if (this.searchResults.nextPageToken) {
+      // visible height + pixel scrolled >= height from start to (items.length - 3)
+      if ((window.innerHeight + window.scrollY) >= this.list.nativeElement.children[this.searchResults.items.length - 3].offsetTop) {
+        if (this.loading === false) {
+          this.loading = true;
+          this.message = 'Loading search results...';
+          this.params = {...this.params, ...{pageToken: this.searchResults.nextPageToken} };
+          this.search(this.params);
+          // ~ console.log(this.list.nativeElement.children[this.searchResults.items.length - 3].offsetTop);
+        }
+      }
+    }
+  }
 }

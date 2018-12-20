@@ -23,7 +23,7 @@ export class YoutubeService {
       fields: 'etag,items(etag,id/videoId,snippet(channelTitle,publishedAt,thumbnails/medium/url,title)),' +
               'nextPageToken,pageInfo/totalResults,prevPageToken',
       key: this.devKey
-    }
+    };
     params = {...params, ...opt}; // blog.mariusschulz.com/2016/12/23/typescript-2-1-object-rest-and-spread#object-spread-properties
 
     return this.http.get(this.apiRef + '/search', { params });
