@@ -20,8 +20,7 @@ export class YoutubeService {
       videoCategoryId: '10',
       videoEmbeddable: 'true',
       videoSyndicated: 'true',
-      fields: 'etag,items(etag,id/videoId,snippet(channelTitle,publishedAt,thumbnails/medium/url,title)),' +
-              'nextPageToken,pageInfo/totalResults,prevPageToken',
+      fields: 'etag,items(etag,id/videoId,snippet(channelTitle,publishedAt,thumbnails/medium/url,title)),nextPageToken,prevPageToken',
       key: this.devKey
     };
     params = {...params, ...opt}; // blog.mariusschulz.com/2016/12/23/typescript-2-1-object-rest-and-spread#object-spread-properties

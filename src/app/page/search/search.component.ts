@@ -22,11 +22,14 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((urlParams) => {
-      this.searchResults = null;
+        console.log(this.searchResults);
+      if (localStorage.q !== urlParams.q) {
+        this.searchResults = null;
+        localStorage.q = urlParams.q;
+      }
       this.params = {q: urlParams.q};
       this.search(this.params);
-
-      localStorage.q = urlParams.q;
+      // ~ if (sessionStorage.scrollY) window.scroll(0, sessionStorage.scrollY);
     });
   }
 
