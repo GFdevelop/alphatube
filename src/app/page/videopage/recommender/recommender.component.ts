@@ -12,8 +12,8 @@ import { YoutubeService } from '../../../services/youtube/youtube.service';
 })
 export class RecommenderComponent implements OnInit {
     show: boolean = true;
-    videoBuffer: any = ['inizialization'];
-    videoNameBuffer: any = ['inizialization'];
+    videoBuffer: any;
+    videoNameBuffer: any;
     YTvideosQue: any;
 
     query: any = 'test'; // TODO: da eliminare
@@ -25,23 +25,25 @@ export class RecommenderComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.videoBuffer.pop();
-        this.videoNameBuffer.pop();
-        this.alphalistService.getAll().subscribe(
-          (data: any) => {
-              var FVvideos = data;
-              for (var i = 0; i < 10; i++) {
-                  var j = Math.floor(Math.random() * (FVvideos.length + 1));
-                  var tmp = FVvideos[i];
-                  FVvideos[i] = FVvideos[j];
-                  FVvideos[j] = tmp;
-              }
-              this.videoBuffer.push(FVvideos);
-              this.videoNameBuffer.push('Fvitali');
-          },
-          error => console.log(error)
-        );
         this.route.params.subscribe( params => {
+            this.videoBuffer = [];
+            this.videoNameBuffer = [];
+            this.alphalistService.getAll().subscribe(
+              (data: any) => {
+                  var FVvideos = data;
+                  for (var i = 0; i < 10; i++) {
+                      var j = Math.floor(Math.random() * (FVvideos.length + 1));
+                      var tmp = FVvideos[i];
+                      FVvideos[i] = FVvideos[j];
+                      FVvideos[j] = tmp;
+                  }
+                  this.videoBuffer.push(FVvideos);
+                  this.videoNameBuffer.push('Fvitali');
+
+              },
+              error => console.log(error)
+            );
+
             this.youtubeService.getSearch({relatedToVideoId: params.videoId, maxResults: '11'}).subscribe(
                 (data: any) => {
                     var YTvideosCor = data.items;
