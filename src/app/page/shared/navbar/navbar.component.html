@@ -3,7 +3,7 @@
 		<img class="d-inline-block align-top" src="assets/img/logo.png" width="30" height="30" alt="alphaTube logo">
 		{{ title }}
 	</a>
-	<button class="navbar-toggler btn-danger" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="isCollapsed" aria-controls="navbarContent" aria-label="Toggle navigation">
+	<button class="navbar-toggler btn-danger" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="navbarContent" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">    <!-- https://github.com/valor-software/ngx-bootstrap/issues/540#issuecomment-365267992 -->
