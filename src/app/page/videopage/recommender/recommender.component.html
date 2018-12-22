@@ -41,13 +41,13 @@
             <carousel>
                 <div *ngFor="let video of YTvideosQue; let i=index">
                     <slide *ngIf="i<10">
-                        <a [routerLink]="['/videopage',video.id.videoId]" style="text-decoration:none;">
+                        <a [routerLink]="['/videopage',video.videoID]" style="text-decoration:none;">
                             <div class="card-body p-2">
                                 <h5 class="card-title text-truncate text-right text-dark font-weight-bold">From Search (Must Work)</h5>
-                                <p class="card-text text-truncate mb-1 h6">{{video.snippet.title}}</p>
-                                <p class="card-text text-truncate h6"><small class="text-muted">{{video.snippet.channelTitle}}</small></p>
+                                <p class="card-text text-truncate mb-1 h6">{{video.title}}</p>
+                                <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist}}</small></p>
                             </div>
-                            <img class="card-img-bottom" src="{{video.snippet.thumbnails.medium.url}}" alt="Card image of {{video.snippet.title}}">
+                            <img class="card-img-bottom" src="{{video.img}}" alt="Card image of {{video.title}}">
                         </a>
                     </slide>
                 </div>

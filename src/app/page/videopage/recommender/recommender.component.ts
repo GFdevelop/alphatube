@@ -31,8 +31,8 @@ export class RecommenderComponent implements OnInit {
         (data: any) => this.YTvideosCor = data.items,
         error => console.log(error)
       );
-      this.youtubeService.getSearch({q: localStorage.q, maxResults: '11'}).subscribe(
-        (data: any) => this.YTvideosQue = data.items.filter(obj => obj.id.videoId !== params.videoId),
+      this.youtubeService.getRecommenders({q: localStorage.q}).subscribe(
+        (data: any) => this.YTvideosQue = data.filter(obj => obj.videoID !== params.videoId),
         error => console.log(error)
       );
     });
