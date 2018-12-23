@@ -10,6 +10,7 @@ import { YoutubeService } from '../../services/youtube/youtube.service';
 })
 export class SearchComponent implements OnInit {
 
+  message: string;
   searchResults: any;
   q: string;
 
@@ -19,16 +20,18 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.q = params.q;
-      this.yt.getSearch('q', params.q).subscribe(
-        (data: any) => {
-          this.searchResults = data;
-          // ~ console.log(this.searchResults);
-        },
-        error => console.log(error)
-        );
+    this.route.params.subscribe((urlParams) => {
+      this.message = (urlParams.pageToken) ? 'Next results of ' + urlParams.q : 'Search results for ' + urlParams.q;
+      this.q = urlParams.q;
+      if (localStorage.q !== urlParams.q) localStorage.q = urlParams.q;
+      this.yt.getSearch(urlParams).subscribe(
+        (data: any) => this.searchResults = data,
+        error => {
+          if (navigator.onLine === false) {
+            console.error('No internet connection');
+          }
+        }
+      );
     });
   }
-
 }

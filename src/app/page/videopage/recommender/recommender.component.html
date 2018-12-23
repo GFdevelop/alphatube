@@ -18,22 +18,4 @@
             </carousel>
         </div>
     </div>
-    <div class="col-6 col-md-12 col-lg-6 mb-1 p-0">
-        <div class="card border-primary">
-            <carousel>
-                <div *ngFor="let video of YTvideosQue; let i=index">
-                    <slide *ngIf="i<10">
-                        <a [routerLink]="['/videopage',video.id.videoId]" style="text-decoration:none;">
-                            <div class="card-body p-2">
-                                <h5 class="card-title text-truncate text-right text-dark font-weight-bold">From Search (Must Work)</h5>
-                                <p class="card-text text-truncate mb-1 h6">{{video.snippet.title}}</p>
-                                <p class="card-text text-truncate h6"><small class="text-muted">{{video.snippet.channelTitle}}</small></p>
-                            </div>
-                            <img class="card-img-bottom" src="{{video.snippet.thumbnails.medium.url}}" alt="Card image of {{video.snippet.title}}">
-                        </a>
-                    </slide>
-                </div>
-            </carousel>
-        </div>
-    </div>
  </div>

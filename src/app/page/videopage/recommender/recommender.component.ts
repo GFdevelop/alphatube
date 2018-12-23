@@ -11,12 +11,9 @@ import { YoutubeService } from '../../../services/youtube/youtube.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RecommenderComponent implements OnInit {
-    show: boolean = true;
     videoBuffer: any;
     videoNameBuffer: any;
     YTvideosQue: any;
-
-    query: any = 'test'; // TODO: da eliminare
 
     constructor(
         private alphalistService: AlphalistService,
@@ -39,7 +36,6 @@ export class RecommenderComponent implements OnInit {
                   }
                   this.videoBuffer.push(FVvideos);
                   this.videoNameBuffer.push('Fvitali');
-
               },
               error => console.log(error)
             );
@@ -48,13 +44,18 @@ export class RecommenderComponent implements OnInit {
                 (data: any) => {
                     var YTvideosCor = data.items;
                     this.videoBuffer.push(YTvideosCor);
-                    this.videoNameBuffer.push('YouTube');
+                    this.videoNameBuffer.push('YouTube Recommender');
                 },
                 error => console.log(error)
             );
-            this.youtubeService.getSearch({q: this.query, maxResults: '11'}).subscribe(
-                (data: any) => {console.log(data.items);this.YTvideosQue = data.items;},
-                error => console.log(error)
+            this.youtubeService.getRecommenders({q: localStorage.q}).subscribe(
+              (data: any) => {
+                  var YTvideosQue = data.filter(obj => obj.videoID !== params.videoId)
+                  console.log(this.YTvideosQue);
+                  this.videoBuffer.push(YTvideosQue);
+                  this.videoNameBuffer.push('YouTube Search');
+              },
+              error => console.log(error)
             );
         });
     }

@@ -25,7 +25,7 @@ export class PlayerComponent implements OnInit {
         this.route.params.subscribe( params => {
             this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl + params.videoId);
             this.videoInfo.getVideo(params.videoId).subscribe(
-                (data:any) => {this.videoName = data.items[0].snippet.title}
+                (data: any) => this.videoName = data.items[0].snippet.title
             );
         });
     }
