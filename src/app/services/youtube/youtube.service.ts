@@ -50,7 +50,7 @@ export class YoutubeService {
         params: {
           part: 'snippet,player,statistics',
           id: videoId,
-          fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title,thumbnails/medium/url),' +
+          fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title,thumbnails/medium/url,channelTitle),' +
                   'statistics(dislikeCount,likeCount,viewCount)),visitorId',
           key: this.devKey
         }

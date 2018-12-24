@@ -34,30 +34,33 @@ export class RecommenderComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.alphalistService.getAll().subscribe(
         (data: any) => {
-          let idList = '';
-          for (let i=0; i<this.nVideo; i=i+1) { // TODO: random i
-            idList = idList.concat(data[i].videoID + ',');
+          let idList = [];
+          while (idList.length < this.nVideo) {
+            let extracted = Math.floor(Math.random()*data.length);
+            if(idList.indexOf(data[extracted].videoID) === -1) {
+              idList.push(data[extracted].videoID);
+            }
           }
-          this.youtubeService.getVideo(idList).subscribe(
-            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj).filter(video => video.videoID !== params.videoId),
+          this.youtubeService.getVideo(idList.join()).subscribe(
+            (obj: any) => this.r10s['fvitali'] = this.fromVideos(obj).filter(video => video.videoID !== params.videoId),
             error => console.log(error)
           );
         },
         error => console.log(error)
       );
       this.youtubeService.getSearch({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
-        (data: any) => this.r10s['related'] = this.fromYT(data),
+        (data: any) => this.r10s['related'] = this.fromSearch(data),
         error => console.log(error)
       );
       this.youtubeService.getRecommenders({q: localStorage.q}).subscribe(
-        (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
+        (data: any) => this.r10s['search'] = this.fromSearch(data).filter(obj => obj.videoID !== params.videoId),
         error => console.log(error)
       );
     });
     // ~ console.log(this.r10s);
   }
 
-  fromYT(data: any) {
+  fromSearch(data: any) {
     let results: {artist: string, title: string, videoID: string, img: string}[] = [];
     for (let i in data.items) {
       results.push(
@@ -65,6 +68,21 @@ export class RecommenderComponent implements OnInit {
           artist: data.items[i].snippet.channelTitle,
           title: data.items[i].snippet.title,
           videoID: data.items[i].id.videoId,
+          img: data.items[i].snippet.thumbnails.medium.url
+        }
+      );
+    }
+    return results;
+  }
+
+  fromVideos(data: any) {
+    let results: {artist: string, title: string, videoID: string, img: string}[] = [];
+    for (let i in data.items) {
+      results.push(
+        {
+          artist: data.items[i].snippet.channelTitle,
+          title: data.items[i].snippet.title,
+          videoID: data.items[i].id,
           img: data.items[i].snippet.thumbnails.medium.url
         }
       );
