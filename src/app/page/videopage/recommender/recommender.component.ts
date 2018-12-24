@@ -42,47 +42,32 @@ export class RecommenderComponent implements OnInit {
             }
           }
           this.youtubeService.getVideo(idList.join()).subscribe(
-            (obj: any) => this.r10s['fvitali'] = this.fromVideos(obj).filter(video => video.videoID !== params.videoId),
+            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj).filter(video => video.videoID !== params.videoId),
             error => console.log(error)
           );
         },
         error => console.log(error)
       );
       this.youtubeService.getSearch({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
-        (data: any) => this.r10s['related'] = this.fromSearch(data),
+        (data: any) => this.r10s['related'] = this.fromYT(data),
         error => console.log(error)
       );
       this.youtubeService.getRecommenders({q: localStorage.q}).subscribe(
-        (data: any) => this.r10s['search'] = this.fromSearch(data).filter(obj => obj.videoID !== params.videoId),
+        (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
         error => console.log(error)
       );
     });
     // ~ console.log(this.r10s);
   }
 
-  fromSearch(data: any) {
+  fromYT(data: any) {
     let results: {artist: string, title: string, videoID: string, img: string}[] = [];
     for (let i in data.items) {
       results.push(
         {
           artist: data.items[i].snippet.channelTitle,
           title: data.items[i].snippet.title,
-          videoID: data.items[i].id.videoId,
-          img: data.items[i].snippet.thumbnails.medium.url
-        }
-      );
-    }
-    return results;
-  }
-
-  fromVideos(data: any) {
-    let results: {artist: string, title: string, videoID: string, img: string}[] = [];
-    for (let i in data.items) {
-      results.push(
-        {
-          artist: data.items[i].snippet.channelTitle,
-          title: data.items[i].snippet.title,
-          videoID: data.items[i].id,
+          videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
           img: data.items[i].snippet.thumbnails.medium.url
         }
       );
