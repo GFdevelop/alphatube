@@ -11,9 +11,17 @@ import { YoutubeService } from '../../../services/youtube/youtube.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RecommenderComponent implements OnInit {
-    videoBuffer: any;
-    videoNameBuffer: any;
-    YTvideosQue: any;
+
+  nVideo = 12;
+  r10s: {
+    // ~ random: any[],
+    // ~ search: any[],
+    // ~ related: any[],
+    // ~ recent: any[],
+    // ~ fvitali: any[],
+    // ~ popularity: any[],
+    // ~ similarity: any[]
+  };
 
     constructor(
         private alphalistService: AlphalistService,
@@ -21,42 +29,49 @@ export class RecommenderComponent implements OnInit {
         private youtubeService: YoutubeService
     ) { }
 
-    ngOnInit() {
-        this.route.params.subscribe( params => {
-            this.videoBuffer = [];
-            this.videoNameBuffer = [];
-            this.alphalistService.getAll().subscribe(
-              (data: any) => {
-                  var FVvideos = data;
-                  for (var i = 0; i < 10; i++) {
-                      var j = Math.floor(Math.random() * (FVvideos.length + 1));
-                      var tmp = FVvideos[i];
-                      FVvideos[i] = FVvideos[j];
-                      FVvideos[j] = tmp;
-                  }
-                  this.videoBuffer.push(FVvideos);
-                  this.videoNameBuffer.push('Fvitali');
-              },
-              error => console.log(error)
-            );
+  ngOnInit() {
+    this.r10s = {};
+    this.route.params.subscribe( params => {
+      this.alphalistService.getAll().subscribe(
+        (data: any) => {
+          let idList = [];
+          while (idList.length < this.nVideo) {
+            let extracted = Math.floor(Math.random()*data.length);
+            if(idList.indexOf(data[extracted].videoID) === -1) {
+              idList.push(data[extracted].videoID);
+            }
+          }
+          this.youtubeService.getVideo(idList.join()).subscribe(
+            (obj: any) => this.r10s['FVitali'] = this.fromYT(obj).filter(video => video.videoID !== params.videoId),
+            error => console.log(error)
+          );
+        },
+        error => console.log(error)
+      );
+      this.youtubeService.getSearch({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
+        (data: any) => this.r10s['related'] = this.fromYT(data),
+        error => console.log(error)
+      );
+      this.youtubeService.getRecommenders({q: localStorage.q}).subscribe(
+        (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
+        error => console.log(error)
+      );
+    });
+    // ~ console.log(this.r10s);
+  }
 
-            this.youtubeService.getSearch({relatedToVideoId: params.videoId, maxResults: '11'}).subscribe(
-                (data: any) => {
-                    var YTvideosCor = data.items;
-                    this.videoBuffer.push(YTvideosCor);
-                    this.videoNameBuffer.push('YouTube Recommender');
-                },
-                error => console.log(error)
-            );
-            this.youtubeService.getRecommenders({q: localStorage.q}).subscribe(
-              (data: any) => {
-                  var YTvideosQue = data.filter(obj => obj.videoID !== params.videoId)
-                  console.log(this.YTvideosQue);
-                  this.videoBuffer.push(YTvideosQue);
-                  this.videoNameBuffer.push('YouTube Search');
-              },
-              error => console.log(error)
-            );
-        });
+  fromYT(data: any) {
+    let results: {artist: string, title: string, videoID: string, img: string}[] = [];
+    for (let i in data.items) {
+      results.push(
+        {
+          artist: data.items[i].snippet.channelTitle,
+          title: data.items[i].snippet.title,
+          videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
+          img: data.items[i].snippet.thumbnails.medium.url
+        }
+      );
     }
+    return results;
+  }
 }

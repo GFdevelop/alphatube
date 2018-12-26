@@ -1,17 +1,17 @@
 <h3 class="text-center">Consigliati</h3>
 <div class="card-deck">
-    <div *ngFor="let buffer of videoBuffer; let e=index" class="col-sm-6 col-md-12 col-lg-6 mb-1 p-0">
+    <div class="col-6 col-md-12 col-lg-6 mb-1 p-0" *ngFor="let r9r of r10s | keyvalue">
         <div class="card border-primary">
             <carousel>
-                <div *ngFor="let video of buffer; let i=index">
-                    <slide *ngIf="i<10">
-                        <a [routerLink]="['/videopage',((video?.videoID)? (video?.videoID) : (video?.id.videoId))]" style="text-decoration:none;">
+                <div *ngFor="let video of r9r.value; let i=index">
+                    <slide *ngIf="i<this.nVideo">
+                        <a [routerLink]="['/videopage',video.videoID]" style="text-decoration:none;">
                             <div class="card-body p-2">
-                                <h5 class="card-title text-truncate text-right text-dark font-weight-bold">From {{videoNameBuffer[e]}}</h5>
-                                <p class="card-text text-truncate mb-1 h6">{{video.title? video.title : video.snippet.title}}</p>
-                                <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist? video.artist : video.snippet.channelTitle}}</small></p>
+                                <h5 class="card-title text-truncate text-right text-dark font-weight-bold">From {{r9r.key}}</h5>
+                                <p class="card-text text-truncate mb-1 h6">{{video.title}}</p>
+                                <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist}}</small></p>
                             </div>
-                            <img class="card-img-bottom" src="https://i.ytimg.com/vi/{{video.videoID? video.videoID : video.id.videoId}}/mqdefault.jpg" alt="Card image of {{video.title}}">
+                            <img class="card-img-bottom" src="https://i.ytimg.com/vi/{{video.videoID}}/mqdefault.jpg" alt="Card image of {{video.title}}">
                         </a>
                     </slide>
                 </div>

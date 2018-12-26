@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { map } from "rxjs/operators";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -38,35 +36,12 @@ export class YoutubeService {
       videoCategoryId: '10',
       videoEmbeddable: 'true',
       videoSyndicated: 'true',
-      fields: 'etag,items(etag,id/videoId,snippet(channelTitle,publishedAt,thumbnails/medium/url,title)),nextPageToken,prevPageToken',
+      fields: 'etag,items(etag,id/videoId,snippet(channelTitle,thumbnails/medium/url,title))',
       key: this.devKey
     };
     params = {...params, ...opt}; // blog.mariusschulz.com/2016/12/23/typescript-2-1-object-rest-and-spread#object-spread-properties
 
-    return this.http.get(this.apiRef + '/search', { params }).pipe(map(
-      (data: any) => {
-        let results: {artist: string, title: string, videoID: string, img: string}[] = [];
-        for (let i in data.items) {
-          results.push(
-            {
-              artist: data.items[i].snippet.channelTitle,
-              title: data.items[i].snippet.title,
-              videoID: data.items[i].id.videoId,
-              img: data.items[i].snippet.thumbnails.medium.url
-            }
-          );
-        }
-        return results;
-      }
-    ));
-  }
-
-  objTransform(obj: any) {
-    return {
-      artist: obj.snippet.channelTitle,
-      title: obj.snippet.title,
-      videoID: obj.id.videoId
-    }
+    return this.http.get(this.apiRef + '/search', { params });
   }
 
   getVideo(videoId: string) {
@@ -75,7 +50,7 @@ export class YoutubeService {
         params: {
           part: 'snippet,player,statistics',
           id: videoId,
-          fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title),' +
+          fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title,thumbnails/medium/url,channelTitle),' +
                   'statistics(dislikeCount,likeCount,viewCount)),visitorId',
           key: this.devKey
         }
