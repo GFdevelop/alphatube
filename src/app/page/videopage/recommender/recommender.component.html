@@ -1,4 +1,4 @@
-<h3 class="card border-primary text-center">Consigliati</h3>
+<h3 class="text-center">Consigliati</h3>
 <div class="card-deck">
     <div class="col-6 col-md-12 col-lg-6 mb-1 p-0" *ngFor="let r9r of r10s | keyvalue"> <!-- keyvalue transforms Object or Map into an array of key value pairs -->
         <div class="card border-primary">
@@ -11,7 +11,7 @@
                                 <p class="card-text text-truncate mb-1 h6">{{video.title}}</p>
                                 <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist}}</small></p>
                             </div>
-                            <img class="card-img-bottom" src="{{video.img}}" alt="Card image of {{video.title}}">
+                            <img class="card-img-bottom" src="https://i.ytimg.com/vi/{{video.videoID}}/mqdefault.jpg" alt="Card image of {{video.title}}">
                         </a>
                     </slide>
                 </div>
