@@ -34,18 +34,15 @@ export class RecommenderComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.alphalistService.getAll().subscribe(
         (data: any) => {
-          let idList = [];
-          while (idList.length < this.nVideo) {
-            let extracted = Math.floor(Math.random()*data.length);      // [0,1) * nElements --> rounded down
-            if ((data[extracted].videoID !== params.videoId) &&         // check if isn't current videoID
-                (idList.indexOf(data[extracted].videoID) === -1)) {     // check if is unique videoID in list
-              idList.push(data[extracted].videoID);                     // if unique then push
+          let videoList = [];
+          while (videoList.length < this.nVideo) {
+            let extracted = Math.floor(Math.random()*data.length);  // [0,1) * nElements --> rounded down
+            if ((data[extracted].videoID !== params.videoId) &&     // check if isn't current videoID
+                (videoList.indexOf(data[extracted]) === -1)) {      // check if is unique videoID in list
+              videoList.push(data[extracted]);                      // if unique then push
             }
           }
-          this.ytService.getVideo(idList.join()).subscribe(             // joins all the elements of an array into a string
-            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj),
-            error => console.log(error)
-          );
+          this.r10s['fvitali'] = videoList;
         },
         error => console.log(error)
       );
@@ -65,14 +62,13 @@ export class RecommenderComponent implements OnInit {
   }
 
   fromYT(data: any) {
-    let results: {artist: string, title: string, videoID: string, img: string}[] = [];
+    let results: {artist: string, title: string, videoID: string}[] = [];
     for (let i in data.items) {
       results.push(
         {
           artist: data.items[i].snippet.channelTitle,
           title: data.items[i].snippet.title,
-          videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
-          img: data.items[i].snippet.thumbnails.medium.url
+          videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id
         }
       );
     }
