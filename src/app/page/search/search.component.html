@@ -8,13 +8,11 @@
 </div>
 
 <div class="row text-center text-xl-left text-md-center text-sm-left px-2" role="main" #list>
-<!--
-	<div class="container-fluid text-center">
-		<h3 class="card-title mt-3 font-weight-bold">
-			Search results for {{params.q}}
+	<div class="container-fluid text-center" *ngIf="searchResults">
+		<h3 class="card-title font-weight-bold">
+			 {{(searchResults?.items.length) ? 'Search ' : 'No '}} results for {{q}}
 		</h3>
 	</div>
--->
 	<div class="col-12 col-md-6 mb-3 p-0" *ngFor="let result of searchResults?.items; let hovered = index">     <!-- ? Safe Navigation Operator to avoid null or undefined-->
 		<!--	h-100	make two "cards" on same line with same height	-->
 		<div class="row align-items-center h-100 mx-2 py-2 border shadow-sm {{hovered}}" (mouseover)="this.hovered = 'shadow'" (mouseout)="this.hovered = ''">
@@ -37,7 +35,7 @@
 	<button class="btn btn-success mx-auto mb-3" type="button" role="button" [routerLink]="['/search', q, searchResults?.prevPageToken]" *ngIf="searchResults?.prevPageToken">
 		Previous
 	</button>
-	<button class="btn btn-success mx-auto mb-3" type="button" role="button" [routerLink]="['/search', q, searchResults?.nextPageToken]">
+	<button class="btn btn-success mx-auto mb-3" type="button" role="button" [routerLink]="['/search', q, searchResults?.nextPageToken]" *ngIf="searchResults?.nextPageToken">
 		Next
 	</button>
 </div>

@@ -26,7 +26,7 @@ export class RecommenderComponent implements OnInit {
   constructor(
     private alphalistService: AlphalistService,
     private route: ActivatedRoute,
-    private youtubeService: YoutubeService
+    private ytService: YoutubeService
   ) { }
 
   ngOnInit() {
@@ -36,28 +36,32 @@ export class RecommenderComponent implements OnInit {
         (data: any) => {
           let idList = [];
           while (idList.length < this.nVideo) {
-            let extracted = Math.floor(Math.random()*data.length);
-            if(idList.indexOf(data[extracted].videoID) === -1) {
-              idList.push(data[extracted].videoID);
+            let extracted = Math.floor(Math.random()*data.length);      // [0,1) * nElements --> rounded down
+            if ((data[extracted].videoID !== params.videoId) &&         // check if isn't current videoID
+                (idList.indexOf(data[extracted].videoID) === -1)) {     // check if is unique videoID in list
+              idList.push(data[extracted].videoID);                     // if unique then push
             }
           }
-          this.youtubeService.getVideo(idList.join()).subscribe(
-            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj).filter(video => video.videoID !== params.videoId),
+          this.ytService.getVideo(idList.join()).subscribe(             // joins all the elements of an array into a string
+            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj),
             error => console.log(error)
           );
         },
         error => console.log(error)
       );
-      this.youtubeService.getSearch({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
+
+      this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
         (data: any) => this.r10s['related'] = this.fromYT(data),
         error => console.log(error)
       );
-      this.youtubeService.getRecommenders({q: localStorage.q}).subscribe(
-        (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
-        error => console.log(error)
-      );
+
+      if (localStorage.q) {
+        this.ytService.getRecommenders({q: localStorage.q}).subscribe(
+          (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
+          error => console.log(error)
+        );
+      }
     });
-    // ~ console.log(this.r10s);
   }
 
   fromYT(data: any) {
