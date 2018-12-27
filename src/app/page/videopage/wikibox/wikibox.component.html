@@ -17,19 +17,25 @@
 							</span>
 						</div>
 						<div class="card-body">
+<!--
 							<p class="card-text">
-								{{description?.items[0].snippet.description || "Description not available :C"}}
+-->
+								<pre style="font-family: Arial;">
+{{description || "Description not available :C"}}
+								</pre>
+<!--
 							</p>
+-->
 						</div>
 						<div class="card-footer text-center">
 							<span class="badge badge-info p-3 m-1 mr-5">
-								<i class="mr-1 fas fa-eye"></i>{{description?.items[0].statistics.viewCount}}
+								<i class="mr-1 fas fa-eye"></i>{{statistics?.viewCount}}
 							</span>
 							<span class="badge badge-success p-3 m-1">
-								<i class="mr-1 fas fa-thumbs-up"></i>{{description?.items[0].statistics.likeCount}}
+								<i class="mr-1 fas fa-thumbs-up"></i>{{statistics?.likeCount}}
 							</span>
 							<span class="badge badge-danger p-3 m-1">
-								<i class="mr-1 fas fa-thumbs-down"></i>{{description?.items[0].statistics.dislikeCount}}
+								<i class="mr-1 fas fa-thumbs-down"></i>{{statistics?.dislikeCount}}
 							</span>
 						</div>
 					</div>
