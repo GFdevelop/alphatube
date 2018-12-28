@@ -23,13 +23,11 @@ export class SearchComponent implements OnInit {
     this.route.params.subscribe((urlParams) => {
       this.message = (urlParams.pageToken) ? 'Next results of ' + urlParams.q : 'Search results for ' + urlParams.q;
       this.q = urlParams.q;
-      if (localStorage.q !== urlParams.q) localStorage.q = urlParams.q;
+      if (localStorage.q !== urlParams.q) { localStorage.q = urlParams.q; }
       this.yt.getSearch(urlParams).subscribe(
         (data: any) => this.searchResults = data,
         error => {
-          if (navigator.onLine === false) {
-            console.error('No internet connection');
-          }
+          if (navigator.onLine === false) { console.error('No internet connection'); }
         }
       );
     });

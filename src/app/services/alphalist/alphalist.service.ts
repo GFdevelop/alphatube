@@ -7,12 +7,22 @@ import { HttpClient } from '@angular/common/http';
 
 export class AlphalistService {
 
-  private URL = 'http://site1825.tw.cs.unibo.it/video.json';
+  private URL = 'http://site1825.tw.cs.unibo.it';
 
   constructor(private http: HttpClient) { }
 
   // ~ GET starting videos from the fvitali
   getAll() {
-    return this.http.get(this.URL);
+    return this.http.get(this.URL + '/video.json');
+  }
+
+  getRelatedTo(videoID: string) {
+    return this.http.get(this.URL + '/TW/globpop',
+      {
+        params: {
+          id: videoID
+        }
+      }
+    );
   }
 }
