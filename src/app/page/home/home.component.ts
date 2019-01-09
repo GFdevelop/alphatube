@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';   // TODO: remove this and html
+import { AlphalistService } from '../../services/alphalist/alphalist.service';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +10,16 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class HomeComponent implements OnInit {
+//add
+  videoId: string;
+  videos: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private alphalistService: AlphalistService) { }
 
   ngOnInit() {
-    
+      this.alphalistService.getAll().subscribe(
+        (data: any) => { this.videos = data; },
+        error => console.log(error)
+      );
   }
 }
