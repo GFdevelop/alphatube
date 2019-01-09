@@ -10,7 +10,7 @@ import { AlphalistService } from '../../services/alphalist/alphalist.service';
 })
 
 export class HomeComponent implements OnInit {
-//add
+
   videoId: string;
   videos: any;
 
