@@ -14,13 +14,13 @@ export class RecommenderComponent implements OnInit {
 
   nVideo = 12;
   r10s: {
-    // ~ random: any[],
-    // ~ search: any[],
-    // ~ related: any[],
-    // ~ recent: any[],
-    // ~ fvitali: any[],
-    // ~ popularity: any[],
-    // ~ similarity: any[]
+    //~ []    random: any[],
+    //~ [x]   search: any[],
+    //~ [x]   related: any[],
+    //~ []    recent: any[],
+    //~ [x]   fvitali: any[],
+    //~ []    popularity: any[],
+    //~ []    similarity: any[]
   };
 
   constructor(
@@ -32,33 +32,34 @@ export class RecommenderComponent implements OnInit {
   ngOnInit() {
     this.r10s = {};
     this.route.params.subscribe( params => {
-      this.alphalistService.getAll().subscribe(
-        (data: any) => {
-          let idList = [];
-          let cap = data.length;
-          while ((idList.length < this.nVideo) && (idList.length < cap)){
-            idList.push(data.splice(Math.floor(Math.random()*data.length),1)[0].videoID);
-            //if (idList[idList.length-1] == "Xxi5CJo8UbM" || idList[idList.length-1] == "oOg5VxrRTi0") {idList.pop(); cap--;}
-          }
-          this.ytService.getVideo(idList.join()).subscribe(             // joins all the elements of an array into a string
-            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj),
-            error => console.log(error)
-          );
-        },
-        error => console.log(error)
-      );
-
-      this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
-        (data: any) => this.r10s['related'] = this.fromYT(data),
-        error => console.log(error)
-      );
-
+      // search
       if (localStorage.q) {
         this.ytService.getRecommenders({q: localStorage.q}).subscribe(
           (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
           error => console.log(error)
         );
       }
+
+      // related
+      this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
+        (data: any) => this.r10s['related'] = this.fromYT(data),
+        error => console.log(error)
+      );
+
+      // fvitali
+      this.alphalistService.getAll().subscribe(
+        (data: any) => {
+          let idList = [], cap = data.length;
+          while ((idList.length < this.nVideo) && (idList.length < cap)){
+            idList.push(data.splice(Math.floor(Math.random()*data.length),1)[0].videoID); // pop out videos from data and added on the random idList
+          }
+          this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
+            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj),
+            error => console.log(error)
+          );
+        },
+        error => console.log(error)
+      );
     });
   }
 
