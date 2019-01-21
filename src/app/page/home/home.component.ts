@@ -18,28 +18,21 @@ export class HomeComponent implements OnInit {
 
   constructor(private alphalistService: AlphalistService, private ytService: YoutubeService) { }
 
-ngOnInit() {
-    /*  this.alphalistService.getAll().subscribe(
-        (data: any) => { this.videos = data; },
-        error => console.log(error)
-      );*/
-
-      this.alphalistService.getAll().subscribe(
-              (data: any) => {
-                let idList = [];
-                while (idList.length < this.nVideo) {
-                  let extracted = Math.floor(Math.random()*data.length);      // [0,1) * nElements --> rounded down
-                  if (idList.indexOf(data[extracted].videoID) === -1) {     // check if is unique videoID in list
-                    idList.push(data[extracted].videoID);                     // if unique then push
-                  }
-                }
-                this.ytService.getVideo(idList.join()).subscribe(             // joins all the elements of an array into a string
-                  (obj: any) => this.videos = this.fromYT(obj),
-                  error => console.log(error)
-                );
-              },
-              error => console.log(error)
-            );
+  ngOnInit() {
+    this.alphalistService.getAll().subscribe(
+      (data: any) => {
+        let list = [];
+        let cap = data.length;
+        while ((list.length < this.nVideo + 5) &&(list.length < cap)){
+          list.push(data.splice(Math.floor(Math.random()*data.length),1)[0].videoID);
+        }
+        this.ytService.getVideo(list.join()).subscribe(             // joins all the elements of an array into a string
+          (obj: any) => this.videos = this.fromYT(obj).splice(0,20),
+          error => console.log(error)
+        );
+      },
+      error => console.log(error)
+    );
   }
 
 

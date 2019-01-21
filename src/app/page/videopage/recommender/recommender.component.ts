@@ -35,12 +35,10 @@ export class RecommenderComponent implements OnInit {
       this.alphalistService.getAll().subscribe(
         (data: any) => {
           let idList = [];
-          while (idList.length < this.nVideo) {
-            let extracted = Math.floor(Math.random()*data.length);      // [0,1) * nElements --> rounded down
-            if ((data[extracted].videoID !== params.videoId) &&         // check if isn't current videoID
-                (idList.indexOf(data[extracted].videoID) === -1)) {     // check if is unique videoID in list
-              idList.push(data[extracted].videoID);                     // if unique then push
-            }
+          let cap = data.length;
+          while ((idList.length < this.nVideo) && (idList.length < cap)){
+            idList.push(data.splice(Math.floor(Math.random()*data.length),1)[0].videoID);
+            //if (idList[idList.length-1] == "Xxi5CJo8UbM" || idList[idList.length-1] == "oOg5VxrRTi0") {idList.pop(); cap--;}
           }
           this.ytService.getVideo(idList.join()).subscribe(             // joins all the elements of an array into a string
             (obj: any) => this.r10s['fvitali'] = this.fromYT(obj),
