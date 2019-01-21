@@ -1,6 +1,6 @@
 <h3 class="text-center">Consigliati</h3>
 <div class="card-deck">
-    <div class="col-6 col-md-12 col-lg-6 mb-1 p-0" *ngFor="let r9r of r10s | keyvalue"> <!-- keyvalue transforms Object or Map into an array of key value pairs -->
+    <div class="col-sm-6 col-md-12 col-lg-6 mb-1 p-0" *ngFor="let r9r of r10s | keyvalue"> <!-- keyvalue transforms Object or Map into an array of key value pairs -->
         <div class="card border-primary">
             <carousel>
                 <div *ngFor="let video of r9r.value; let i=index">
