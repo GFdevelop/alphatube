@@ -1,4 +1,7 @@
 <tabset [justified]="true" type="pills">
+<!--
+	YOUTUBE ACCORDION GROUP
+-->
 	<tab class="pt-1">
 		<ng-template tabHeading>
 			<i class="fab fa-youtube"></i><br>
@@ -17,15 +20,9 @@
 							</span>
 						</div>
 						<div class="card-body">
-<!--
-							<p class="card-text">
--->
-								<pre style="font-family: Arial;">
+							<pre style="font-family: Arial;">
 {{description || "Description not available :C"}}
-								</pre>
-<!--
-							</p>
--->
+							</pre>
 						</div>
 						<div class="card-footer text-center">
 							<span class="badge badge-info p-3 m-1 mr-5">
@@ -61,18 +58,68 @@
 			</accordion-group>
 		</accordion>
 	</tab>
+<!--
+	DBPEDIA ACCORDION GROUP
+-->
 	<tab class="pt-1">
 		<ng-template tabHeading>
 			<i class="fas fa-project-diagram"></i><br>
 			DBpedia
 		</ng-template>
+		
+		<accordion [closeOthers]="true">
+			<accordion-group heading="Performer" [isOpen]="true">
+				<div class="container-fluid scrollable p-0">
+					<div class="card">
+						<div class="card-header font-weight-bold">
+							{{singer}}
+						</div>
+						<div class="card-body">
+							{{singer_abs || "No data about performer available :C"}}
+						</div>
+					</div>
+				</div>
+			</accordion-group>
+			<accordion-group heading="Song">
+				<div class="container-fluid scrollable p-0">
+					<div class="card-header font-weight-bold">
+						{{song}}
+					</div>
+					<div class="card-body">
+						{{song_abs || "We don't have any info about this song :C"}}
+					</div>
+				</div>
+			</accordion-group>
+			<accordion-group heading="Album">
+				<div class="container-fluid scrollable p-0">
+					<div class="card-header font-weight-bold">
+					</div>
+					<div class="card-body">
+					</div>
+				</div>
+			</accordion-group>
+			<accordion-group heading="Genre">
+				<div class="container-fluid scrollable p-0">
+					<div class="card-header font-weight-bold">
+					</div>
+					<div class="card-body">
+					</div>
+				</div>
+			</accordion-group>
+		</accordion>
 	</tab>
+<!--
+	MUSICXMATCH ACCORDION GROUP
+-->
 	<tab class="pt-1">
 		<ng-template tabHeading>
 			<i class="fas fa-music"></i><br>
 			Musicxmatch
 		</ng-template>
 	</tab>
+<!--
+	TWITTER ACCORDION GROUP
+-->
 	<tab class="pt-1">
 		<ng-template tabHeading>
 			<i class="fab fa-twitter"></i><br>

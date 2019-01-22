@@ -12,36 +12,51 @@ export class DbpediaService {
 
   constructor(private http: HttpClient) { }
 
-  getSPARQL() {
-
-  return this.http.get(this.dbe, {
-    params: {
-    query: `
-      PREFIX dbo: <http://dbpedia.org/ontology/>
-      PREFIX dbr: <http://dbpedia.org/resource/>
-      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-
-      SELECT DISTINCT ?album ?abstract
-      (MIN(?release) AS ?firstRelease)
-      (GROUP_CONCAT(?genre;separator="#") AS ?genres)
-      WHERE{
-        ?album dbo:genre ?genre.
-        ?album dbo:releaseDate ?release.
-        ?album rdf:type dbo:Album.
-        ?album dbo:abstract ?abstract.
-        ?album dbo:artist dbr:Linkin_Park.
-        ?album dbp:type ?type.
-        FILTER langMatches(lang(?abstract),"en")
-        FILTER (strstarts(str(?type), "album"))
-      }
-      ORDER BY(?release)`,
-    format: 'json'
-    }
-  });
-  // ~ Debug purpose only
-  // ~ .subscribe(
-    // ~ data => {
-    // ~ console.log(data);
-  // ~ });
+  getSingerInfo(singer: string) {
+		return this.http.get(this.dbe, {
+			params: {
+				query: `
+					SELECT DISTINCT ?abstract
+					(GROUP_CONCAT(?genre;separator="#") AS ?genres)
+					WHERE{
+						?artist foaf:name "` + this.singer + `"@en.
+						?artist dbo:genre ?genre.
+						?artist dbo:abstract ?abstract.
+						FILTER langMatches(lang(?abstract),"en")
+					}`,
+				format: 'json'
+			}
+		});
   }
+  
+  getSongInfo(song: string) {
+		return this.http.get(this.dbe, {
+			params: {
+				query: `
+					`,
+				format: 'json'
+			}
+		});
+  }
+  
+  getAlbumInfo(album: string) {
+		return this.http.get(this.dbe, {
+			params: {
+				query: `
+					`,
+				format: 'json'
+			}
+		});
+  }
+  
+  getGenreInfo(genre: string) {
+		return this.http.get(this.dbe, {
+			params: {
+				query: `
+					`,
+				format: 'json'
+			}
+		});
+  }
+  
 }
