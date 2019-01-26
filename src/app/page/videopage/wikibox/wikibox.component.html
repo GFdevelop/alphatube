@@ -68,41 +68,48 @@
 		</ng-template>
 		
 		<accordion [closeOthers]="true">
-			<accordion-group heading="Performer" [isOpen]="true">
+			<accordion-group heading="Info" [isOpen]="true">
 				<div class="container-fluid scrollable p-0">
 					<div class="card">
 						<div class="card-header font-weight-bold">
 							{{singer}}
+							<span class="badge badge-info p-2 m-1" *ngFor="let genre of genres">
+								<a [routerLink]="['/search', genre]" class="text-white">
+									#{{genre || "I look for genres, but nobody knows what the hell this music is! :C"}}
+								</a>
+							</span>
 						</div>
 						<div class="card-body">
 							{{singer_abs || "No data about performer available :C"}}
 						</div>
 					</div>
-				</div>
-			</accordion-group>
-			<accordion-group heading="Song">
-				<div class="container-fluid scrollable p-0">
-					<div class="card-header font-weight-bold">
-						{{song}}
-					</div>
-					<div class="card-body">
-						{{song_abs || "We don't have any info about this song :C"}}
+					<div class="card mt-2">
+						<div class="card-header font-weight-bold">
+							{{song}}
+						</div>
+						<div class="card-body">
+							{{song_abs || "We don't have any info about this song :C"}}
+						</div>
 					</div>
 				</div>
 			</accordion-group>
 			<accordion-group heading="Album">
 				<div class="container-fluid scrollable p-0">
-					<div class="card-header font-weight-bold">
-					</div>
-					<div class="card-body">
+					<div class="card">
+						<div class="card-header font-weight-bold">
+						</div>
+						<div class="card-body">
+						</div>
 					</div>
 				</div>
 			</accordion-group>
 			<accordion-group heading="Genre">
 				<div class="container-fluid scrollable p-0">
-					<div class="card-header font-weight-bold">
-					</div>
-					<div class="card-body">
+					<div class="card">
+						<div class="card-header font-weight-bold">
+						</div>
+						<div class="card-body">
+						</div>
 					</div>
 				</div>
 			</accordion-group>

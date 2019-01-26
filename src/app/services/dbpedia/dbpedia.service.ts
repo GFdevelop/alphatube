@@ -16,10 +16,10 @@ export class DbpediaService {
 		return this.http.get(this.dbe, {
 			params: {
 				query: `
-					SELECT DISTINCT ?abstract
+					SELECT DISTINCT ?abstract ?genre
 					(GROUP_CONCAT(?genre;separator="#") AS ?genres)
 					WHERE{
-						?artist foaf:name "` + this.singer + `"@en.
+						?artist foaf:name "` + singer + `"@en.
 						?artist dbo:genre ?genre.
 						?artist dbo:abstract ?abstract.
 						FILTER langMatches(lang(?abstract),"en")
@@ -28,7 +28,7 @@ export class DbpediaService {
 			}
 		});
   }
-  
+	
   getSongInfo(song: string) {
 		return this.http.get(this.dbe, {
 			params: {
