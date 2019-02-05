@@ -33,7 +33,12 @@ export class DbpediaService {
 		return this.http.get(this.dbe, {
 			params: {
 				query: `
-					`,
+					SELECT DISTINCT ?abstract
+					WHERE{
+						?song foaf:name "` + song + `"@en.
+						?song dbo:abstract ?abstract.
+						FILTER langMatches(lang(?abstract),"en")
+					}`,
 				format: 'json'
 			}
 		});
@@ -50,10 +55,16 @@ export class DbpediaService {
   }
   
   getGenreInfo(genre: string) {
+	  console.log(genre);
 		return this.http.get(this.dbe, {
 			params: {
 				query: `
-					`,
+				SELECT DISTINCT ?abstract
+					WHERE{
+						?genre foaf:name "` + genre + `"@en.
+						?genre dbo:abstract ?abstract.
+						FILTER langMatches(lang(?abstract),"en")
+					}`,
 				format: 'json'
 			}
 		});

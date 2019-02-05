@@ -12,6 +12,8 @@ import { YoutubeService } from '../../../services/youtube/youtube.service';
 export class WikiboxComponent implements OnInit {
 
   singer_abs: any;
+  song_abs: any;
+  genre_abs: any;
   comments: any;
   description: any;
   statistics: any;
@@ -20,6 +22,7 @@ export class WikiboxComponent implements OnInit {
   title: any;
   singer: any;
   song: any;
+  album: any;
   genres: any;
 
   constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService) { }
@@ -67,11 +70,19 @@ export class WikiboxComponent implements OnInit {
 			(data: any) => {
 				this.singer_abs = data.results.bindings[0].abstract.value;
 				//~ TODO: Should be global replacement
-        this.genres = data.results.bindings[0].genres.value.toLowerCase().replace("http://dbpedia.org/resource/", "").replace("_", " ").split("#");
-        console.log(data);
-       },
+				this.genres = data.results.bindings[0].genres.value.replace("http://dbpedia.org/resource/", "").replace("_", " ").split("#");
+				//~ Genre
+				this.dbs.getGenreInfo(this.genres).subscribe(
+					(data: any) => {
+					this.genre_abs = data.results.bindings[0].abstract.value;
+					console.log(data);
+				},
        error => console.log(error)
      );
+				console.log(data);
+			},
+			error => console.log(error)
+		);
      //~ Album
      //~ this.dbs.getAlbumInfo(null).subscribe(
        //~ (data: any) => {
@@ -80,22 +91,17 @@ export class WikiboxComponent implements OnInit {
        //~ },
        //~ error => console.log(error)
      //~ );
-     //~ Genre
-     //~ this.dbs.getGenreInfo(null).subscribe(
-       //~ (data: any) => {
-         //~ this.singer_abs = data.results.bindings[0].abstract.value;
-         //~ console.log(data);
-       //~ },
-       //~ error => console.log(error)
-     //~ );
+     
+     
      //~ Song
-     //~ this.dbs.getSongInfo(null).subscribe(
-       //~ (data: any) => {
-         //~ this.singer_abs = data.results.bindings[0].abstract.value;
-         //~ console.log(data);
-       //~ },
-       //~ error => console.log(error)
-     //~ );
+     this.dbs.getSongInfo(this.song).subscribe(
+       (data: any) => {
+				 //Nirvana - Lithium
+         this.song_abs = data.results.bindings[0].abstract.value;
+         console.log(data);
+       },
+       error => console.log(error)
+     );
    }
 
 }
