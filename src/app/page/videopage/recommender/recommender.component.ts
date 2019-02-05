@@ -69,19 +69,28 @@ export class RecommenderComponent implements OnInit {
 
       // related
       this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
-        (data: any) => this.r10s['related'] = this.fromYT(data),
+        (data: any) => this.r10s['YT related'] = this.fromYT(data),
         error => console.log(error)
       );
 
       // fvitali
-      this.alphalistService.getAll().subscribe(
+      this.alphalistService.getGlobpop(params.videoId).subscribe(
         (data: any) => {
-          let idList = [], cap = data.length;
-          while ((idList.length < this.nVideo) && (idList.length < cap)){
-            idList.push(data.splice(Math.floor(Math.random()*data.length),1)[0].videoID); // pop out videos from data and added on the random idList
-          }
+          let idList = [];
+          data.recommended.forEach( function (value, index) {idList[index]=data.recommended[index].videoID;});
           this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
-            (obj: any) => this.r10s['fvitali'] = this.fromYT(obj),
+            (obj: any) => {
+              let tmpList = this.fromYT(obj);
+              for (let i in tmpList){
+                tmpList[i].reason =
+                data.recommended.filter(
+                  function match(element){
+                    return element.videoID == tmpList[i].videoID;
+                  }
+                )[0].prevalentReason;
+              }
+              this.r10s['fvitali'] = tmpList;
+            },
             error => console.log(error)
           );
         },
@@ -91,14 +100,15 @@ export class RecommenderComponent implements OnInit {
   }
 
   fromYT(data: any) {
-    let results: {artist: string, title: string, videoID: string, img: string}[] = [];
+    let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
     for (let i in data.items) {
       results.push(
         {
           artist: data.items[i].snippet.channelTitle,
           title: data.items[i].snippet.title,
           videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
-          img: data.items[i].snippet.thumbnails.medium.url
+          img: data.items[i].snippet.thumbnails.medium.url,
+          reason: ''
         }
       );
     }
