@@ -33,22 +33,22 @@ export class RecommenderComponent implements OnInit {
     this.r10s = {};
     this.route.params.subscribe( params => {
       //random video
-      this.alphalistService.getCatalog().subscribe(// TODO: test it
-        (data: any) => {
-          let idList = [];
-          while (data.videos.length != 0 && idList.length < this.nVideo) {
-            idList.push(data.videos.splice(Math.floor(Math.random()*data.videos.length),1)[0].videoId);
-          }
-          this.ytService.getVideo(idList.join()).subscribe(
-            (obj: any) => this.r10s['random'].push(this.fromYT(obj)),
-            error => console.log(error)
-          )
+      //~ this.alphalistService.getCatalog().subscribe(// TODO: test it
+        //~ (data: any) => {
+          //~ let idList = [];
+          //~ while (data.videos.length != 0 && idList.length < this.nVideo) {
+            //~ idList.push(data.videos.splice(Math.floor(Math.random()*data.videos.length),1)[0].videoId);
+          //~ }
+          //~ this.ytService.getVideo(idList.join()).subscribe(
+            //~ (obj: any) => this.r10s['random'].push(this.fromYT(obj)),
+            //~ error => console.log(error)
+          //~ )
 
-        },
-        error => console.log(error)
+        //~ },
+        //~ error => console.log(error)
 
 
-      )
+      //~ )
 
       this.ytService.getRecommenders({}).subscribe(
       (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
