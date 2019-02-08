@@ -12,8 +12,7 @@ import { YoutubeService } from '../../../services/youtube/youtube.service';
 
 export class PlayerComponent implements OnInit {
     videoName: string;
-    url: any;
-    baseUrl = 'http://www.youtube.com/embed/';
+    videoUrl: any;
 
     constructor(
         private sanitizer: DomSanitizer,
@@ -23,11 +22,13 @@ export class PlayerComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe( params => {
-            this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl + params.videoId);
+
             this.videoInfo.getVideo(params.videoId).subscribe(
                 (data: any) => this.videoName = data.items[0].snippet.title
             );
+            //problema con la riassegnazzione di videoUrl
+            
+            this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + params.videoId);
         });
     }
-
 }
