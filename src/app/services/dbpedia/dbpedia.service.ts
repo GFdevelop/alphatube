@@ -19,9 +19,11 @@ export class DbpediaService {
 					SELECT DISTINCT ?abstract ?genre
 					(GROUP_CONCAT(?genre;separator="#") AS ?genres)
 					WHERE{
+						VALUES ?type {"group_or_band" "solo_singer"}
 						?artist foaf:name "` + singer + `"@en.
 						?artist dbo:genre ?genre.
 						?artist dbo:abstract ?abstract.
+						?artist dbo:background ?type.
 						FILTER langMatches(lang(?abstract),"en")
 					}`,
 				format: 'json'
@@ -29,15 +31,19 @@ export class DbpediaService {
 		});
   }
 	
-  getSongInfo(song: string) {
+  getSongInfo(song: string, singer: string) {
 		return this.http.get(this.dbe, {
 			params: {
 				query: `
-					SELECT DISTINCT ?abstract
+					PREFIX purl: <http://purl.org/linguistics/gold/>
+					SELECT DISTINCT ?abstract ?album
 					WHERE{
 						?song foaf:name "` + song + `"@en.
+						?song purl:hypernym dbr:Song.
 						?song dbo:abstract ?abstract.
+						?song dbo:album ?album.
 						FILTER langMatches(lang(?abstract),"en")
+						FILTER contains(?abstract, "` + singer + `")
 					}`,
 				format: 'json'
 			}
@@ -48,7 +54,14 @@ export class DbpediaService {
 		return this.http.get(this.dbe, {
 			params: {
 				query: `
-					`,
+					PREFIX purl: <http://purl.org/linguistics/gold/>
+					SELECT ?abstract ?year ?name
+					WHERE{
+						<` + album + `> dbo:abstract ?abstract.
+						<` + album + `> dbo:releaseDate ?year.
+						<` + album + `> foaf:name ?name
+						FILTER langMatches(lang(?abstract),"en")
+					}`,
 				format: 'json'
 			}
 		});
