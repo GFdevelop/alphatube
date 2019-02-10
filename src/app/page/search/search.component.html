@@ -26,16 +26,10 @@
 					<a class="card-link" [routerLink]="['/videopage', result.id.videoId]" attr.aria-label="{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: 'longDate' }}">
 						<h6 class="card-title <!-- font-weight-bold -->">{{ result.snippet.title }}</h6>
 					</a>
-					<p class="card-subtitle">{{result.snippet.channelTitle}}</p>
+					<p class="card-subtitle text-truncate">{{result.snippet.channelTitle}}</p>
 					<small class="text-muted">{{result.snippet.publishedAt | date: 'longDate'}}</small>
 				</div>
 			</div>
 		</div>
 	</div>
-	<button class="btn btn-success mx-auto mb-3" type="button" role="button" [routerLink]="['/search', q, searchResults?.prevPageToken]" *ngIf="searchResults?.prevPageToken">
-		Previous
-	</button>
-	<button class="btn btn-success mx-auto mb-3" type="button" role="button" [routerLink]="['/search', q, searchResults?.nextPageToken]" *ngIf="searchResults?.nextPageToken">
-		Next
-	</button>
 </div>
