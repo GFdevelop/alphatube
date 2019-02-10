@@ -28,6 +28,6 @@ export class PlayerComponent implements OnInit {
             );
         });
     }
-    @ViewChild("iframe") iframe: ElementRef;
+    @ViewChild('iframe') iframe: ElementRef;
 
 }
