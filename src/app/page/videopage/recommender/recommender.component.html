@@ -7,7 +7,8 @@
                     <slide>
                         <a [routerLink]="['/videopage',video.videoID]" style="text-decoration:none;">
                             <div class="card-body p-2">
-                                <h5 class="card-title text-truncate text-right text-dark font-weight-bold">From {{r9r.key}}</h5>
+                                <h5 class="card-title text-truncate text-right text-dark font-weight-bold mb-0">From {{r9r.key}}</h5>
+                                <p class="card-text text-truncate text-right h6"><small class="text-muted">{{video.reason?video.reason:'No resason available'}}</small></p>
                                 <p class="card-text text-truncate mb-1 h6">{{video.title}}</p>
                                 <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist}}</small></p>
                             </div>

@@ -23,11 +23,12 @@ export class PlayerComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe( params => {
             this.iframe.nativeElement.contentWindow.location.replace(this.baseUrl + params.videoId);
+
             this.videoInfo.getVideo(params.videoId).subscribe(
                 (data: any) => this.videoName = data.items[0].snippet.title
             );
         });
     }
-    @ViewChild('iframe') iframe: ElementRef;
 
+    @ViewChild('iframe') iframe: ElementRef;
 }

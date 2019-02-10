@@ -16,7 +16,7 @@ export class AlphalistService {
     return this.http.get(this.URL + '/video.json');
   }
 
-  getRelatedTo(videoID: string) {
+  getGlobpop(videoID: string) {
     return this.http.get(this.URL + '/TW/globpop',
       {
         params: {
