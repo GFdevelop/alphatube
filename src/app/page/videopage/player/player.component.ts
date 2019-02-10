@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,7 +12,6 @@ import { YoutubeService } from '../../../services/youtube/youtube.service';
 
 export class PlayerComponent implements OnInit {
     videoName: string;
-    url: any;
     baseUrl = 'http://www.youtube.com/embed/';
 
     constructor(
@@ -23,11 +22,12 @@ export class PlayerComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe( params => {
-            this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl + params.videoId);
+            this.iframe.nativeElement.contentWindow.location.replace(this.baseUrl + params.videoId);
             this.videoInfo.getVideo(params.videoId).subscribe(
                 (data: any) => this.videoName = data.items[0].snippet.title
             );
         });
     }
+    @ViewChild("iframe") iframe: ElementRef;
 
 }
