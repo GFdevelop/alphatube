@@ -1,4 +1,5 @@
 const express = require('express');
+const port = 8000;
 var atlas = express();
 	cors = require('cors');
 	path = require('path');
@@ -10,7 +11,7 @@ var corsOption = {
 }
 
 atlas.use(cors(corsOption));
-atlas.use(express.static(path.join(__dirname, '/dist/alphatube')));
+atlas.use(express.static(path.join(__dirname, '/alphatube')));
 
 atlas.get('/', function(req, res) {
 	var options = {
@@ -20,6 +21,11 @@ atlas.get('/', function(req, res) {
 	res.sendFile('/index.html', options);
 });
 
-atlas.listen(8080, () => {
-  console.log('Server started!');
+atlas.get('/globpop?id=/{[a-z]|[A-Z]|[0-9]|_}$', function(req, res) {
+	res.send("Hello");
+	console.log("Ciao");
+});
+
+atlas.listen(port, () => {
+  console.log('Server started at port ' + port + '!');
 });
