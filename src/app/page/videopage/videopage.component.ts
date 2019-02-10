@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';   // TODO: remove this and html
+import { Router, ActivatedRoute } from '@angular/router';   // TODO: remove this and html
+
+import { YoutubeService } from '../../services/youtube/youtube.service';
 
 @Component({
   selector: 'app-videopage',
@@ -8,12 +10,23 @@ import { ActivatedRoute } from '@angular/router';   // TODO: remove this and htm
 })
 export class VideopageComponent implements OnInit {
 
-  videoId: string;
-
-  constructor(private route: ActivatedRoute) { }   // TODO: remove this and html
+  constructor(
+    private activeRoute: ActivatedRoute,
+    private route: Router,
+    private ytService: YoutubeService
+  ) { }   // TODO: remove this and html
 
   ngOnInit() {
-    this.route.params.subscribe((params) => this.videoId = params.videoId);   // TODO: remove this and html
+    this.activeRoute.params.subscribe(
+      (params) => {
+        this.ytService.getVideo(params.videoId).subscribe(
+          (data: any) => {
+            if (data.items.length == 0){this.route.navigate(['../404']);}
+          },
+          error => console.log(error)
+        );
+      }
+    );   // TODO: remove this and html
   }
 
 }
