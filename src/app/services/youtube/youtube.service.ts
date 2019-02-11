@@ -49,10 +49,10 @@ export class YoutubeService {
     return this.http.get(this.apiRef + '/videos',
       {
         params: {
-          part: 'snippet,player,statistics',
+          part: 'snippet,player,statistics,status',
           id: videoId,
           fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title,thumbnails/medium/url,channelTitle),' +
-                  'statistics(dislikeCount,likeCount,viewCount)),visitorId',
+                  'statistics(dislikeCount,likeCount,viewCount),status(embeddable,license,privacyStatus,publicStatsViewable)),visitorId',
           key: this.devKey
         }
       }

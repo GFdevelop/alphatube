@@ -21,12 +21,27 @@ export class VideopageComponent implements OnInit {
       (params) => {
         this.ytService.getVideo(params.videoId).subscribe(
           (data: any) => {
-            if (data.items.length == 0){this.route.navigate(['../404']);}
+            //console.log(data);
+            if (data.items.length == 0){
+
+              this.route.navigate(['404']);
+            }
           },
           error => console.log(error)
         );
       }
     );   // TODO: remove this and html
+  }
+
+  isViewable(data: any) {
+    for (let i=0; i<data.items.length; i++){
+      if ((data.items[i].status.publicStatsViewable == false) ||
+      (data.items[i].status.embeddable == false)){
+        data.items.splice(i,1);
+        //i = i-1; ?
+      }
+    }
+    return data;
   }
 
 }
