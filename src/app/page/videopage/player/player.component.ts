@@ -22,12 +22,26 @@ export class PlayerComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe( params => {
-            this.iframe.nativeElement.contentWindow.location.replace(this.baseUrl + params.videoId);
+          this.recentVideoList(params);
 
-            this.videoInfo.getVideo(params.videoId).subscribe(
-                (data: any) => this.videoName = data.items[0].snippet.title
-            );
+          this.iframe.nativeElement.contentWindow.location.replace(this.baseUrl + params.videoId);
+
+          this.videoInfo.getVideo(params.videoId).subscribe(
+              (data: any) => this.videoName = data.items[0].snippet.title
+          );
         });
+    }
+
+    recentVideoList(params: any) {
+      //localStorage.clear();
+      let tmpList = [params.videoId];
+      let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
+      if (lastWatched){
+        for (let i = 0; i<lastWatched.length && i<11; i++){
+          if (params.videoId != lastWatched[i]) tmpList.push(lastWatched[i]);
+        }
+      }
+      localStorage.setItem('lastWatched' , JSON.stringify(tmpList));
     }
 
     @ViewChild('iframe') iframe: ElementRef;
