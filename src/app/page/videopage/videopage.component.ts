@@ -21,7 +21,6 @@ export class VideopageComponent implements OnInit {
       (params) => {
         this.ytService.getVideo(params.videoId).subscribe(
           (data: any) => {
-            console.log(data);
             if (data.items.length == 0 ||
                !data.items[0].status.publicStatsViewable ||
                !data.items[0].status.embeddable){
