@@ -4,7 +4,7 @@
         <div class="card border-primary">
             <carousel>
                 <div *ngFor="let video of r9r.value; let i=index">
-                    <slide>
+                    <slide *ngIf="i<nVideo">
                         <a [routerLink]="['/videopage',video.videoID]" style="text-decoration:none;">
                             <div class="card-body p-2">
                                 <h5 class="card-title text-truncate text-right text-dark font-weight-bold mb-0">From {{r9r.key}}</h5>
