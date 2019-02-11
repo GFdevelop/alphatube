@@ -21,7 +21,7 @@ export class RecommenderComponent implements OnInit {
     //~ [x]   random: any[],
     //~ [x]   search: any[],
     //~ [x]   related: any[],
-    //~ []    recent: any[],
+    //~ [x]    recent: any[],
     //~ [x]   fvitali: any[],
     //~ []    popularity: any[],
     //~ []    similarity: any[]
@@ -90,6 +90,21 @@ export class RecommenderComponent implements OnInit {
         (data: any) => this.r10s['YT related'] = this.fromYT(data),
         error => console.log(error)
       );
+
+      //recent
+      let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
+      if(lastWatched[0] == params.videoId) lastWatched.shift();
+      console.log(lastWatched.length);
+      if (lastWatched.length !=0){
+      console.log(lastWatched.length);
+
+        this.ytService.getVideo(lastWatched.join()).subscribe(
+          (data:any) => {
+            this.r10s['recent']= this.fromYT(data);
+          },
+          error => console.log(error)
+        );
+      }
 
       // fvitali
       this.alphalistService.getGlobpop(params.videoId).subscribe(
