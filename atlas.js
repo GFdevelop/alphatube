@@ -1,9 +1,9 @@
 const express = require('express');
 const port = 8000;
 var atlas = express();
-	cors = require('cors');
+	cors = require('cors');	// for cross origin resource sharing request
 	path = require('path');
-	global = path.join(__dirname, '/dist/alphatube');
+	global = path.join(__dirname, '../alphatube');	// TODO: remove dist
 
 var corsOption = {
 	origin: 'http://site1826.tw.cs.unibo.it',
@@ -11,19 +11,23 @@ var corsOption = {
 }
 
 atlas.use(cors(corsOption));
-atlas.use(express.static(path.join(__dirname, '/alphatube')));
+atlas.use(express.static(global));
 
-atlas.get('/', function(req, res) {
-	var options = {
-		root: global,
-	};
-	
-	res.sendFile('/index.html', options);
+// ~ atlas.get('/', function(req, res) {
+	// ~ var options = {
+		// ~ root: global,
+	// ~ };
+
+	// ~ res.sendFile('/index.html', options);
+// ~ });
+
+atlas.get('*', (req, res) => {
+  res.sendFile(path.join(global, 'index.html'));
 });
 
-atlas.get('/globpop?id=/{[a-z]|[A-Z]|[0-9]|_}$', function(req, res) {
-	res.send("Hello");
-	console.log("Ciao");
+atlas.get('/globpop', function(req, res) {
+	if (req.query.id) res.send("hello");
+	else res.send("world");
 });
 
 atlas.listen(port, () => {

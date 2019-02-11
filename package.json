@@ -7,7 +7,11 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "all": "ng build && npm run cpsrv",
+    "srv": "npm run mksrv && npm run cpsrv",
+    "mksrv": "mkdir -p dist/server",
+    "cpsrv": "cp -au server dist/"
   },
   "private": true,
   "dependencies": {
