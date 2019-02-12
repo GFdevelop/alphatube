@@ -21,10 +21,12 @@ export class RecommenderComponent implements OnInit {
     //~ [x]   random: any[],
     //~ [x]   search: any[],
     //~ [x]   related: any[],
-    //~ [x]    recent: any[],
+    //~ [x]   recent: any[],
     //~ [x]   fvitali: any[],
-    //~ []    popularity: any[],
-    //~ []    similarity: any[]
+    //~ [x]   absoulute popularity: any[],
+    //~ []    relative popularity: any[],
+    //~ []    absoulute similarity: any[],
+    //~ []    relative similarity: any[]
 
   constructor(
     private alphalistService: AlphalistService,
@@ -36,7 +38,7 @@ export class RecommenderComponent implements OnInit {
     this.r10s = {};
     this.route.params.subscribe( params => {
 
-      //random
+      // random
       let idPlay = { //playlist possibili
         playlists:[
           {"playlistId":"PLUg_BxrbJNY5gHrKsCsyon6vgJhxs72AH"},
@@ -53,7 +55,7 @@ export class RecommenderComponent implements OnInit {
         ]
       }
 
-      //id playlist casuale da playlists
+      // id playlist casuale da playlists
       let idPlaytmp= idPlay.playlists[Math.floor(Math.random()*idPlay.playlists.length)].playlistId;
       this.ytService.getPlaylist(idPlaytmp).subscribe(
         //data sono i 30 video presi dalla playlist, tramite getPlaylist da youtube.service
@@ -107,7 +109,7 @@ export class RecommenderComponent implements OnInit {
       }
 
       // fvitali
-      this.alphalistService.getGlobpop(params.videoId).subscribe(
+      this.alphalistService.getFV(params.videoId).subscribe(
         (data: any) => {
           let idList = [];
           data.recommended.forEach(
@@ -131,13 +133,57 @@ export class RecommenderComponent implements OnInit {
         },
         error => console.log(error)
       );
+
+      let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
+      // TODO: use globpopList.json
+      this.popularity('absoulute popularity','YYYYYY', siteCode);
+      //this.popularity('relative popularity',params.videoId, siteCode);
+      //this.popularity('absoulute popularity','YYYYYY', '1826');
+      //this.popularity('absoulute popularity','YYYYYY', '1826');
+
     });
+  }
+
+  popularity(recommender:string, query:string, siteCode:any){
+    this.r10s[recommender] = [];
+    let popList = [];
+    let popIdList = [];
+    for(let i in siteCode){
+      this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
+        (data: any) => {
+          for(let i in data.recommended){
+            this.addList(popList, data.recommended[i]);
+          }
+          popList = popList.sort((n1,n2) => { if (n1.timesWatched < n2.timesWatched) return 1; else return -1;});
+
+          for(let i in popList.slice(0,20)){
+            popIdList[i] = popList[i].videoId;
+          }
+
+          this.ytService.getVideo(popIdList.join()).subscribe(
+            (data: any) => this.r10s[recommender] = this.fromYT(data), // TODO: add number of play
+            error => console.log(error)
+          );
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  addList(list: any, obj: any){
+    let counter = 0;
+    for(let i in list){
+      if (list[i].videoId == obj.videoId) { list[i].timesWatched = list[i].timesWatched + obj.timesWatched;}
+      else { counter++;}
+    }
+    if (counter == list.length) { list.push(obj);}
   }
 
   fromYT(data: any) {
     let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
     for (let i in data.items) {
-      if ((!data.items.status) || (!data.items[i].status.publicStatsViewable && !data.items[i].status.embeddable)){
+      if ((!data.items[i].status) ||
+      (data.items[i].status.publicStatsViewable && data.items[i].status.embeddable)){
         results.push(
           {
             artist: data.items[i].snippet.channelTitle,
@@ -151,4 +197,5 @@ export class RecommenderComponent implements OnInit {
     }
     return results;
   }
+
 }
