@@ -3,7 +3,6 @@ const port = 8000;
 var atlas = express();
 	cors = require('cors');
 	path = require('path');
-	global = path.join(__dirname, '/dist/alphatube');
 
 var corsOption = {
 	origin: 'http://site1826.tw.cs.unibo.it',
@@ -11,17 +10,13 @@ var corsOption = {
 }
 
 atlas.use(cors(corsOption));
-atlas.use(express.static(path.join(__dirname, '/alphatube')));
+atlas.use(express.static(path.join(__dirname, '../alphatube'));
 
-atlas.get('/', function(req, res) {
-	var options = {
-		root: global,
-	};
-	
-	res.sendFile('/index.html', options);
+atlas.get('*', (req, res) => {	
+	res.sendFile(path.join(__dirname, '../alphatube/index.html'));
 });
 
-atlas.get('/globpop?id=/{[a-z]|[A-Z]|[0-9]|_}$', function(req, res) {
+atlas.get('/globpop', function(req, res) {
 	res.send("Hello");
 	console.log("Ciao");
 });

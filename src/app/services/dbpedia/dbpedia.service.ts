@@ -16,7 +16,7 @@ export class DbpediaService {
 		return this.http.get(this.dbe, {
 			params: {
 				query: `
-					SELECT DISTINCT ?abstract ?genre
+					SELECT DISTINCT ?abstract
 					(GROUP_CONCAT(?genre;separator="#") AS ?genres)
 					WHERE{
 						VALUES ?type {"group_or_band" "solo_singer"}
@@ -67,17 +67,20 @@ export class DbpediaService {
 		});
   }
   
-  getGenreInfo(genre: string) {
-	  console.log(genre);
+  getGenreInfo(genre: any) {
+		genre = genre.split("#");
+		for(var i = 0; i < genre.length; i++)	genre[i] = "<" + genre[i] + ">";
+		genre = genre.toString().replace(/,/g,' ');
 		return this.http.get(this.dbe, {
 			params: {
 				query: `
-				SELECT DISTINCT ?abstract
-					WHERE{
-						?genre foaf:name "` + genre + `"@en.
-						?genre dbo:abstract ?abstract.
-						FILTER langMatches(lang(?abstract),"en")
-					}`,
+				SELECT DISTINCT ?abstract ?name
+				WHERE{
+					VALUES ?genres {` + genre + `}
+					?genres foaf:name ?name.
+					?genres dbo:abstract ?abstract.
+					FILTER langMatches(lang(?abstract),"en")
+				}`,
 				format: 'json'
 			}
 		});
