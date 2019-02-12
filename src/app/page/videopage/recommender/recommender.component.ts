@@ -91,16 +91,20 @@ export class RecommenderComponent implements OnInit {
         error => console.log(error)
       );
 
-      //recent
+      // recent
+      //salvo in lastWatched le stringhe parsate in JSON di localStorage
       let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
-      if(lastWatched[0] == params.videoId) lastWatched.shift();
-      console.log(lastWatched.length);
+      //se lastWatched contiene qualcosa
       if (lastWatched.length !=0){
-      console.log(lastWatched.length);
-
+      //Passo l'array lastWatched trasformato in un unica stringa di videoId concatenati
+      //a getVideo,  che fa la richiesta a YT che ritorna tutto l'oggetto
         this.ytService.getVideo(lastWatched.join()).subscribe(
+        //subscribe permette di dare tempo al programma di rispondere, in modo asincrono
           (data:any) => {
-            this.r10s['recent']= this.fromYT(data);
+          //mette dentro all array r10s i video filtrati per non mettere il video corrente prendendo i valori con froYT
+            this.r10s['recent']= this.fromYT(data).filter(
+              obj => obj.videoID != params.videoId
+            );
           },
           error => console.log(error)
         );

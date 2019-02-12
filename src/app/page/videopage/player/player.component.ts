@@ -33,11 +33,16 @@ export class PlayerComponent implements OnInit {
     }
 
     recentVideoList(params: any) {
-      //localStorage.clear();
       let tmpList = [params.videoId];
+      //dentro a lastWatched mettiamo le stringhe parsate in JSON degli id dei video visti
       let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
+      //se lastWatched contiene qualcosa
       if (lastWatched){
+      //scorro l'array di lastWatched finchè non arriva a 11 elementi
         for (let i = 0; i<lastWatched.length && i<11; i++){
+        // se il video corrente non è presente in lastWatched, non lo metto perchè l'ho già
+        //messo nella prima riga
+        //e push in tmpList l'array di lastWatched
           if (params.videoId != lastWatched[i]) tmpList.push(lastWatched[i]);
         }
       }
