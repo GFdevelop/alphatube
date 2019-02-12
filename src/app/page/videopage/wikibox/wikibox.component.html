@@ -73,11 +73,6 @@
 					<div class="card">
 						<div class="card-header font-weight-bold">
 							{{singer}}
-							<span class="badge badge-info p-2 m-1" *ngFor="let genre of genres">
-								<a [routerLink]="['/search', genre]" class="text-white">
-									#{{genre || "I look for genres, but nobody knows what the hell this music is! :C"}}
-								</a>
-							</span>
 						</div>
 						<div class="card-body">
 							{{singer_abs || "No data about performer available :C"}}
@@ -88,7 +83,7 @@
 							{{song}}
 						</div>
 						<div class="card-body">
-							{{song_abs || "We don't have any info about this song :C"}}
+							{{song_abs?.abstract.value || "We don't have any info about this song :C"}}
 						</div>
 					</div>
 				</div>
@@ -97,29 +92,34 @@
 				<div class="container-fluid scrollable p-0">
 					<div class="card">
 						<div class="card-header font-weight-bold">
-							{{album}}
+							{{album || "Nothing here..."}}
 						</div>
 						<div class="card-body">
-							{{album_abs}}
+							{{album_abs || "No info available at the moment :("}}
 						</div>
 					</div>
 				</div>
 			</accordion-group>
 			<accordion-group heading="Genre">
 				<div class="container-fluid scrollable p-0">
-					<div class="card">
+					<div class="card mb-2" *ngFor="let genre of genres">
 						<div class="card-header font-weight-bold">
-							{{genres}}
+							{{genre?.name.value}}
+							<span class="badge badge-info p-2 m-1">
+								<a [routerLink]="['/search', genre.name.value]" class="text-white">
+									more... <i class="fas fa-angle-right"></i>
+								</a>
+							</span>
 						</div>
 						<div class="card-body">
-							{{genre_abs || "Not enough info!"}}
+							{{genre?.abstract.value || "No info available!"}}
 						</div>
 					</div>
 				</div>
 			</accordion-group>
 		</accordion>
 	</tab>
-<!--
+<!-- 
 	MUSICXMATCH ACCORDION GROUP
 -->
 	<tab class="pt-1">
