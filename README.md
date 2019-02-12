@@ -21,7 +21,7 @@ S:  server-side
 
 ## VISUALIZER (presentation)
 
-- [ ] C:    video page
+- [x] C:    video page
     - [x] C:    player con i controlli
 - [x] C:    ricerca video:
     - [x] C:    per titolo (canzone e artista)
@@ -56,12 +56,12 @@ S:  server-side
     - [ ] ?C:   ecc..
 - [ ] C:    Area suggerimenti
     - [ ] C:    scrollabile
-    - [ ] C:    Liste multiple di video prodotte da algoritmi diversi di raccomandazione. Per ogni video viene mostrato:
-        - [ ] C:    un'immagine
-        - [ ] C:    qualche informazione tecnica (ad esempio il titolo)
-        - [ ] C:    il motivo per cui viene raccomandato.
+    - [x] C:    Liste multiple di video prodotte da algoritmi diversi di raccomandazione. Per ogni video viene mostrato:
+        - [x] C:    un'immagine
+        - [x] C:    qualche informazione tecnica (ad esempio il titolo)
+        - [x] C:    il motivo per cui viene raccomandato.
 - [ ] C:    Accessibilità
-- [ ] OC:   errore 404
+- [x] OC:   errore 404
 
 
 ## RECOMMENDER (application logic)
@@ -72,12 +72,12 @@ S:  server-side
     - [ ] O?S:  database utenti
     - [ ] S:    fornire API globale
 - [ ] CS:   Un modulo che genera liste di n video, 10 ≤ n ≤ 30. Usa molteplici algoritmi:
-    - [ ] C:    Random: lista di video casuale (Scollegato dal video dell'area principale)
-        - [ ] OC:   solo video musicali
-        - [ ] C:    Output:
-            - [ ] C:    Thumbnail
-            - [ ] C:    titolo
-            - [ ] C:    codice YouTube
+    - [x] C:    Random: lista di video casuale (Scollegato dal video dell'area principale)
+        - [x] OC:   solo video musicali
+        - [x] C:    Output:
+            - [x] C:    Thumbnail
+            - [x] C:    titolo
+            - [x] C:    codice YouTube
             - [ ] C:    spiegazione della raccomandazione
             - [ ] OC:   artista
             - [ ] OC:   titolo
@@ -100,13 +100,13 @@ S:  server-side
             - [ ] OC:   album
             - [ ] OC:   anno
             - [ ] OC:   genere
-    - [ ] C:    Related: lista di video collegati secondo YouTube
-        - [ ] ?C:   content-based
-        - [ ] C:    Output:
-            - [ ] C:    Thumbnail
-            - [ ] C:    titolo
-            - [ ] C:    codice YouTube
-            - [ ] C:    spiegazione della raccomandazione
+    - [x] C:    Related: lista di video collegati secondo YouTube
+        - [x] ?C:   content-based
+        - [x] C:    Output:
+            - [x] C:    Thumbnail
+            - [x] C:    titolo
+            - [x] C:    codice YouTube
+            - [x] C:    spiegazione della raccomandazione
             - [ ] OC:   artista
             - [ ] OC:   titolo
             - [ ] OC:   album
@@ -130,13 +130,13 @@ S:  server-side
             - [ ] OC:   album
             - [ ] OC:   anno
             - [ ] OC:   genere
-    - [ ] S:    Fvitali: lista di video proposti da un'API di Fabio Vitali
+    - [x] S:    Fvitali: lista di video proposti da un'API di Fabio Vitali
         - [ ] ?S:   approccio collaborativo
-        - [ ] C:    Output:
-            - [ ] C:    Thumbnail
-            - [ ] C:    titolo
-            - [ ] C:    codice YouTube
-            - [ ] C:    spiegazione della raccomandazione
+        - [x] C:    Output:
+            - [x] C:    Thumbnail
+            - [x] C:    titolo
+            - [x] C:    codice YouTube
+            - [x] C:    spiegazione della raccomandazione
             - [ ] OC:   artista
             - [ ] OC:   titolo
             - [ ] OC:   album
@@ -190,10 +190,10 @@ S:  server-side
             - [ ] OC:   album
             - [ ] OC:   anno
             - [ ] OC:   genere
-- [ ] S:    Lista di partenza
-    - [ ] S:    Selezionare 40-50 video musicali sul wiki
-        - [ ] S:    Suggerimento: scegliete brani musicali molto diversi tra loro per genere, artista ed epoca storica (includere musica classica, jazz, musiche etniche?)
-    - [ ] C:    L'utente può selezionare qualunque video di YouTube, ma in prima pagina l'esaminatore può accedere ad uno dei 40-50 video di partenza scegliendolo da un apposita voce del menù e mostrare i suggerimenti su questi come partenza.
-- [ ] C:    Catturare i pulsanti back and forward
+- [x] S:    Lista di partenza
+    - [x] S:    Selezionare 40-50 video musicali sul wiki
+        - [x] S:    Suggerimento: scegliete brani musicali molto diversi tra loro per genere, artista ed epoca storica (includere musica classica, jazz, musiche etniche?)
+    - [x] C:    L'utente può selezionare qualunque video di YouTube, ma in prima pagina l'esaminatore può accedere ad uno dei 40-50 video di partenza scegliendolo da un apposita voce del menù e mostrare i suggerimenti su questi come partenza.
+- [x] C:    Catturare i pulsanti back and forward
     - [ ] C:    Se l'utente fa back o forward, evitate di ricaricare ogni volta tutti i dati del video che abbiamo visto pochi secondi fa.
     - [ ] C:    Usate cache e memoria locale del browser in maniera appropriata.

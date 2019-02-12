@@ -75,28 +75,6 @@ export class RecommenderComponent implements OnInit {
         }
       )
 
-      this.ytService.getRecommenders({}).subscribe(
-      (data: any) => this.r10s['search'] = this.fromYT(data).filter(obj => obj.videoID !== params.videoId),
-      error => console.log(error)
-        /*(data: any) => console.log(data),
-        error => console.log(error)*/
-      );
-
-      //random video
-      //~ this.alphalistService.getCatalog().subscribe(// TODO: test it
-        //~ (data: any) => {
-          //~ let idList = [];
-          //~ while (data.videos.length != 0 && idList.length < this.nVideo) {
-            //~ idList.push(data.videos.splice(Math.floor(Math.random()*data.videos.length),1)[0].videoId);
-          //~ }
-          //~ this.ytService.getVideo(idList.join()).subscribe(
-            //~ (obj: any) => this.r10s['random'].push(this.fromYT(obj)),
-            //~ error => console.log(error)
-          //~ )
-        //~ },
-        //~ error => console.log(error)
-      //~ )
-
       // search
       if (localStorage.q) {
         this.ytService.getRecommenders({q: localStorage.q}).subscribe(
@@ -120,7 +98,7 @@ export class RecommenderComponent implements OnInit {
           data.recommended.forEach(
             function (value, index) {idList[index]=data.recommended[index].videoID;}
           );
-          this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
+          this.ytService.getVideo(idList.join()).subscribe(
             (obj: any) => {
               let tmpList = this.fromYT(obj);
               for (let i in tmpList){
@@ -144,15 +122,17 @@ export class RecommenderComponent implements OnInit {
   fromYT(data: any) {
     let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
     for (let i in data.items) {
-      results.push(
-        {
-          artist: data.items[i].snippet.channelTitle,
-          title: data.items[i].snippet.title,
-          videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
-          img: data.items[i].snippet.thumbnails.medium.url,
-          reason: ''
-        }
-      );
+      if ((!data.items.status) || (!data.items[i].status.publicStatsViewable && !data.items[i].status.embeddable)){
+        results.push(
+          {
+            artist: data.items[i].snippet.channelTitle,
+            title: data.items[i].snippet.title,
+            videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
+            img: data.items[i].snippet.thumbnails.medium.url,
+            reason: ''
+          }
+        );
+      }
     }
     return results;
   }
