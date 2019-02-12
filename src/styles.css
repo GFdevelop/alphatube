@@ -19,15 +19,8 @@
 }
 
 /* navbar toggler */
-.btn-danger{
-    border: 2px solid transparent;
-    border-color: #f5fbff !important;
-    color: #495057 !important;
-}
-.btn-danger:hover{
-  background-color: #A239CA;
-  border-color: #A239CA !important;
-}
+.btn-primary{ border: 2px solid #f5fbff !important;}
+.btn-primary:hover{ background-color: #af5ecf;}
 
 /* contorno delle carte e del video */
 .border-primary{ border-color: #63c4f4 !important;}
