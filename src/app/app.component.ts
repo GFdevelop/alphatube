@@ -13,8 +13,8 @@ export class AppComponent implements OnInit {
   constructor (private as: AtlasService) { }
 
   ngOnInit() {
-    this.as.getId(localStorage.uid).subscribe(
-      (id: string) => localStorage.uid = id,
+    this.as.getId(localStorage.id).subscribe(
+      (user: any) => localStorage.id = user.id,
       error => console.log('error getId')
     );
   }

@@ -6,14 +6,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AtlasService {
 
-  apiRef = 'http://www.site1826.tw.cs.unibo.it';
+  apiRef = 'http://site1826.tw.cs.unibo.it';
+  // ~ apiRef = 'http://gabriele.fulgaro.tw.cs.unibo.it';
+  // ~ apiRef = 'http://localhost:8000';
 
   constructor(private http: HttpClient) { }
 
   getId(id: string) {
-    let params= {
-      id: id
+    const params= {
+      user: id
     };
+    // ~ return this.http.get(window.location.origin + '/crazy', { params });
     return this.http.get(this.apiRef + '/crazy', { params });
   }
 }

@@ -2,8 +2,29 @@ const express = require('express');
 	cors = require('cors');	// for cross origin resource sharing request
 	path = require('path');
 	jsonDB = require('node-json-db');
+	fs = require('fs');
 const port = 8000;
 var atlas = express();
+
+// ~ var origin = '*';
+
+// ~ if (fs.existsSync('./.dockerenv')) {
+	// ~ var origin = 'http://site1826.tw.cs.unibo.it';
+	// ~ var origin = 'http://gabriele.fulgaro.tw.cs.unibo.it';
+	// ~ var clientdir = '../alphatube';
+	// ~ var serverdir = './webapp/server';
+// ~ }
+// ~ else {
+	// ~ var origin = 'http://localhost:8000';
+	// ~ var clientdir = '../dist/alphatube';
+	// ~ var serverdir = './server';
+// ~ }
+
+// ~ var currentDir;
+// ~ fs.readdir('./webapp', function(err, items) {
+   	// ~ it = items;
+// ~ });
+	// ~ res.send(JSON.stringify(currentDir));		// put this in your method
 
 
 // CORS
@@ -12,17 +33,20 @@ var corsOption = {
 	optionSuccessStatus: 200 //Legacy browser (IE 11) support
 }
 
-atlas.use(cors(corsOption));
+// ~ atlas.use(cors(corsOption));
+atlas.use(cors());
 atlas.use(express.static(path.join(__dirname, '../alphatube')));
 
 
 //JSON-DB
 var db = new jsonDB("./webapp/server/db", true, true);
 
+var lastID;
 try {
-    var data = db.getData("/lastID");
+	lastID = db.getData("/lastID");
 } catch(error) {
-	db.push("/lastID", 0);
+	lastID = 0;
+	db.push("/lastID", lastID);
 };
 
 // ~ var user = {
@@ -34,6 +58,9 @@ try {
 
 
 //ROUTE
+// ~ atlas.options('*', cors(corsOption));
+atlas.options('*', cors());
+
 atlas.get('/globpop', function(req, res) {
 	if (req.query.id) res.send(path);
 	else res.send(__dirname);
@@ -41,14 +68,14 @@ atlas.get('/globpop', function(req, res) {
 
 atlas.get('/crazy', function(req, res) {
 	try {
-		var uid = db.getData("/" + req.query.id);
+		var uid = db.getData("/" + req.query.user);
 	} catch(error) {
-		data = data + 1;
-		db.push("/" + data + "/", {list: []});
-		db.push("/lastID", data);
-		uid = data;
+		lastID = lastID + 1;
+		db.push("/" + lastID, {list: []});
+		db.push("/lastID", lastID);
+		uid = lastID;
 	}
-	res.send(uid.toString());
+	res.json({ id: uid });
 });
 
 atlas.get('*', (req, res) => {
