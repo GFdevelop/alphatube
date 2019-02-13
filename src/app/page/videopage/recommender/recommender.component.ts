@@ -23,10 +23,11 @@ export class RecommenderComponent implements OnInit {
     //~ [x]   related: any[],
     //~ [x]   recent: any[],
     //~ [x]   fvitali: any[],
-    //~ [x]   absoulute popularity: any[],
-    //~ []    relative popularity: any[],
-    //~ []    absoulute similarity: any[],
-    //~ []    relative similarity: any[]
+    //~ [x]   absoulute global popularity: any[],
+    //~ []    absoulute local popularity: any[],
+    //~ []    relative global cpopularity: any[],
+    //~ []    relative local cpopularity: any[],
+    //~ []    similarity: any[],
 
   constructor(
     private alphalistService: AlphalistService,
@@ -138,12 +139,15 @@ export class RecommenderComponent implements OnInit {
         error => console.log(error)
       );
 
-      let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
+      //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
+      let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901','1906'];
+
       // TODO: use globpopList.json
-      this.popularity('absoulute popularity','YYYYYY', siteCode);
-      //this.popularity('relative popularity',params.videoId, siteCode);
-      //this.popularity('absoulute popularity','YYYYYY', '1826');
-      //this.popularity('absoulute popularity','YYYYYY', '1826');
+      this.popularity('absoulute global popularity','YYYYYY', siteCode);
+      //this.popularity('absoulute local popularity','YYYYYY', '1826');
+
+      //this.popularity('relative global popularity',params.videoId, siteCode);
+      //this.popularity('relative local popularity',params.videoId, '1826');
 
     });
   }
@@ -155,14 +159,8 @@ export class RecommenderComponent implements OnInit {
     for(let i in siteCode){
       this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
         (data: any) => {
-          for(let i in data.recommended){
-            this.addList(popList, data.recommended[i]);
-          }
-          popList = popList.sort((n1,n2) => { if (n1.timesWatched < n2.timesWatched) return 1; else return -1;});
-
-          for(let i in popList.slice(0,20)){
-            popIdList[i] = popList[i].videoId;
-          }
+          for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
+          for(let i in popList.slice(0,20)){ popIdList[i] = popList[i].videoId;}
 
           this.ytService.getVideo(popIdList.join()).subscribe(
             (data: any) => this.r10s[recommender] = this.fromYT(data), // TODO: add number of play
@@ -175,12 +173,24 @@ export class RecommenderComponent implements OnInit {
   }
 
   addList(list: any, obj: any){
-    let counter = 0;
-    for(let i in list){
-      if (list[i].videoId == obj.videoId) { list[i].timesWatched = list[i].timesWatched + obj.timesWatched;}
-      else { counter++;}
+    obj = this.fromAlphaList(obj);
+    for (let i = 0; i<list.length && obj; i++){
+      if (list[i].videoId == obj.videoId) {
+        list[i].timesWatched = list[i].timesWatched + obj.timesWatched;
+        obj = null;
+      }
     }
-    if (counter == list.length) { list.push(obj);}
+    if (obj) list.push(obj);
+    list = list.sort((n1,n2) => { if (n1.timesWatched < n2.timesWatched) return 1; else return -1;});
+  }
+
+  fromAlphaList(data: any){
+    return{
+      videoId: (data.videoId? data.videoId : data.videoID),
+      timesWatched: data.timesWatched,
+      prevalentReason: data.prevalentReason,
+      lastSelected: data.lastSelected
+    }
   }
 
   fromYT(data: any) {
