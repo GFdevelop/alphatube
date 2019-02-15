@@ -35,18 +35,20 @@ export class WikiboxComponent implements OnInit {
     });
   }
   
+  //~ YouTube pill
+  //~ TODO: Continuos scroll for comments
   fetchYTData(videoId: string){
-		// ~ Comments
+	// ~ Comments
     this.yt.getComments(videoId).subscribe(
       (data: any) => {
-		  //~ console.log(data);
-        this.comments = data.items;
+		if(data.items.lenght == 0) this.comments = 0;
+        else this.comments = data.items;
       },
       error => console.log(error)
      );
      
-     // ~ Description/info
-     this.yt.getVideo(videoId).subscribe(
+    // ~ Description/info
+    this.yt.getVideo(videoId).subscribe(
        (data: any) => {
          this.description = data.items[0].snippet.description;
          this.statistics = data.items[0].statistics;
@@ -62,21 +64,23 @@ export class WikiboxComponent implements OnInit {
        },
        error => console.log(error)
      );
-   }
+  }
    
-  // ~ DBpedia pill
+	// ~ DBpedia pill
 	fetchDBpedia(singer: string, song: string){
 			
 		//~ Singer
 		this.dbs.getSingerInfo(this.singer).subscribe(
 			(data: any) => {
-				this.singer_abs = data.results.bindings[0].abstract.value;
-				this.dbs.getGenreInfo(data.results.bindings[0].genres.value).subscribe(
-					(data: any) => {
-						this.genres = data.results.bindings;
-					},
-					error => console.log(error)
-				);
+				this.singer_abs = data.results.bindings[0];
+				if(data.results.bindings[0] != undefined) {
+					this.dbs.getGenreInfo(data.results.bindings[0].genres.value).subscribe(
+						(data: any) => {
+							this.genres = data.results.bindings;
+						},
+						error => console.log(error)
+					);
+				}
 			},
 			error => console.log(error)
 		);
@@ -88,17 +92,22 @@ export class WikiboxComponent implements OnInit {
 				if(data.results.bindings[0] != undefined) {
 					this.dbs.getAlbumInfo(data.results.bindings[0].album.value).subscribe(
 						(data: any) => {
-							//~ console.log(this.album);
 							this.album_abs = data.results.bindings[0].abstract.value;
 							this.album = data.results.bindings[0].name.value;
 							console.log(data);
 						},
 						error => console.log(error)
-						//~ console.log(data);
 					);
 				}
 			},
 			error => console.log(error)
 		);
 	}
+
+	//~ TODO
+	//~ Musicxmatch pill
+	
+	
+	//~ TODO
+	//~ Twitter pill
 }
