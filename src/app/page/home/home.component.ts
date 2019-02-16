@@ -38,18 +38,21 @@ export class HomeComponent implements OnInit {
   }
 
   fromYT(data: any) {
-      const results = [];
-      for (const item of data.items) {
+    let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
+    for (let i in data.items) {
+      if ((!data.items.status) || (!data.items[i].status.publicStatsViewable && !data.items[i].status.embeddable)){
         results.push(
           {
-            artist: item.snippet.channelTitle,
-            title: item.snippet.title,
-            videoID: (item.id.videoId) ? item.id.videoId : item.id,
-            img: item.snippet.thumbnails.medium.url
+            artist: data.items[i].snippet.channelTitle,
+            title: data.items[i].snippet.title,
+            videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
+            img: data.items[i].snippet.thumbnails.medium.url,
+            reason: ''
           }
         );
       }
-      return results;
     }
+    return results;
+  }
 
 }

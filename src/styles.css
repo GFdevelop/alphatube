@@ -1,40 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
-/*#E7DFDD* #61ffbb #ff6f61*/
-/*.bg-primary{ background-color: #5F4C89 !important; }
 
-.btn-primary{
-    background-color: #5F4C89;
-    border-color: #5F4C89;
+/* navbar */
+.navbar-dark{ background-image: linear-gradient(120deg, #63c4f4 0%, #84fab0 100%);}
+/* link navbar */
+.navbar-link{ color: #FFF !important; border: 0px;}
+.navbar-link:hover{ color: #FFF !important;}
+
+/* barra di ricerca */
+.form-control{ border-color: #FFF; }
+.btn-light{
+  background-color: #f5fbff;
+  border-color: #f5fbff;
+  color: #A239CA !important;
 }
-.btn-primary:hover{
-    background-color: #46385e;
-    border-color: #46385e;
+.btn-light.active{
+  background-color: #e6edee !important;
+  border-color: #e6edee !important;
 }
 
-.btn-secondary:not(:disabled):not(.disabled).active{ background-color: #59a636; }
-.btn-secondary:hover{ background-color: #67bf3e; }
-.btn-secondary{
-    color: #fff;
-    background-color: #79eb4c;
-    border-color: transparent !important;
+/* navbar toggler */
+.btn-primary{ border: 2px solid #f5fbff !important;}
+.btn-primary:hover{ background-color: #af5ecf;}
+
+/* contorno delle carte e del video */
+.border-primary{ border-color: #63c4f4 !important;}
+.border-primary:hover{ border-color: #A239CA !important;}
+
+/* contenuto card e selettore wikibox */
+a:hover{ color: #A239CA; text-decoration: none;}
+
+/* selettore wikibox */
+.nav-link{ border: 2px solid transparent;}
+.nav-link.active{
+  background-color: #FFF !important;
+  border-color: #84fab0;
+  color: #157ffb !important;
 }
 
-.btn-danger{
-    background-color: #79eb4c !important;
-    border-color: transparent !important;
-    color: #495057 !important; /* TODO: farlo anche al toggler-icon * /
-}
-.btn-danger:disabled{ background-color: #80f750; }
+/* burger head wikibox */
+.btn-link{ color: #2182f7;}
+.btn-link:hover{ color: #A239CA; text-decoration: none;}
 
-.form-control{ border-color: #79eb4c; }
-
-a{ color: #5F4C89;}
-a:hover{ color: #A239CA;}
-
-.card{ background-color: transparent; }
-
-.border-primary{ border-color: #E0E0E0 !important; /* TODO: metterlo anche alla wikibox * / }
-.border-primary:hover{ border-color: #A239CA !important; }
-
-body{ background-color: #FBFBFB; }
-*/
+/* views e like in description video */
+.badge-info{ background-color: #01a5f5;}
+.badge-success{ background-color: #28bf4a;}

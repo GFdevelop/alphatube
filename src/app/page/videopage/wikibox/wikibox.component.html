@@ -15,13 +15,13 @@
 						<div class="card-header text-justify">
 							<span class="badge badge-secondary p-2 m-1" *ngFor="let tag of tags">
 								<a [routerLink]="['/search', tag]" class="text-white">
-									#{{tag || "I look for #tags, but I have failed :C"}}
+									#{{tag || "No data available."}}
 								</a>
 							</span>
 						</div>
 						<div class="card-body">
 							<pre style="font-family: Arial;">
-{{description || "Description not available :C"}}
+{{description || "No data available."}}
 							</pre>
 						</div>
 						<div class="card-footer text-center">
@@ -39,22 +39,27 @@
 				</div>
 			</accordion-group>
 			<accordion-group heading="Comments">
-				<div class="container-fluid scrollable p-0">
-					<div class="mb-2 card bg-light border-secondary" *ngFor="let item of comments">
-						<div class="card-header font-weight-bold">
-							<img class="avatar mr-1" src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
-							{{item?.snippet.topLevelComment.snippet.authorDisplayName}}
-						</div>
-						<div class="card-body">
-							<p class="card-text">
-								{{item?.snippet.topLevelComment.snippet.textOriginal}}
-							</p>
-							<p class="text-right">
-								<i class="pr-1 fas fa-thumbs-up"></i>{{item?.snippet.topLevelComment.snippet.likeCount}}
-							</p>
+				<div *ngIf="comments == 0; else okComments">
+					No data available.
+				</div>
+				<ng-template #okComments>
+					<div class="container-fluid scrollable p-0">
+						<div class="mb-2 card bg-light border-secondary" *ngFor="let item of comments">
+							<div class="card-header font-weight-bold">
+								<img class="avatar mr-1" src={{item.snippet.topLevelComment.snippet.authorProfileImageUrl}}>
+								{{item?.snippet.topLevelComment.snippet.authorDisplayName}}
+							</div>
+							<div class="card-body">
+								<p class="card-text">
+									{{item?.snippet.topLevelComment.snippet.textOriginal}}
+								</p>
+								<p class="text-right">
+									<i class="pr-1 fas fa-thumbs-up"></i>{{item?.snippet.topLevelComment.snippet.likeCount}}
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
+				</ng-template>
 			</accordion-group>
 		</accordion>
 	</tab>
@@ -73,14 +78,9 @@
 					<div class="card">
 						<div class="card-header font-weight-bold">
 							{{singer}}
-							<span class="badge badge-info p-2 m-1" *ngFor="let genre of genres">
-								<a [routerLink]="['/search', genre]" class="text-white">
-									#{{genre || "I look for genres, but nobody knows what the hell this music is! :C"}}
-								</a>
-							</span>
 						</div>
 						<div class="card-body">
-							{{singer_abs || "No data about performer available :C"}}
+							{{singer_abs?.abstract.value || "No data available."}}
 						</div>
 					</div>
 					<div class="card mt-2">
@@ -88,38 +88,53 @@
 							{{song}}
 						</div>
 						<div class="card-body">
-							{{song_abs || "We don't have any info about this song :C"}}
+							{{song_abs?.abstract.value || "No data available."}}
 						</div>
 					</div>
 				</div>
 			</accordion-group>
 			<accordion-group heading="Album">
 				<div class="container-fluid scrollable p-0">
-					<div class="card">
-						<div class="card-header font-weight-bold">
-							{{album}}
-						</div>
-						<div class="card-body">
-							{{album_abs}}
-						</div>
+					<div *ngIf="album == undefined; else okAlbum">
+						<span class="label label-info">No data available.</span>
 					</div>
+					<ng-template #okAlbum>
+						<div class="card">
+							<div class="card-header font-weight-bold">
+								{{album || "No data available."}}
+							</div>
+							<div class="card-body">
+								{{album_abs || "No data available."}}
+							</div>
+						</div>
+					</ng-template>
 				</div>
 			</accordion-group>
 			<accordion-group heading="Genre">
 				<div class="container-fluid scrollable p-0">
-					<div class="card">
-						<div class="card-header font-weight-bold">
-							{{genres}}
-						</div>
-						<div class="card-body">
-							{{genre_abs || "Not enough info!"}}
-						</div>
+					<div *ngIf="genres == undefined; else okGenres">
+						No data available.
 					</div>
+					<ng-template #okGenres>
+						<div class="card mb-2" *ngFor="let genre of genres">
+							<div class="card-header font-weight-bold">
+								{{genre?.name.value}}
+								<span class="badge badge-info p-2 m-1">
+									<a [routerLink]="['/search', genre.name.value]" class="text-white">
+										more... <i class="fas fa-angle-right"></i>
+									</a>
+								</span>
+							</div>
+							<div class="card-body">
+								{{genre?.abstract.value || "No data available."}}
+							</div>
+						</div>
+					</ng-template>
 				</div>
 			</accordion-group>
 		</accordion>
 	</tab>
-<!--
+<!-- 
 	MUSICXMATCH ACCORDION GROUP
 -->
 	<tab class="pt-1">
