@@ -6,23 +6,40 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class AlphalistService {
-
-  private URL = 'http://site1825.tw.cs.unibo.it';
+  private head = 'http://site';
+  private tail = '.tw.cs.unibo.it';
 
   constructor(private http: HttpClient) { }
 
   // ~ GET starting videos from the fvitali
   getAll() {
-    return this.http.get(this.URL + '/video.json');
+    return this.http.get(this.head + '1825' + this.tail + '/video.json');
   }
 
-  getGlobpop(videoID: string) {
-    return this.http.get(this.URL + '/TW/globpop',
-      {
+  getFV(videoID: string) {
+    return this.http.get(this.head + '1825'+ this.tail + '/TW/globpop',{
         params: {
           id: videoID
         }
       }
     );
+  }
+
+  getGlobpop(siteID:string, videoID: string) {
+    return this.http.get(this.head + siteID + this.tail + '/globpop',{
+      params: {
+        id: videoID
+      }
+    });
+
+    /*return this.http.get( siteID,{ // TODO: when globpopList is online
+      params: {
+        id: videoID
+      }
+    });*/
+  }
+
+  getList() {
+    return this.http.get(this.head + '1826' + this.tail + '/globpopList.json');
   }
 }

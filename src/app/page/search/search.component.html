@@ -15,7 +15,7 @@
 	</div>
 	<div class="col-12 col-md-6 mb-3 p-0" *ngFor="let result of searchResults?.items; let hovered = index">     <!-- ? Safe Navigation Operator to avoid null or undefined-->
 		<!--	h-100	make two "cards" on same line with same height	-->
-		<div class="row align-items-center h-100 mx-2 py-2 border shadow-sm {{hovered}}" (mouseover)="this.hovered = 'shadow'" (mouseout)="this.hovered = ''">
+		<div class="row align-items-center h-100 mx-2 py-2 border shadow-sm border-primary {{hovered}}" (mouseover)="this.hovered = 'shadow'" (mouseout)="this.hovered = ''">
 			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">
 				<a [routerLink]="['/videopage', result.id.videoId]" aria-hidden="true" tabindex="-1">
 					<img class="container-fluid" src="{{result.snippet.thumbnails.medium.url}}" alt="{{result.snippet.title}}" title="{{result.snippet.title}}">

@@ -21,10 +21,13 @@ export class RecommenderComponent implements OnInit {
     //~ [x]   random: any[],
     //~ [x]   search: any[],
     //~ [x]   related: any[],
-    //~ []    recent: any[],
+    //~ [x]   recent: any[],
     //~ [x]   fvitali: any[],
-    //~ []    popularity: any[],
-    //~ []    similarity: any[]
+    //~ [x]   absoulute global popularity: any[],
+    //~ []    absoulute local popularity: any[],
+    //~ []    relative global cpopularity: any[],
+    //~ []    relative local cpopularity: any[],
+    //~ []    similarity: any[],
 
   constructor(
     private alphalistService: AlphalistService,
@@ -36,7 +39,7 @@ export class RecommenderComponent implements OnInit {
     this.r10s = {};
     this.route.params.subscribe( params => {
 
-      //random
+      // random
       let idPlay = { //playlist possibili
         playlists:[
           {"playlistId":"PLUg_BxrbJNY5gHrKsCsyon6vgJhxs72AH"},
@@ -53,7 +56,7 @@ export class RecommenderComponent implements OnInit {
         ]
       }
 
-      //id playlist casuale da playlists
+      // id playlist casuale da playlists
       let idPlaytmp= idPlay.playlists[Math.floor(Math.random()*idPlay.playlists.length)].playlistId;
       this.ytService.getPlaylist(idPlaytmp).subscribe(
         //data sono i 30 video presi dalla playlist, tramite getPlaylist da youtube.service
@@ -91,8 +94,27 @@ export class RecommenderComponent implements OnInit {
         error => console.log(error)
       );
 
+      // recent
+      //salvo in lastWatched le stringhe parsate in JSON di localStorage
+      let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
+      //se lastWatched contiene qualcosa
+      if (lastWatched.length !=0){
+      //Passo l'array lastWatched trasformato in un unica stringa di videoId concatenati
+      //a getVideo,  che fa la richiesta a YT che ritorna tutto l'oggetto
+        this.ytService.getVideo(lastWatched.join()).subscribe(
+        //subscribe permette di dare tempo al programma di rispondere, in modo asincrono
+          (data:any) => {
+          //mette dentro all array r10s i video filtrati per non mettere il video corrente prendendo i valori con froYT
+            this.r10s['recent']= this.fromYT(data).filter(
+              obj => obj.videoID != params.videoId
+            );
+          },
+          error => console.log(error)
+        );
+      }
+
       // fvitali
-      this.alphalistService.getGlobpop(params.videoId).subscribe(
+      this.alphalistService.getFV(params.videoId).subscribe(
         (data: any) => {
           let idList = [];
           data.recommended.forEach(
@@ -116,13 +138,66 @@ export class RecommenderComponent implements OnInit {
         },
         error => console.log(error)
       );
+
+      //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
+      let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901','1906'];
+
+      // TODO: use globpopList.json
+      this.popularity('absoulute global popularity','YYYYYY', siteCode);
+      //this.popularity('absoulute local popularity','YYYYYY', '1826');
+
+      //this.popularity('relative global popularity',params.videoId, siteCode);
+      //this.popularity('relative local popularity',params.videoId, '1826');
+
     });
+  }
+
+  popularity(recommender:string, query:string, siteCode:any){
+    this.r10s[recommender] = [];
+    let popList = [];
+    let popIdList = [];
+    for(let i in siteCode){
+      this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
+        (data: any) => {
+          for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
+          for(let i in popList.slice(0,20)){ popIdList[i] = popList[i].videoId;}
+
+          this.ytService.getVideo(popIdList.join()).subscribe(
+            (data: any) => this.r10s[recommender] = this.fromYT(data), // TODO: add number of play
+            error => console.log(error)
+          );
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  addList(list: any, obj: any){
+    obj = this.fromAlphaList(obj);
+    for (let i = 0; i<list.length && obj; i++){
+      if (list[i].videoId == obj.videoId) {
+        list[i].timesWatched = list[i].timesWatched + obj.timesWatched;
+        obj = null;
+      }
+    }
+    if (obj) list.push(obj);
+    list = list.sort((n1,n2) => { if (n1.timesWatched < n2.timesWatched) return 1; else return -1;});
+  }
+
+  fromAlphaList(data: any){
+    return{
+      videoId: (data.videoId? data.videoId : data.videoID),
+      timesWatched: data.timesWatched,
+      prevalentReason: data.prevalentReason,
+      lastSelected: data.lastSelected
+    }
   }
 
   fromYT(data: any) {
     let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
     for (let i in data.items) {
-      if ((!data.items.status) || (!data.items[i].status.publicStatsViewable && !data.items[i].status.embeddable)){
+      if ((!data.items[i].status) ||
+      (data.items[i].status.publicStatsViewable && data.items[i].status.embeddable)){
         results.push(
           {
             artist: data.items[i].snippet.channelTitle,
@@ -136,4 +211,5 @@ export class RecommenderComponent implements OnInit {
     }
     return results;
   }
+
 }
