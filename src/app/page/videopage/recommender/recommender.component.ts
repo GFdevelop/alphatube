@@ -25,9 +25,10 @@ export class RecommenderComponent implements OnInit {
     //~ [x]   fvitali: any[],
     //~ [x]   absoulute global popularity: any[],
     //~ []    absoulute local popularity: any[],
-    //~ []    relative global cpopularity: any[],
-    //~ []    relative local cpopularity: any[],
-    //~ []    similarity: any[],
+    //~ [x]   relative global popularity: any[],
+    //~ []    relative local popularity: any[],
+    //~ []    artist similarity: any[],
+    //~ []    genere similarity: any[],
 
   constructor(
     private alphalistService: AlphalistService,
@@ -105,7 +106,7 @@ export class RecommenderComponent implements OnInit {
         //subscribe permette di dare tempo al programma di rispondere, in modo asincrono
           (data:any) => {
           //mette dentro all array r10s i video filtrati per non mettere il video corrente prendendo i valori con froYT
-            this.r10s['recent']= this.fromYT(data).filter(
+            this.r10s['recent']= this.fromYT(data).filter(// TODO: compare il div anche se vuoto
               obj => obj.videoID != params.videoId
             );
           },
@@ -142,51 +143,75 @@ export class RecommenderComponent implements OnInit {
       //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
       let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901','1906'];
 
-      // TODO: use globpopList.json
-      this.popularity('absoulute global popularity','YYYYYY', siteCode);
-      //this.popularity('absoulute local popularity','YYYYYY', '1826');
+      // TODO: use for globpopList.json
+      /*this.alphalistService.getList().subscribe(
+        (data: any) =>{
+          this.popularity('absoulute global popularity','', data.globpop);
+          this.popularity('relative global popularity',params.videoId, data.globpop);
+        },
+        error => console.log(error)
+      );*/
 
-      //this.popularity('relative global popularity',params.videoId, siteCode);
+      this.popularity('absoulute global popularity','', siteCode);
+      this.popularity('relative global popularity',params.videoId, siteCode);
+
+      //this.popularity('absoulute local popularity','', '1826');
       //this.popularity('relative local popularity',params.videoId, '1826');
 
     });
   }
 
   popularity(recommender:string, query:string, siteCode:any){
-    this.r10s[recommender] = [];
-    let popList = [];
-    let popIdList = [];
+    let siteNumber=siteCode.length, popList = [];
     for(let i in siteCode){
       this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
         (data: any) => {
           for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
-          for(let i in popList.slice(0,20)){ popIdList[i] = popList[i].videoId;}
-
-          this.ytService.getVideo(popIdList.join()).subscribe(
-            (data: any) => this.r10s[recommender] = this.fromYT(data), // TODO: add number of play
-            error => console.log(error)
-          );
+          siteNumber = this.YTInfo(popList,siteNumber,recommender,query);
         },
-        error => console.log(error)
+        error => { console.log(error); siteNumber = this.YTInfo(popList,siteNumber,recommender,query);}
       );
     }
   }
 
-  addList(list: any, obj: any){
-    obj = this.fromAlphaList(obj);
-    for (let i = 0; i<list.length && obj; i++){
-      if (list[i].videoId == obj.videoId) {
-        list[i].timesWatched = list[i].timesWatched + obj.timesWatched;
-        obj = null;
+  addList(videoList: any, video: any){
+    if(!video.videoId) video = this.adjustAlphaList(video);
+    for (let i = 0; i<videoList.length && video; i++){
+      if (videoList[i].videoId == video.videoId) {
+        videoList[i].timesWatched = videoList[i].timesWatched + video.timesWatched;
+        video = null;
       }
     }
-    if (obj) list.push(obj);
-    list = list.sort((n1,n2) => { if (n1.timesWatched < n2.timesWatched) return 1; else return -1;});
+    if (video) videoList.push(video);
+    videoList = videoList.sort((n1,n2) => {if(n1.timesWatched < n2.timesWatched) return 1; else return -1;});
   }
 
-  fromAlphaList(data: any){
+  YTInfo(videoList: any, nSite:any, recommender:any, query:any){
+    nSite--;
+    if (nSite <= 0){
+      let popIdList = [];
+      videoList = videoList.slice(0,20);
+      for(let i in videoList){ popIdList[i] = videoList[i].videoId;}
+
+      this.ytService.getVideo(popIdList.join()).subscribe(
+        (data: any) => {
+          let tmpData = this.fromYT(data);
+          for (let i in tmpData){
+            let reason = videoList.filter(function (element){return tmpData[i].videoID == element.videoId;})[0];
+            if (query == ''){ tmpData[i].reason = reason.timesWatched + ' times watched';}
+            else { tmpData[i].reason = 'Prevalent reason: ' + reason.prevalentReason;}
+          }
+          this.r10s[recommender] = tmpData;
+        },
+        error => console.log(error)
+      );
+    }
+    return nSite;
+  }
+
+  adjustAlphaList(data: any){
     return{
-      videoId: (data.videoId? data.videoId : data.videoID),
+      videoId: data.videoID,
       timesWatched: data.timesWatched,
       prevalentReason: data.prevalentReason,
       lastSelected: data.lastSelected

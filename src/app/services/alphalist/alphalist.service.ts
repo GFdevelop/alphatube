@@ -26,17 +26,14 @@ export class AlphalistService {
   }
 
   getGlobpop(siteID:string, videoID: string) {
-    return this.http.get(this.head + siteID + this.tail + '/globpop',{
-      params: {
-        id: videoID
-      }
-    });
-
-    /*return this.http.get( siteID,{ // TODO: when globpopList is online
-      params: {
-        id: videoID
-      }
-    });*/
+    if (videoID != ''){
+      return this.http.get(this.head + siteID + this.tail + '/globpop',{
+        params: {
+          id: videoID
+        }
+      });
+    }
+    else return this.http.get(this.head + siteID + this.tail + '/globpop');
   }
 
   getList() {
