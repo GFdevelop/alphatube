@@ -2,44 +2,40 @@ const express = require('express');
 	cors = require('cors');	// for cross origin resource sharing request
 	path = require('path');
 	jsonDB = require('node-json-db');
-	fs = require('fs');
+var process = require('process');
 const port = 8000;
 var atlas = express();
 
-// ~ var origin = '*';
+// Fix path
+process.env.PWD = path.join(path.dirname(process.argv[1]), '..');
+process.chdir(process.env.PWD);
 
-// ~ if (fs.existsSync('./.dockerenv')) {
-	// ~ var origin = 'http://site1826.tw.cs.unibo.it';
-	// ~ var origin = 'http://gabriele.fulgaro.tw.cs.unibo.it';
-	// ~ var clientdir = '../alphatube';
-	// ~ var serverdir = './webapp/server';
-// ~ }
-// ~ else {
-	// ~ var origin = 'http://localhost:8000';
-	// ~ var clientdir = '../dist/alphatube';
-	// ~ var serverdir = './server';
-// ~ }
-
-// ~ var currentDir;
-// ~ fs.readdir('./webapp', function(err, items) {
-   	// ~ it = items;
-// ~ });
-	// ~ res.send(JSON.stringify(currentDir));		// put this in your method
 
 
 // CORS
+var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.avoni', 'francesco.fornari2'];
+for (i in whitelist) {
+	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
+}
+whitelist.push(undefined);
+
 var corsOption = {
-	origin: 'http://site1826.tw.cs.unibo.it',
+	origin: function (origin, callback) {
+		if (whitelist.indexOf(origin) !== -1) {
+			callback(null, true)
+		} else {
+			callback(new Error('Not allowed by CORS'))
+		}
+	},
 	optionSuccessStatus: 200 //Legacy browser (IE 11) support
 }
 
-// ~ atlas.use(cors(corsOption));
-atlas.use(cors());
-atlas.use(express.static(path.join(__dirname, '../alphatube')));
+atlas.use(cors(corsOption));
+atlas.use(express.static('alphatube'));
 
 
 //JSON-DB
-var db = new jsonDB("./webapp/server/db", true, true);
+var db = new jsonDB("./db", true, true);
 
 var lastID;
 try {
@@ -58,8 +54,7 @@ try {
 
 
 //ROUTE
-// ~ atlas.options('*', cors(corsOption));
-atlas.options('*', cors());
+atlas.options('*', cors(corsOption));
 
 atlas.get('/globpop', function(req, res) {
 	if (req.query.id) res.send(path);
@@ -69,6 +64,7 @@ atlas.get('/globpop', function(req, res) {
 atlas.get('/crazy', function(req, res) {
 	try {
 		var uid = db.getData("/" + req.query.user);
+		uid = req.query.user;
 	} catch(error) {
 		lastID = lastID + 1;
 		db.push("/" + lastID, {list: []});
@@ -79,7 +75,7 @@ atlas.get('/crazy', function(req, res) {
 });
 
 atlas.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../alphatube/index.html'));
+  res.sendFile(path.join(process.env.PWD, 'alphatube/index.html'));
 });
 
 
