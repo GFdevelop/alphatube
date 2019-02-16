@@ -1,47 +1,30 @@
 const express = require('express');
-	cors = require('cors');	// for cross origin resource sharing request
+	//~ Module required for Cross-Origin-Resource-Sharing policy
+	cors = require('cors');	
 	path = require('path');
+	//~ Module that implements a json based database
 	jsonDB = require('node-json-db');
-	fs = require('fs');
-const port = 8000;
+	port = 8000;
+
 var atlas = express();
 
-// ~ var origin = '*';
+//~ Used to store lastID assigned value
+var lastID;
 
-// ~ if (fs.existsSync('./.dockerenv')) {
-	// ~ var origin = 'http://site1826.tw.cs.unibo.it';
-	// ~ var origin = 'http://gabriele.fulgaro.tw.cs.unibo.it';
-	// ~ var clientdir = '../alphatube';
-	// ~ var serverdir = './webapp/server';
-// ~ }
-// ~ else {
-	// ~ var origin = 'http://localhost:8000';
-	// ~ var clientdir = '../dist/alphatube';
-	// ~ var serverdir = './server';
-// ~ }
-
-// ~ var currentDir;
-// ~ fs.readdir('./webapp', function(err, items) {
-   	// ~ it = items;
-// ~ });
-	// ~ res.send(JSON.stringify(currentDir));		// put this in your method
-
-
-// CORS
-var corsOption = {
-	origin: 'http://site1826.tw.cs.unibo.it',
-	optionSuccessStatus: 200 //Legacy browser (IE 11) support
-}
-
-// ~ atlas.use(cors(corsOption));
+//~ Server setup
 atlas.use(cors());
 atlas.use(express.static(path.join(__dirname, '../alphatube')));
+atlas.options('*', cors());
 
 
-//JSON-DB
+//~ JSON-DB - Initialization procedure 
+//~ If db file is present, conect to it else create it.
+//~ The db purpouse is to track videos watched by the individual user
 var db = new jsonDB("./webapp/server/db", true, true);
 
-var lastID;
+//~ Each time the server is started, it tries to read the value of lastID.
+//~ If the value is not present, it means this is the first time the server is up
+//~ so it creates the lastID field in the db and assign the value 0 to it.
 try {
 	lastID = db.getData("/lastID");
 } catch(error) {
@@ -49,23 +32,14 @@ try {
 	db.push("/lastID", lastID);
 };
 
-// ~ var user = {
-	// ~ from: "video0",
-	// ~ to: "video4",
-	// ~ reason: "abc"
-// ~ }
-// ~ db.push("/3/list[]",user,true);
-
-
-//ROUTE
-// ~ atlas.options('*', cors(corsOption));
-atlas.options('*', cors());
-
+//~ Routes management
 atlas.get('/globpop', function(req, res) {
 	if (req.query.id) res.send(path);
 	else res.send(__dirname);
 });
 
+//~ This routes assingns a unique ID for each visitor.
+//~ This ID is stored in the client Local Storage and is used as key for the db.
 atlas.get('/crazy', function(req, res) {
 	try {
 		var uid = db.getData("/" + req.query.user);
@@ -75,7 +49,11 @@ atlas.get('/crazy', function(req, res) {
 		db.push("/lastID", lastID);
 		uid = lastID;
 	}
-	res.json({ id: uid });
+	res.json(
+		{ 
+			id: uid 
+		}
+	);
 });
 
 atlas.get('*', (req, res) => {
@@ -83,7 +61,7 @@ atlas.get('*', (req, res) => {
 });
 
 
-//START
+//~ Server bindings to port and listening
 atlas.listen(port, () => {
   console.log('Server started at port ' + port + '!');
 });
