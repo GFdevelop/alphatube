@@ -1,9 +1,7 @@
 const express = require('express');
-	//~ Module required for Cross-Origin-Resource-Sharing policy
-	cors = require('cors');
+	cors = require('cors');				//~ Module required for Cross-Origin-Resource-Sharing policy
 	path = require('path');
-	//~ Module that implements a json based database
-	jsonDB = require('node-json-db');
+	jsonDB = require('node-json-db');	//~ Module that implements a json based database
 	port = 8000;
 var process = require('process');
 	atlas = express();
@@ -19,7 +17,7 @@ var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.av
 for (i in whitelist) {
 	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
 }
-whitelist.push(undefined);
+whitelist.push(undefined);		// in localhost the origin is undefined
 
 var corsOption = {
 	origin: function (origin, callback) {
@@ -51,11 +49,11 @@ try {
 	var lastID = db.getData("/lastID");		//~ Used to store lastID assigned value
 } catch(error) {
 	lastID = 0;
-	db.push("/lastID", lastID);
+	db.push("/lastID", lastID);				// save lastID to read on restart
 };
 
 //~ Routes management
-atlas.options('*', cors(corsOption));
+// ~ atlas.options('*', cors(corsOption));		// enable pre-flight request for all routes
 
 atlas.get('/globpop', function(req, res) {
 	if (req.query.id) res.send(path);
@@ -82,7 +80,7 @@ atlas.get('/crazy', function(req, res) {
 });
 
 atlas.get('*', (req, res) => {
-  res.sendFile(path.join(process.env.PWD, 'alphatube/index.html'));
+  res.sendFile(path.join(process.env.PWD, 'alphatube/index.html'));		// sendFile need absolute path
 });
 
 
