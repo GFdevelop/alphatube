@@ -29,30 +29,12 @@ export class HomeComponent implements OnInit {
           idList.push(data.splice(Math.floor(Math.random()*data.length),1)[0].videoID); //pop out videos from data and added on the random idList
         }
         this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
-          (obj: any) => this.videos = this.fromYT(obj).splice(0,this.nVideo),
+          (obj: any) => this.videos = this.ytService.fromYT(this.ytService.filterVideo(obj)).splice(0,this.nVideo),
           error => console.log(error)
         );
       },
       error => console.log(error)
     );
-  }
-
-  fromYT(data: any) {
-    let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
-    for (let i in data.items) {
-      if ((!data.items.status) || (!data.items[i].status.publicStatsViewable && !data.items[i].status.embeddable)){
-        results.push(
-          {
-            artist: data.items[i].snippet.channelTitle,
-            title: data.items[i].snippet.title,
-            videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
-            img: data.items[i].snippet.thumbnails.medium.url,
-            reason: ''
-          }
-        );
-      }
-    }
-    return results;
   }
 
 }
