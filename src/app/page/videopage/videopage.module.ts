@@ -11,6 +11,7 @@ import { VideopageComponent } from './videopage.component';
 import { RecommenderComponent } from './recommender/recommender.component';
 import { PlayerComponent } from './player/player.component';
 import { WikiboxComponent } from './wikibox/wikibox.component';
+import { YtPlayerModule } from 'ngx-ytplayer';
 
 @NgModule({
   declarations: [VideopageComponent, RecommenderComponent, PlayerComponent, WikiboxComponent],
@@ -20,7 +21,8 @@ import { WikiboxComponent } from './wikibox/wikibox.component';
     CarouselModule.forRoot(),
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    YtPlayerModule
   ]
 })
 

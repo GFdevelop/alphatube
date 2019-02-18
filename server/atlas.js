@@ -60,7 +60,7 @@ atlas.get('/globpop', function(req, res) {
 	else res.send(__dirname);
 });
 
-//~ This routes assingns a unique ID for each visitor.
+//~ This routes assigns a unique ID for each visitor.
 //~ This ID is stored in the client Local Storage and is used as key for the db.
 atlas.get('/crazy', function(req, res) {
 	try {
