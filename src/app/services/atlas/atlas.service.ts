@@ -9,9 +9,10 @@ export class AtlasService {
   constructor(private http: HttpClient) { }
 
   getId(id: string) {
-    const params= {
-      user: id
-    };
-    return this.http.get(window.location.origin + '/crazy', { params });
+    return this.http.get(window.location.origin + '/crazy', {
+      params: {
+        user: id
+      }
+    });
   }
 }

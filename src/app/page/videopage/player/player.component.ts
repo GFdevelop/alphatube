@@ -48,7 +48,7 @@ export class PlayerComponent implements OnInit {
     }
 
     updateCurrentTime(playerTime) {
-      if (this.status == 1) {
+      if (this.status === 1) {
         this.watchedTime = this.watchedTime + (playerTime - this.startTime);
         if ((!this.watched) && (this.watchedTime >= 15)) {
           this.watched = true;
