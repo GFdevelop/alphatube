@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { DbpediaService } from '../../../services/dbpedia/dbpedia.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
+import { LyricsService } from '../../../services/lyrics/lyrics.service';
 
 @Component({
   selector: 'app-wikibox',
@@ -18,6 +19,7 @@ export class WikiboxComponent implements OnInit {
   description: any;
   statistics: any;
   tags: any;
+  lyrics: any;
   
   title: any;
   singer: any;
@@ -25,7 +27,7 @@ export class WikiboxComponent implements OnInit {
   album: any;
   genres: any;
 
-  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService) { }
+  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -61,6 +63,7 @@ export class WikiboxComponent implements OnInit {
          this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
          
          this.fetchDBpedia(this.singer, this.song);
+         this.fetchMusicXMatch(this.singer, this.song);
        },
        error => console.log(error)
      );
@@ -106,7 +109,14 @@ export class WikiboxComponent implements OnInit {
 
 	//~ TODO
 	//~ Musicxmatch pill
-	
+	fetchMusicXMatch(singer: string, song: string){
+		this.mxm.getLyrics(singer, song).subscribe(
+			(data: any) => {
+				console.log(data);
+			},
+			error => console.log(error)
+		);
+	}
 	
 	//~ TODO
 	//~ Twitter pill
