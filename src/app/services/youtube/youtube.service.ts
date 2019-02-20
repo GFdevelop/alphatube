@@ -49,10 +49,10 @@ export class YoutubeService {
     return this.http.get(this.apiRef + '/videos',
       {
         params: {
-          part: 'snippet,player,statistics,status',
+          part: 'snippet,player,statistics,status,contentDetails',
           id: videoId,
           fields: 'etag,items(etag,id,player,snippet(categoryId,description,publishedAt,tags,title,thumbnails/medium/url,channelTitle),' +
-                  'statistics(dislikeCount,likeCount,viewCount),status(embeddable,license,privacyStatus,publicStatsViewable)),visitorId',
+                  'statistics(dislikeCount,likeCount,viewCount),status(embeddable,license,privacyStatus,publicStatsViewable),contentDetails(regionRestriction(blocked))),visitorId',
           key: this.devKey
         }
       }
@@ -77,14 +77,43 @@ export class YoutubeService {
   // richiesta al sito per una particolare playlist
   // this.apiref è quello oche va da https a v3, quindi inseriremo dentro a params quello che ci serve
   // torna 30 elementi della playlist
-  getPlaylist(playlistID: string) {
-    const params = {
-      part: 'snippet',
-      maxResults: '30',
-      playlistId: playlistID,
-      key: this.devKey
-    };
-    // part=snippet%2C+id&maxResults=30&playlistId=' + randomPlaylistId + '&key=' + API_KEY
-    return this.http.get(this.apiRef + '/playlistItems', {params});
-  }
+   getPlaylist(playlistID: string) {
+     let params = {
+       part: 'snippet',
+       maxResults: '30',
+       playlistId: playlistID,
+       key: this.devKey
+     };
+     // part=snippet%2C+id&maxResults=30&playlistId=' + randomPlaylistId + '&key=' + API_KEY
+     return this.http.get(this.apiRef + '/playlistItems',{params})
+   }
+
+   filterVideo(data: any) {
+     for(let i=0; i < data.items.length; i++){
+       try {
+         if ( !data.items[i].status.publicStatsViewable || //se è possibile essere visualizzato
+              !data.items[0].status.embeddable || // se è possibile metterlo nell'iframe
+               data.items[i].contentDetails.regionRestriction.blocked.filter( obj => obj == 'IT') // se è possibile essere visualizzato in questo paese
+            ){data.items.splice(i,1); i--;} // TODO: check based on country
+       }
+       catch{}
+     }
+     return data;
+   }
+
+   fromYT(data: any) {
+     let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
+     for (let i in data.items) {
+       results.push(
+         {
+           artist: data.items[i].snippet.channelTitle,
+           title: data.items[i].snippet.title,
+           videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
+           img: data.items[i].snippet.thumbnails.medium.url,
+           reason: ''
+         }
+       );
+     }
+     return results;
+   }
 }

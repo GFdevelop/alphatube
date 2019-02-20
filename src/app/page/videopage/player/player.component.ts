@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { YoutubeService } from '../../../services/youtube/youtube.service';
@@ -20,7 +19,6 @@ export class PlayerComponent implements OnInit {
     watched: any;
 
     constructor(
-        private sanitizer: DomSanitizer,
         private route: ActivatedRoute,
         private videoInfo: YoutubeService
     ) {}
@@ -34,8 +32,6 @@ export class PlayerComponent implements OnInit {
           this.videoId = params.videoId;
 
           // ~ this.recentVideoList(params);
-
-          // ~ this.iframe.nativeElement.contentWindow.location.replace(this.baseUrl + params.videoId);
 
           this.videoInfo.getVideo(params.videoId).subscribe(
               (data: any) => this.videoName = data.items[0].snippet.title
@@ -75,6 +71,4 @@ export class PlayerComponent implements OnInit {
       // ~ }
       // ~ localStorage.setItem('lastWatched' , JSON.stringify(tmpList));
     // ~ }
-
-    // ~ @ViewChild('iframe') iframe: ElementRef;
 }
