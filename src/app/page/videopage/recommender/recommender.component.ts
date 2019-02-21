@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AlphalistService } from '../../../services/alphalist/alphalist.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
+import { AtlasService } from '../../../services/atlas/atlas.service';
+
 // file json con playlist
 //import * as data from '../../../page/videopage/recommender/playlist.json';
 
@@ -19,22 +21,23 @@ export class RecommenderComponent implements OnInit {
   nVideo = 12;
   r10s: any;
 
-  private random = 'Random';                    //~ [x]   random: any[],
-  private search = 'Search';                    //~ [x]   search: any[],
-  private related = 'Related';                  //~ [x]   related: any[],
-  private recent = 'Recent';                    //~ [x]   recent: any[],
-  private fvitali = 'Fvitali';                  //~ [x]   fvitali: any[],
-  private absGlobPop = 'AbsGlobalPopularity';   //~ [x]   absoulute global popularity: any[],
-  private absLocalPop = 'AbsLocalPopularity';   //~ []    absoulute local popularity: any[],
-  private relGlobPop = 'RelGlobalPopularity';   //~ [x]   relative global popularity: any[],
-  private relLocalPop = 'RelLocalPopularity';   //~ []    relative local popularity: any[],
-  private artSimilarity = 'ArtistSimilarity';   //~ []    artist similarity: any[],
-  private genSimilarity = 'GenereSimilarity';   //~ []    genere similarity: any[],
+  //~ [x]   random: any[],
+  //~ [x]   search: any[],
+  //~ [x]   related: any[],
+  //~ [x]   recent: any[],
+  //~ [x]   fvitali: any[],
+  //~ [x]   absoulute global popularity: any[],
+  //~ []    absoulute local popularity: any[],
+  //~ [x]   relative global popularity: any[],
+  //~ []    relative local popularity: any[],
+  //~ []    artist similarity: any[],
+  //~ []    genere similarity: any[],
 
   constructor(
     private alphalistService: AlphalistService,
     private route: ActivatedRoute,
-    private ytService: YoutubeService
+    private ytService: YoutubeService,
+    private atlasService: AtlasService
   ) { }
 
   ngOnInit() {
@@ -71,14 +74,14 @@ export class RecommenderComponent implements OnInit {
               randomListVideoId[i]=data.items.splice(Math.floor(Math.random()*data.items.length), 1)[0].snippet.resourceId.videoId;
               i=i+1;
             }
-            this.getVideoInfo(this.random,randomListVideoId,[]);
+            this.getVideoInfo(this.atlasService.random,randomListVideoId,[]);
         }
       )
 
       // search
       if (localStorage.q) {
         this.ytService.getRecommenders({q: localStorage.q}).subscribe(
-          (data: any) => this.r10s[this.search] = this.ytService.fromYT(data).filter(
+          (data: any) => this.r10s[this.atlasService.search] = this.ytService.fromYT(data).filter(
             obj => obj.videoID !== params.videoId
           ),
           error => console.log(error)
@@ -91,7 +94,7 @@ export class RecommenderComponent implements OnInit {
           let idList = [];
           // TODO: chiede quanti video si possono richiedere contemporaneamente a getVideo
           for (let i in data.items.slice(0,30)){ idList[i]=data.items[i].id.videoId;}
-          this.getVideoInfo(this.related,idList,[]);
+          this.getVideoInfo(this.atlasService.related,idList,[]);
         },
         error => console.log(error)
       );
@@ -100,7 +103,7 @@ export class RecommenderComponent implements OnInit {
       //salvo in lastWatched le stringhe parsate in JSON di localStorage
       let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
       if (lastWatched.length !=0){ //se lastWatched contiene qualcosa
-        this.getVideoInfo(this.recent,lastWatched,params.videoId);
+        this.getVideoInfo(this.atlasService.recent,lastWatched,params.videoId);
       }
 
       // fvitali
@@ -111,7 +114,7 @@ export class RecommenderComponent implements OnInit {
             idList[i]=data.recommended[i].videoID;
             data.recommended[i]=this.adjustAlphaList(data.recommended[i]);
           }
-          this.getVideoInfo(this.fvitali,idList,data.recommended);
+          this.getVideoInfo(this.atlasService.fvitali,idList,data.recommended);
         },
         error => console.log(error)
       );
@@ -127,8 +130,8 @@ export class RecommenderComponent implements OnInit {
         error => console.log(error)
       );*/
 
-      this.popularity(this.absGlobPop,'', siteCode);
-      this.popularity(this.relGlobPop,params.videoId, siteCode);
+      this.popularity(this.atlasService.absGlobPop,'', siteCode);
+      this.popularity(this.atlasService.relGlobPop,params.videoId, siteCode);
 
       //this.popularity('this.absLocalPop,'', '1826');
       //this.popularity('this.relLocalPop',params.videoId, '1826');
@@ -143,15 +146,15 @@ export class RecommenderComponent implements OnInit {
         // E' possibile che getVideo e filterVideo tolgano alcuni video perchè non riproducibili, quindi la posizione nell'array non corrirsponde alla vecchia posizione
 
         // Se è rel pop o Fvitali mette come ragione prevalentReason
-        if (recommender == this.fvitali || recommender == this.relGlobPop){
+        if (recommender == this.atlasService.fvitali || recommender == this.atlasService.relGlobPop){
           for (let i in data){ data[i].reason = 'Prevalent reason: ' + reasonList.filter( elem => elem.videoId == data[i].videoID)[0].prevalentReason;}
         }
         // Se è absolute pop mette come ragione le views
-        else if (recommender == this.absGlobPop) {
+        else if (recommender == this.atlasService.absGlobPop) {
           for (let i in data){ data[i].reason = reasonList.filter( elem => elem.videoId == data[i].videoID)[0].timesWatched + ' times watched';}
         }
         // Se è recent bisogna di evitare che venga proposto lo stesso video che si sta guardando
-        else if (recommender == this.recent) {
+        else if (recommender == this.atlasService.recent) {
           data = data.filter( obj => obj.videoID != reasonList);
         }
 
