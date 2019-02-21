@@ -7,7 +7,7 @@ import { YoutubeService } from '../../../services/youtube/youtube.service';
 import { AtlasService } from '../../../services/atlas/atlas.service';
 
 // file json con playlist
-//import * as data from '../../../page/videopage/recommender/playlist.json';
+// import * as data from '../../../page/videopage/recommender/playlist.json';
 
 
 @Component({
@@ -45,38 +45,39 @@ export class RecommenderComponent implements OnInit {
     this.route.params.subscribe( params => {
 
       // random
-      let idPlay = { //playlist possibili
-        playlists:[
-          {"playlistId":"PLUg_BxrbJNY5gHrKsCsyon6vgJhxs72AH"},
-          {"playlistId":"PLVXq77mXV53-Np39jM456si2PeTrEm9Mj"},
-          {"playlistId":"PLTAOP-hZyrHtWfeOJVAvoN5OnuzNNQ0Yw"},
-          {"playlistId":"PLTDluH66q5mpm-Bsq3GlwjMOHITt2bwXE"},
-          {"playlistId":"PLS_oEMUyvA728OZPmF9WPKjsGtfC75LiN"},
-          {"playlistId":"PLLMA7Sh3JsOQQFAtj1no-_keicrqjEZDm"},
-          {"playlistId":"PLq-ZRVZ1W4Fesh7aKXj8np40uUZJTGBmR"},
-          {"playlistId":"PLA-94DyrXTGigxYXPXnRXDDSZ-K0sJxMn"},
-          {"playlistId":"PLC0w3lEHx2SF3NsbnqnLbWBWyF_3g0cjZ"},
-          {"playlistId":"PLmuBNwnyyiySB56boer3K2a5B83CqUjA4"},
-          {"playlistId":"PLGdZ-INw7mfA3VjyfA0I24xhEuh8UuZWa"}
+      const idPlay = { // playlist possibili
+        playlists: [
+          {'playlistId': 'PLUg_BxrbJNY5gHrKsCsyon6vgJhxs72AH'},
+          {'playlistId': 'PLVXq77mXV53-Np39jM456si2PeTrEm9Mj'},
+          {'playlistId': 'PLTAOP-hZyrHtWfeOJVAvoN5OnuzNNQ0Yw'},
+          {'playlistId': 'PLTDluH66q5mpm-Bsq3GlwjMOHITt2bwXE'},
+          {'playlistId': 'PLS_oEMUyvA728OZPmF9WPKjsGtfC75LiN'},
+          {'playlistId': 'PLLMA7Sh3JsOQQFAtj1no-_keicrqjEZDm'},
+          {'playlistId': 'PLq-ZRVZ1W4Fesh7aKXj8np40uUZJTGBmR'},
+          {'playlistId': 'PLA-94DyrXTGigxYXPXnRXDDSZ-K0sJxMn'},
+          {'playlistId': 'PLC0w3lEHx2SF3NsbnqnLbWBWyF_3g0cjZ'},
+          {'playlistId': 'PLmuBNwnyyiySB56boer3K2a5B83CqUjA4'},
+          {'playlistId': 'PLGdZ-INw7mfA3VjyfA0I24xhEuh8UuZWa'}
         ]
-      }
+      };
 
       // id playlist casuale da playlists
-      let idPlaytmp= idPlay.playlists[Math.floor(Math.random()*idPlay.playlists.length)].playlistId;
+      let idPlaytmp = idPlay.playlists[Math.floor(Math.random() * idPlay.playlists.length)].playlistId;
       this.ytService.getPlaylist(idPlaytmp).subscribe(
-        //data sono i 30 video presi dalla playlist, tramite getPlaylist da youtube.service
-        (data:any)=>{
+        // data sono i 30 video presi dalla playlist, tramite getPlaylist da youtube.service
+        (data: any) => {
             let randomListVideoId = [];
-            let i=0;
+            let i = 0;
             //finche' non sono stati inseriti 20 video
-            while(i< 20 && data.items.length !=0 ){
+            while(i < 20 && data.items.length !== 0 ){
               //metto dentro all'array degli id dei video, id di video casuali tramite data.items
-              randomListVideoId[i]=data.items.splice(Math.floor(Math.random()*data.items.length), 1)[0].snippet.resourceId.videoId;
-              i=i+1;
+              randomListVideoId[i] = data.items.splice(Math.floor(Math.random() * data.items.length), 1)[0].snippet.resourceId.videoId;
+              i = i+1;
             }
             this.getVideoInfo(this.atlasService.random,randomListVideoId,[]);
         }
-      )
+      );
+
 
       // search
       if (localStorage.q) {
@@ -100,7 +101,7 @@ export class RecommenderComponent implements OnInit {
       );
 
       // recent
-      //salvo in lastWatched le stringhe parsate in JSON di localStorage
+      // salvo in lastWatched le stringhe parsate in JSON di localStorage
       let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
       if (lastWatched.length !=0){ //se lastWatched contiene qualcosa
         this.getVideoInfo(this.atlasService.recent,lastWatched,params.videoId);
