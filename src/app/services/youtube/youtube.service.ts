@@ -75,7 +75,7 @@ export class YoutubeService {
   }
 
   //richiesta al sito per una particolare playlist
-  //this.apiref è quello oche va da https a v3, quindi inseriremo dentro a params quello che ci serve
+  //this.apiref è quello che va da https a v3, quindi inseriremo dentro a params quello che ci serve
   //torna 30 elementi della playlist
    getPlaylist(playlistID: string) {
      let params= {
