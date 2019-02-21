@@ -32,3 +32,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
+/* Lyrics font scale */
+pre {
+	font-size: 1vw;
+}

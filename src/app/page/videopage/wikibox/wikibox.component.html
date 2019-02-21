@@ -142,6 +142,31 @@
 			<i class="fas fa-music"></i><br>
 			Musicxmatch
 		</ng-template>
+		<accordion>
+			<accordion-group heading="Lyrics" [isOpen]="true">
+				<div class="container-fluid scrollable p-0">
+					<div class="card">
+						<div class="card-header">
+							<span class="badge badge-info p-2 float-right">
+								<a href="https://www.musixmatch.com/lyrics/{{singer}}/{{song}}" class="text-white">
+									Full lyrics at MusicXMatch <i class="fas fa-angle-right"></i>
+								</a>
+							</span>
+						</div>
+						<div class="card-body">
+							<pre>
+{{musicLyrics?.message.body.lyrics.lyrics_body || "No data available."}}
+							</pre>
+						</div>
+						<div class="card-footer">
+							<div class="font-weight-bold">
+								{{musicLyrics?.message.body.lyrics.lyrics_copyright || "No data available."}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</accordion-group>
+		</accordion>
 	</tab>
 <!--
 	TWITTER ACCORDION GROUP
