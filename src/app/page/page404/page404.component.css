@@ -1,4 +1,4 @@
 .videonoise{
-    background-image: url('../../../assets/img/videonoise.gif');
+    background-image: url('/assets/img/videonoise.gif');
     background-size: cover;
 }

@@ -18,13 +18,18 @@ export class RecommenderComponent implements OnInit {
 
   nVideo = 12;
   r10s: any;
-    // ~ [x]   random: any[],
-    // ~ [x]   search: any[],
-    // ~ [x]   related: any[],
-    // ~ [x]    recent: any[],
-    // ~ [x]   fvitali: any[],
-    // ~ []    popularity: any[],
-    // ~ []    similarity: any[]
+
+  private random = 'Random';                    //~ [x]   random: any[],
+  private search = 'Search';                    //~ [x]   search: any[],
+  private related = 'Related';                  //~ [x]   related: any[],
+  private recent = 'Recent';                    //~ [x]   recent: any[],
+  private fvitali = 'Fvitali';                  //~ [x]   fvitali: any[],
+  private absGlobPop = 'AbsGlobalPopularity';   //~ [x]   absoulute global popularity: any[],
+  private absLocalPop = 'AbsLocalPopularity';   //~ []    absoulute local popularity: any[],
+  private relGlobPop = 'RelGlobalPopularity';   //~ [x]   relative global popularity: any[],
+  private relLocalPop = 'RelLocalPopularity';   //~ []    relative local popularity: any[],
+  private artSimilarity = 'ArtistSimilarity';   //~ []    artist similarity: any[],
+  private genSimilarity = 'GenereSimilarity';   //~ []    genere similarity: any[],
 
   constructor(
     private alphalistService: AlphalistService,
@@ -60,19 +65,13 @@ export class RecommenderComponent implements OnInit {
         (data: any) => {
             let randomListVideoId = [];
             let i = 0;
-            // finche non sono stati inseriti 12 video
-            while (i < 20 && data.items.length !== 0) {
-              // metto dentro all'array degli id dei video, id di video casuali tramite data.items
+            //finche' non sono stati inseriti 20 video
+            while(i < 20 && data.items.length !== 0 ){
+              //metto dentro all'array degli id dei video, id di video casuali tramite data.items
               randomListVideoId[i] = data.items.splice(Math.floor(Math.random() * data.items.length), 1)[0].snippet.resourceId.videoId;
-              i = i + 1;
+              i = i+1;
             }
-            this.ytService.getVideo(randomListVideoId.join()).subscribe( // joins all the elements of an array into a string
-              (obj: any) => {
-                this.r10s['random'] = this.fromYT(obj);
-
-              },
-              error => console.log(error)
-            );
+            this.getVideoInfo(this.random,randomListVideoId,[]);
         }
       );
 
@@ -80,7 +79,7 @@ export class RecommenderComponent implements OnInit {
       // search
       if (localStorage.q) {
         this.ytService.getRecommenders({q: localStorage.q}).subscribe(
-          (data: any) => this.r10s['search'] = this.fromYT(data).filter(
+          (data: any) => this.r10s[this.search] = this.ytService.fromYT(data).filter(
             obj => obj.videoID !== params.videoId
           ),
           error => console.log(error)
@@ -89,74 +88,125 @@ export class RecommenderComponent implements OnInit {
 
       // related
       this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
-        (data: any) => this.r10s['YT related'] = this.fromYT(data),
+        (data: any) => {
+          let idList = [];
+          // TODO: chiede quanti video si possono richiedere contemporaneamente a getVideo
+          for (let i in data.items.slice(0,30)){ idList[i]=data.items[i].id.videoId;}
+          this.getVideoInfo(this.related,idList,[]);
+        },
         error => console.log(error)
       );
 
       // recent
       // salvo in lastWatched le stringhe parsate in JSON di localStorage
       let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
-      // se lastWatched contiene qualcosa
-      if (lastWatched.length !== 0) {
-      // Passo l'array lastWatched trasformato in un unica stringa di videoId concatenati
-      // a getVideo,  che fa la richiesta a YT che ritorna tutto l'oggetto
-        this.ytService.getVideo(lastWatched.join()).subscribe(
-        // subscribe permette di dare tempo al programma di rispondere, in modo asincrono
-          (data: any) => {
-          // mette dentro all array r10s i video filtrati per non mettere il video corrente prendendo i valori con froYT
-            this.r10s['recent'] = this.fromYT(data).filter(
-              obj => obj.videoID !== params.videoId
-            );
-          },
-          error => console.log(error)
-        );
+      if (lastWatched.length !=0){ //se lastWatched contiene qualcosa
+        this.getVideoInfo(this.recent,lastWatched,params.videoId);
       }
 
       // fvitali
-      this.alphalistService.getGlobpop(params.videoId).subscribe(
+      this.alphalistService.getFV(params.videoId).subscribe(
         (data: any) => {
           let idList = [];
-          data.recommended.forEach(
-            function (value, index) {
-              idList[index] = data.recommended[index].videoID;
-            }
-          );
-          this.ytService.getVideo(idList.join()).subscribe(
-            (obj: any) => {
-              let tmpList = this.fromYT(obj);
-              for (let i in tmpList) {
-                tmpList[i].reason =
-                data.recommended.filter(
-                  function (element) {
-                    return element.videoID === tmpList[i].videoID;
-                  }
-                )[0].prevalentReason;
-              }
-              this.r10s['fvitali'] = tmpList;
-            },
-            error => console.log(error)
-          );
+          for (let i in data.recommended.slice(0,30)){ // TODO: chiede quanti video si possono richiedere contemporaneamente a getVideo
+            idList[i]=data.recommended[i].videoID;
+            data.recommended[i]=this.adjustAlphaList(data.recommended[i]);
+          }
+          this.getVideoInfo(this.fvitali,idList,data.recommended);
         },
         error => console.log(error)
       );
+
+      //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
+      let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901'];
+
+      /*this.alphalistService.getList().subscribe( // Per quando globpopList.json sara' disponibile sul sito
+        (data: any) =>{
+          this.popularity('absoulute global popularity','', data.globpop);
+          this.popularity('relative global popularity',params.videoId, data.globpop);
+        },
+        error => console.log(error)
+      );*/
+
+      this.popularity(this.absGlobPop,'', siteCode);
+      this.popularity(this.relGlobPop,params.videoId, siteCode);
+
+      //this.popularity('this.absLocalPop,'', '1826');
+      //this.popularity('this.relLocalPop',params.videoId, '1826');
+
     });
   }
 
-  fromYT(data: any) {
-    let results: {artist: string, title: string, videoID: string, img: string, reason: string}[] = [];
-    for (let i in data.items) {
-      if ((!data.items.status) || (!data.items[i].status.publicStatsViewable && !data.items[i].status.embeddable)) {
-        results.push(
-          {
-            artist: data.items[i].snippet.channelTitle,
-            title: data.items[i].snippet.title,
-            videoID: (data.items[i].id.videoId) ? data.items[i].id.videoId : data.items[i].id,
-            img: data.items[i].snippet.thumbnails.medium.url,
-            reason: ''
-          }
-        );
+  getVideoInfo(recommender: string, idList: any, reasonList:any){
+    this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
+      (data: any) => {
+        data = this.ytService.fromYT(this.ytService.filterVideo(data));
+        // E' possibile che getVideo e filterVideo tolgano alcuni video perchè non riproducibili, quindi la posizione nell'array non corrirsponde alla vecchia posizione
+
+        // Se è rel pop o Fvitali mette come ragione prevalentReason
+        if (recommender == this.fvitali || recommender == this.relGlobPop){
+          for (let i in data){ data[i].reason = 'Prevalent reason: ' + reasonList.filter( elem => elem.videoId == data[i].videoID)[0].prevalentReason;}
+        }
+        // Se è absolute pop mette come ragione le views
+        else if (recommender == this.absGlobPop) {
+          for (let i in data){ data[i].reason = reasonList.filter( elem => elem.videoId == data[i].videoID)[0].timesWatched + ' times watched';}
+        }
+        // Se è recent bisogna di evitare che venga proposto lo stesso video che si sta guardando
+        else if (recommender == this.recent) {
+          data = data.filter( obj => obj.videoID != reasonList);
+        }
+
+        if (data) this.r10s[recommender] = data;
+      },
+      error => console.log(error)
+    );
+  }
+
+  popularity(recommender:string, query:string, siteCode:any){ // Ottiene i json dalle API del proj e aggiunge i dati in popList
+    let siteNumber=siteCode.length, popList = [];
+    for(let i in siteCode){
+      this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
+        (data: any) => {
+          for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
+          siteNumber = this.finalizePop(popList,siteNumber,recommender);
+        },
+        error => { console.log(error); siteNumber = this.finalizePop(popList,siteNumber,recommender);}
+      );
+    }
+  }
+
+  addList(videoList: any, video: any){ // Cerca se un video è gia presente nella lista se lo trova aumenta le views, altrimenti lo aggiunge
+    if(!video.videoId) video = this.adjustAlphaList(video); // Alcune API ritornano videoID al posto di videoId, adjustAlphaList() sistema questo problema
+    for (let i = 0; i<videoList.length && video; i++){
+      if (videoList[i].videoId == video.videoId) {
+        videoList[i].timesWatched = videoList[i].timesWatched + video.timesWatched;
+        video = null;
       }
     }
-    return results;
+    if (video) videoList.push(video);
   }
+
+  finalizePop(videoList: any, nSite:any, recommender:any){ // Ordina la lista in base alle views, richiede a YT le info dei primi 15 video e li aggiunge nel recommender dedicato
+    nSite--;
+    if (nSite <= 0){ // Entra a fare la richiesta a YT solo se la lista e completa e contiene le informazioni di tutte le API
+      videoList = videoList.sort((n1,n2) => {if(n1.timesWatched < n2.timesWatched) return 1; else return -1;}); // Ordinamento lista per visualizzazioni
+
+      let popIdList = [];
+      videoList = videoList.splice(0,15);
+      for(let i in videoList){ popIdList[i] = videoList[i].videoId;}
+
+      this.getVideoInfo(recommender, popIdList, videoList);
+    }
+    return nSite;
+  }
+
+  adjustAlphaList(data: any){ // Alcuni recommender ritornano videoID al posto di videoId, adjustAlphaList sistema questo problema
+    return{
+      videoId: data.videoID,
+      timesWatched: data.timesWatched,
+      prevalentReason: data.prevalentReason,
+      lastSelected: data.lastSelected
+    }
+  }
+
 }

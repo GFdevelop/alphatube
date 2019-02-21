@@ -18,6 +18,10 @@
   border-color: #e6edee !important;
 }
 
+/* navbar toggler */
+.btn-primary{ border: 2px solid #f5fbff !important;}
+.btn-primary:hover{ background-color: #af5ecf;}
+
 /* contorno delle carte e del video */
 .border-primary{ border-color: #63c4f4 !important;}
 .border-primary:hover{ border-color: #A239CA !important;}
