@@ -18,8 +18,11 @@ export class SearchComponent implements OnInit {
   constructor(private route: ActivatedRoute, private yt: YoutubeService) { }
 
   ngOnInit() {
+    this.semaphore = true;
+    this.q = undefined;
+    this.searchResults = undefined;
+
     this.route.params.subscribe((urlParams) => {
-      this.semaphore = true;
       if (localStorage.q !== urlParams.q) { localStorage.q = urlParams.q; }
       this.message = 'Search results for ' + urlParams.q;
       this.doSearch(urlParams.q);
@@ -49,7 +52,7 @@ export class SearchComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event']) onWindowScroll() {
     if (this.searchResults) {
-      if ((window.innerHeight + window.scrollY) >= this.list.nativeElement.children[this.searchResults.items.length - 3].offsetTop) {
+      if ((window.innerHeight + window.pageYOffset) >= this.list.nativeElement.children[this.searchResults.items.length - 3].offsetTop) {
         if (this.q && !this.semaphore) {
           this.semaphore = true;
           this.doSearch(this.q, this.searchResults.nextPageToken);

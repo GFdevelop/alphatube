@@ -1,8 +1,9 @@
 <div class="embed-responsive embed-responsive-16by9">
-    <iframe #iframe class="embed-responsive-item border border-primary"
-        src="about:blank"
-        allowfullscreen>
-    </iframe>
-    <!--accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture-->
-</div>
+    <div ytPlayer class="embed-responsive-item border border-primary"
+      [videoId]="videoId"
+      [showFullScreenButton]="true"
+      (nativeStateChange)="onStateChange($event)"
+      (currentTimeChange)="updateCurrentTime($event)"
+      ></div>
+    </div>
 <h3 class="text-truncate">{{videoName}}</h3>

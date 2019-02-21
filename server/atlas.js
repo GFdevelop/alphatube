@@ -6,7 +6,6 @@ const express = require('express');
 var process = require('process');
 	atlas = express();
 
-
 // Fix path
 process.env.PWD = path.join(path.dirname(process.argv[1]), '..');
 process.chdir(process.env.PWD);
@@ -20,6 +19,8 @@ for (i in whitelist) {
 whitelist.push(undefined);		// in localhost the origin is undefined
 
 var corsOption = {
+	methods: ['GET','PUT'],
+	allowedHeaders: ['Content-Type'],
 	origin: function (origin, callback) {
 		if (whitelist.indexOf(origin) !== -1) {
 			callback(null, true)
@@ -53,14 +54,12 @@ try {
 };
 
 //~ Routes management
-// ~ atlas.options('*', cors(corsOption));		// enable pre-flight request for all routes
-
 atlas.get('/globpop', function(req, res) {
 	if (req.query.id) res.send(path);
 	else res.send(__dirname);
 });
 
-//~ This routes assingns a unique ID for each visitor.
+//~ This routes assigns a unique ID for each visitor.
 //~ This ID is stored in the client Local Storage and is used as key for the db.
 atlas.get('/crazy', function(req, res) {
 	try {
@@ -83,6 +82,22 @@ atlas.get('*', (req, res) => {
   res.sendFile(path.join(process.env.PWD, 'alphatube/index.html'));		// sendFile need absolute path
 });
 
+atlas.put('/update', (req, res) => {
+	try {
+		var userHistory = db.getData("/" + req.query.user);
+		if (req.query.newId && req.query.reason){ 
+			db.push('/' + req.query.user + '/[]', {
+				newId: req.query.newId;
+				reason: req.query.reason;
+				oldId: req.query.oldId;
+			});
+		}
+	} catch(error) {
+		res.statusCode = 400;
+		res.send('Bad request.');
+	}
+	
+});
 
 //~ Server bindings to port and listening
 atlas.listen(port, () => {
