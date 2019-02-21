@@ -17,13 +17,13 @@
 		<!--	h-100	make two "cards" on same line with same height	-->
 		<div class="row align-items-center h-100 mx-2 py-2 border shadow-sm border-primary {{hovered}}" (mouseover)="this.hovered = 'shadow'" (mouseout)="this.hovered = ''">
 			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">
-				<a [routerLink]="['/videopage', result.id.videoId]" aria-hidden="true" tabindex="-1">
+				<a [routerLink]="['/videopage', result.id.videoId, 'Search']" aria-hidden="true" tabindex="-1">
 					<img class="container-fluid" src="{{result.snippet.thumbnails.medium.url}}" alt="{{result.snippet.title}}" title="{{result.snippet.title}}">
 				</a>
 			</div>
 			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">
 				<div class="container-fluid">
-					<a class="card-link" [routerLink]="['/videopage', result.id.videoId]" attr.aria-label="{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: 'longDate' }}">
+					<a class="card-link" [routerLink]="['/videopage', result.id.videoId, 'Search']" attr.aria-label="{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: 'longDate' }}">
 						<h6 class="card-title <!-- font-weight-bold -->">{{ result.snippet.title }}</h6>
 					</a>
 					<p class="card-subtitle text-truncate">{{result.snippet.channelTitle}}</p>
