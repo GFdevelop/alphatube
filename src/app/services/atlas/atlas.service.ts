@@ -63,4 +63,14 @@ export class AtlasService {
     });
   }
 
+  update(user: any, newId: string, reason: string, oldId: string) {
+    return this.http.put(window.location.origin + '/update', {
+      params: {
+        user: user,
+        newId: newId,
+        reason: reason,
+        oldId: oldId
+      }
+    });
+  }
 }

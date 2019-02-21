@@ -21,6 +21,7 @@
     "@angular/router": "^7.2.6",
     "@types/youtube": "0.0.35",
     "angular": "^1.7.6",
+    "body-parser": "^1.18.3",
     "core-js": "^2.6.5",
     "cors": "^2.8.5",
     "ngx-bootstrap": "^3.2.0",

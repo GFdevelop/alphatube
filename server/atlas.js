@@ -4,11 +4,14 @@ const express = require('express');
 	jsonDB = require('node-json-db');	//~ Module that implements a json based database
 	port = 8000;
 var process = require('process');
+	bodyParser = require('body-parser');
 	atlas = express();
 
 // Fix path
 process.env.PWD = path.join(path.dirname(process.argv[1]), '..');
 process.chdir(process.env.PWD);
+__dirname = process.env.PWD;
+__filename = process.argv[1];
 
 
 // CORS
@@ -16,6 +19,7 @@ var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.av
 for (i in whitelist) {
 	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
 }
+whitelist.push('http://localhost:8000');
 whitelist.push(undefined);		// in localhost the origin is undefined
 
 var corsOption = {
@@ -34,6 +38,8 @@ var corsOption = {
 
 //~ Server setup
 atlas.use(cors(corsOption));
+atlas.use(bodyParser.urlencoded({ extended: false }));
+atlas.use(bodyParser.json());
 atlas.use(express.static('alphatube'));
 
 
@@ -53,6 +59,8 @@ try {
 	db.push("/lastID", lastID);				// save lastID to read on restart
 };
 
+// ~ atlas.options('*',cors(corsOption));
+
 //~ Routes management
 atlas.get('/globpop', function(req, res) {
 	if (req.query.id) res.send(path);
@@ -71,32 +79,28 @@ atlas.get('/crazy', function(req, res) {
 		db.push("/lastID", lastID);
 		uid = lastID;
 	}
-	res.json(
-		{
-			id: uid
-		}
-	);
-});
-
-atlas.get('*', (req, res) => {
-  res.sendFile(path.join(process.env.PWD, 'alphatube/index.html'));		// sendFile need absolute path
+	res.json( { id: uid } );
 });
 
 atlas.put('/update', (req, res) => {
 	try {
-		var userHistory = db.getData("/" + req.query.user);
-		if (req.query.newId && req.query.reason){ 
-			db.push('/' + req.query.user + '/[]', {
-				newId: req.query.newId;
-				reason: req.query.reason;
-				oldId: req.query.oldId;
+		var userHistory = db.getData('/' + req.body.params.user);
+		if (req.body.params.newId && req.body.params.reason){
+			db.push('/' + req.body.params.user + '/list[]', {
+				newId: req.body.params.newId,
+				reason: req.body.params.reason,
+				oldId: req.body.params.oldId
 			});
 		}
+		res.json( { message: 'OK' } );
 	} catch(error) {
 		res.statusCode = 400;
-		res.send('Bad request.');
+		res.send('Bad Request');
 	}
-	
+});
+
+atlas.get('*', (req, res) => {
+	res.sendFile(path.join(process.env.PWD, 'alphatube/index.html'));		// sendFile need absolute path
 });
 
 //~ Server bindings to port and listening
