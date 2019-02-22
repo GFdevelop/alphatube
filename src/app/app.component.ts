@@ -13,18 +13,10 @@ export class AppComponent implements OnInit {
   constructor (private as: AtlasService) { }
 
   ngOnInit() {
-    this.as.sendTuple('hello', 'search').subscribe(
-      (data: any) => console.log(data.message),
-      error => console.error(error)
-    );
-    this.as.sendTuple('ciao', 'homepage').subscribe(
-      (data: any) => console.log(data.message),
-      error => console.error(error)
-    );
-    this.as.sendTuple('world', 'random', 'ciao').subscribe(
-      (data: any) => console.log(data.message),
-      error => console.error(error)
-    );
+    // ~ this.as.sendTuple('world', 'random', 'ciao').subscribe(
+      // ~ (data: any) => console.log(data.message),
+      // ~ error => console.error(error)
+    // ~ );
     // ~ this.as.getId(localStorage.id).subscribe(
       // ~ (user: any) => localStorage.id = user.id,
       // ~ error => console.log('error getId')
