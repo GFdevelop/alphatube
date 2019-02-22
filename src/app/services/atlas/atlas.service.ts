@@ -5,54 +5,43 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AtlasService {
-  public random = 'Random';
-  public search = 'Search';
-  public related = 'Related';
-  public recent = 'Recent';
-  public fvitali = 'Fvitali';
-  public absGlobPop = 'AbsGlobalPopularity';
-  public absLocalPop = 'AbsLocalPopularity';
-  public relGlobPop = 'RelGlobalPopularity';
-  public relLocalPop = 'RelLocalPopularity';
-  public artSimilarity = 'ArtistSimilarity';
-  public genSimilarity = 'GenereSimilarity';
+  public reasonList = [
+    'Random',
+    'Search',
+    'Related',
+    'Recent',
+    'Fvitali',
+    'AbsGlobalPopularity',
+    'RelGlobalPopularity',
+    'AbsLocalPopularity',
+    'RelLocalPopularity',
+    'ArtistSimilarity',
+    'GenereSimilarity',
+    'BandSimilarity'
+  ]
+
+  private lastVideoSvg = undefined
 
   constructor(
     private http: HttpClient
   ) { }
 
-  // ~ getId(id: string) {
-    // ~ return this.http.get(window.location.origin + '/crazy', {
-      // ~ params: {
-        // ~ user: id
-      // ~ }
-    // ~ });
-  // ~ }
+  sendWatched(currentVideo:string, reason:string){
+    let lastVideo = sessionStorage.getItem('lastVideo') ? sessionStorage.getItem('lastVideo') : undefined;
+    sessionStorage.setItem('lastVideo', currentVideo);
 
-  sendTuple(currentVideo:string, reason:string, lastVideo?: string){
-    // ~ let lastVideo;
-    // ~ try { lastVideo = JSON.parse(sessionStorage.getItem('lastVideo'));}
-    // ~ catch { lastVideo = null;}
-    // ~ sessionStorage.setItem('lastVideo' , JSON.stringify(currentVideo));
+    /*let lastVideo = this.lastVideoSvg;
+    this.lastVideoSvg = currentVideo;*/
 
-    // ~ try {
-      // ~ if (reason == this.absLocalPop ||
-          // ~ reason == this.relLocalPop)
-      // ~ { reason = 'LocalPopularity' }
-      // ~ else if ( reason == this.absGlobPop  ||
-                // ~ reason == this.relGlobPop)
-      // ~ { reason = 'GlobalPopularity' }
-      // ~ else if ( reason == this.artSimilarity ||
-                // ~ reason == this.genSimilarity)
-      // ~ { reason = 'Similarity' }
-      // ~ else if ( reason != this.random  &&
-                // ~ reason != this.search  &&
-                // ~ reason != this.related &&
-                // ~ reason != this.recent  &&
-                // ~ reason != this.fvitali)
-      // ~ { reason = this.random; }
-    // ~ }
-    // ~ catch { reason = this.random; }
+    if (this.reasonList.indexOf(reason) == -1){ lastVideo = reason = undefined;}
+    else if (reason === 'AbsLocalPopularity' || reason === 'RelLocalPopularity'){
+      reason = 'LocalPopularity';
+    }
+    else if (reason === 'AbsGlobalPopularity' || reason === 'RelGlobalPopularity'){
+      reason = 'GlobalPopularity';
+    }
+
+    console.log(lastVideo,reason,currentVideo);
 
     return this.http.put(window.location.origin + '/watched', {
       begin: lastVideo,

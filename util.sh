@@ -7,7 +7,7 @@
 
 declare -A group
 group[gabriele]="gabriele.fulgaro"
-
+group[mattia]="mattia.polverini"
 
 # add your remote host
 # hosts[USER]="host"
@@ -16,6 +16,7 @@ group[gabriele]="gabriele.fulgaro"
 
 declare -A hosts
 hosts[gabriele]="hansel"
+hosts[mattia]="marullo"
 
 
 

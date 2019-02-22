@@ -21,9 +21,9 @@ export class DbpediaService {
 					WHERE{
 						VALUES ?type {"group_or_band" "solo_singer"}
 						?artist foaf:name "` + singer + `"@en.
-						?artist dbo:genre ?genre.
+						OPTIONAL{ ?artist dbo:genre ?genre. }
 						?artist dbo:abstract ?abstract.
-						?artist dbo:background ?type.
+						OPTIONAL{ ?artist dbo:background ?type. }
 						FILTER langMatches(lang(?abstract),"en")
 					}`,
 				format: 'json'
