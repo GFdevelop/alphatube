@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AlphalistService } from '../../../services/alphalist/alphalist.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
-import { AtlasService } from '../../../services/atlas/atlas.service';
 
 // file json con playlist
 // import * as data from '../../../page/videopage/recommender/playlist.json';
@@ -36,8 +35,7 @@ export class RecommenderComponent implements OnInit {
   constructor(
     private alphalistService: AlphalistService,
     private route: ActivatedRoute,
-    private ytService: YoutubeService,
-    private atlasService: AtlasService
+    private ytService: YoutubeService
   ) { }
 
   ngOnInit() {
@@ -74,7 +72,7 @@ export class RecommenderComponent implements OnInit {
               randomListVideoId[i] = data.items.splice(Math.floor(Math.random() * data.items.length), 1)[0].snippet.resourceId.videoId;
               i = i+1;
             }
-            this.getVideoInfo(this.atlasService.random,randomListVideoId,[]);
+            this.getVideoInfo('Random',randomListVideoId,[]);
         }
       );
 
@@ -82,7 +80,7 @@ export class RecommenderComponent implements OnInit {
       // search
       if (localStorage.q) {
         this.ytService.getRecommenders({q: localStorage.q}).subscribe(
-          (data: any) => this.r10s[this.atlasService.search] = this.ytService.fromYT(data).filter(
+          (data: any) => this.r10s['Search'] = this.ytService.fromYT(data).filter(
             obj => obj.videoID !== params.videoId
           ),
           error => console.log(error)
@@ -91,21 +89,19 @@ export class RecommenderComponent implements OnInit {
 
       // related
       this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
-        (data: any) => {
-          let idList = [];
-          // TODO: chiede quanti video si possono richiedere contemporaneamente a getVideo
-          for (let i in data.items.slice(0,30)){ idList[i]=data.items[i].id.videoId;}
-          this.getVideoInfo(this.atlasService.related,idList,[]);
-        },
+        (data: any) => this.r10s['Related'] = this.ytService.fromYT(data),
         error => console.log(error)
       );
 
       // recent
       // salvo in lastWatched le stringhe parsate in JSON di localStorage
-      let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
-      if (lastWatched.length !=0){ //se lastWatched contiene qualcosa
-        this.getVideoInfo(this.atlasService.recent,lastWatched,params.videoId);
-      }
+      try {
+        let lastWatched = JSON.parse(localStorage.getItem('lastWatched'));
+        if (lastWatched.length !=0){ //se lastWatched contiene qualcosa
+          this.getVideoInfo('Recent',lastWatched,params.videoId);
+        }
+      } catch {}
+
 
       // fvitali
       this.alphalistService.getFV(params.videoId).subscribe(
@@ -115,7 +111,7 @@ export class RecommenderComponent implements OnInit {
             idList[i]=data.recommended[i].videoID;
             data.recommended[i]=this.adjustAlphaList(data.recommended[i]);
           }
-          this.getVideoInfo(this.atlasService.fvitali,idList,data.recommended);
+          this.getVideoInfo('Fvitali',idList,data.recommended);
         },
         error => console.log(error)
       );
@@ -131,11 +127,11 @@ export class RecommenderComponent implements OnInit {
         error => console.log(error)
       );*/
 
-      this.popularity(this.atlasService.absGlobPop,'', siteCode);
-      this.popularity(this.atlasService.relGlobPop,params.videoId, siteCode);
+      this.popularity('AbsGlobalPopularity','', siteCode);
+      this.popularity('RelGlobalPopularity',params.videoId, siteCode);
 
-      //this.popularity('this.absLocalPop,'', '1826');
-      //this.popularity('this.relLocalPop',params.videoId, '1826');
+      //this.popularity('AbsLocalPopularity','', '1826');
+      //this.popularity('RelLocalPopularity',params.videoId, '1826');
 
     });
   }
@@ -147,15 +143,15 @@ export class RecommenderComponent implements OnInit {
         // E' possibile che getVideo e filterVideo tolgano alcuni video perchè non riproducibili, quindi la posizione nell'array non corrirsponde alla vecchia posizione
 
         // Se è rel pop o Fvitali mette come ragione prevalentReason
-        if (recommender == this.atlasService.fvitali || recommender == this.atlasService.relGlobPop){
+        if (recommender == 'Fvitali' || recommender == 'RelGlobalPopularity'){
           for (let i in data){ data[i].reason = 'Prevalent reason: ' + reasonList.filter( elem => elem.videoId == data[i].videoID)[0].prevalentReason;}
         }
         // Se è absolute pop mette come ragione le views
-        else if (recommender == this.atlasService.absGlobPop) {
+        else if (recommender == 'AbsGlobalPopularity') {
           for (let i in data){ data[i].reason = reasonList.filter( elem => elem.videoId == data[i].videoID)[0].timesWatched + ' times watched';}
         }
         // Se è recent bisogna di evitare che venga proposto lo stesso video che si sta guardando
-        else if (recommender == this.atlasService.recent) {
+        else if (recommender == 'Recent') {
           data = data.filter( obj => obj.videoID != reasonList);
         }
 
@@ -165,7 +161,8 @@ export class RecommenderComponent implements OnInit {
     );
   }
 
-  popularity(recommender:string, query:string, siteCode:any){ // Ottiene i json dalle API del proj e aggiunge i dati in popList
+  // Ottiene i json dalle API del proj e aggiunge i dati in popList
+  popularity(recommender:string, query:string, siteCode:any){
     let siteNumber=siteCode.length, popList = [];
     for(let i in siteCode){
       this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
@@ -178,8 +175,10 @@ export class RecommenderComponent implements OnInit {
     }
   }
 
-  addList(videoList: any, video: any){ // Cerca se un video è gia presente nella lista se lo trova aumenta le views, altrimenti lo aggiunge
-    if(!video.videoId) video = this.adjustAlphaList(video); // Alcune API ritornano videoID al posto di videoId, adjustAlphaList() sistema questo problema
+  // Cerca se un video è gia presente nella lista se lo trova aumenta le views, altrimenti lo aggiunge
+  addList(videoList: any, video: any){
+    // Alcune API ritornano videoID al posto di videoId, adjustAlphaList() sistema questo problema
+    if(!video.videoId) video = this.adjustAlphaList(video);
     for (let i = 0; i<videoList.length && video; i++){
       if (videoList[i].videoId == video.videoId) {
         videoList[i].timesWatched = videoList[i].timesWatched + video.timesWatched;
@@ -189,10 +188,13 @@ export class RecommenderComponent implements OnInit {
     if (video) videoList.push(video);
   }
 
-  finalizePop(videoList: any, nSite:any, recommender:any){ // Ordina la lista in base alle views, richiede a YT le info dei primi 15 video e li aggiunge nel recommender dedicato
+  // Ordina la lista in base alle views, richiede a YT le info dei primi 15 video e li aggiunge nel recommender dedicato
+  finalizePop(videoList: any, nSite:any, recommender:any){
     nSite--;
-    if (nSite <= 0){ // Entra a fare la richiesta a YT solo se la lista e completa e contiene le informazioni di tutte le API
-      videoList = videoList.sort((n1,n2) => {if(n1.timesWatched < n2.timesWatched) return 1; else return -1;}); // Ordinamento lista per visualizzazioni
+    // Entra a fare la richiesta a YT solo se la lista e completa e contiene le informazioni di tutte le API
+    if (nSite <= 0){
+      // Ordinamento lista per visualizzazioni
+      videoList = videoList.sort((n1,n2) => {if(n1.timesWatched < n2.timesWatched) return 1; else return -1;});
 
       let popIdList = [];
       videoList = videoList.splice(0,15);
@@ -203,7 +205,8 @@ export class RecommenderComponent implements OnInit {
     return nSite;
   }
 
-  adjustAlphaList(data: any){ // Alcuni recommender ritornano videoID al posto di videoId, adjustAlphaList sistema questo problema
+  // Alcuni recommender ritornano videoID al posto di videoId, adjustAlphaList sistema questo problema
+  adjustAlphaList(data: any){
     return{
       videoId: data.videoID,
       timesWatched: data.timesWatched,
