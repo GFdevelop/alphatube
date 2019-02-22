@@ -13,16 +13,14 @@ export class TwitterService {
   constructor(private http: HttpClient) { }
   
   //~ Temporary suspended
-  //~ getTweets(artist: string, song: string){
-    //~ console.log( this.http.get(this.tep + '/1.1/search/tweets.json', {
-      //~ headers: this.headers,
-      //~ params: {
-        //~ q: artist+" "+song,
-        //~ lang: "en",
-        //~ result_type: "popular",
-        //~ count: "12"
-        //~ }
-    //~ });
-   //~ );
-  //~ }
+  getTweets(artist: string, song: string){
+    return this.http.get(this.tep + '/1.1/search/tweets.json', {
+      params: {
+        q: artist+" "+song,
+        lang: "en",
+        result_type: "popular",
+        count: "12"
+        }
+    });
+	}
 }

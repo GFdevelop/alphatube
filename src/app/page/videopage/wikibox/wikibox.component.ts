@@ -65,6 +65,7 @@ export class WikiboxComponent implements OnInit {
         
         this.fetchDBpedia(this.singer, this.song);
         this.fetchMusicXMatch(this.singer, this.song);
+        this.fetchTwitter(this.singer, this.song);
       },
       error => console.log(error)
     );
@@ -118,13 +119,14 @@ export class WikiboxComponent implements OnInit {
 	}
 	
 	//~ Twitter pill
-	//~ fetchTwitter(singer: string, song: string){
-		//~ this.twit.getTweets(singer, song).subscribe(
-			//~ (data: any) => {
-			//~ },
-			//~ error => console.log(error)
-		//~ );
-	//~ }
+	fetchTwitter(singer: string, song: string){
+		this.twit.getTweets(singer, song).subscribe(
+			(data: any) => {
+				console.log(data);
+			},
+			error => console.log(error)
+		);
+	}
 	
 	//~ Utility function
 	getInfo(){
