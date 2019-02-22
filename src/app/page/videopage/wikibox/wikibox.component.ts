@@ -21,7 +21,7 @@ export class WikiboxComponent implements OnInit {
   statistics: any;
   tags: any;
   musicLyrics: any;
-  
+
   title: any;
   singer: any;
   song: any;
@@ -37,7 +37,7 @@ export class WikiboxComponent implements OnInit {
 		this.fetchYTData(params.videoId);
     });
   }
-  
+
   //~ YouTube pill
   //~ TODO: Continuos scroll for comments
   fetchYTData(videoId: string){
@@ -49,20 +49,20 @@ export class WikiboxComponent implements OnInit {
       },
       error => console.log(error)
      );
-     
+
     // ~ Description/info
     this.yt.getVideo(videoId).subscribe(
-			(data: any) => {
-				this.description = data.items[0].snippet.description;
+      (data: any) => {
+	this.description = data.items[0].snippet.description;
         this.statistics = data.items[0].statistics;
         this.tags = data.items[0].snippet.tags;
         this.title = data.items[0].snippet.title;
-        
+
         //~ TODO: Check which is what. The schema is "singer - song" or "song - singer"
         //~ FIXED: The schema is assumed to be BAND NAME/SINGER NAME - SONG TITLE
         this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
         this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
-        
+
         this.fetchDBpedia(this.singer, this.song);
         this.fetchMusicXMatch(this.singer, this.song);
         this.fetchTwitter(this.singer, this.song);
@@ -70,10 +70,10 @@ export class WikiboxComponent implements OnInit {
       error => console.log(error)
     );
   }
-   
+
 	// ~ DBpedia pill
 	fetchDBpedia(singer: string, song: string){
-			
+
 		//~ Singer
 		this.dbs.getSingerInfo(this.singer).subscribe(
 			(data: any) => {
@@ -89,7 +89,7 @@ export class WikiboxComponent implements OnInit {
 			},
 			error => console.log(error)
 		);
-    
+
 		//~ Song
 		this.dbs.getSongInfo(this.song, this.singer).subscribe(
 			(data: any) => {
