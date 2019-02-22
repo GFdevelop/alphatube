@@ -91,10 +91,9 @@ export class YoutubeService {
    filterVideo(data: any) {
      for(let i=0; i < data.items.length; i++){
        try {
-         if ( !data.items[i].status.publicStatsViewable || //se è possibile essere visualizzato
-              !data.items[0].status.embeddable || // se è possibile metterlo nell'iframe
-               data.items[i].contentDetails.regionRestriction.blocked.filter( obj => obj == 'IT') // se è possibile essere visualizzato in questo paese
-            ){data.items.splice(i,1); i--;} // TODO: check based on country
+         if (!data.items[0].status.embeddable || // se è possibile metterlo nell'iframe
+              data.items[i].contentDetails.regionRestriction.blocked.filter( obj => obj == 'IT')) // se è possibile essere visualizzato in questo paese
+        { data.items.splice(i,1); i--;} // TODO: check based on country
        }
        catch{}
      }
