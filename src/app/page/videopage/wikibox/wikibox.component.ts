@@ -21,6 +21,7 @@ export class WikiboxComponent implements OnInit {
   statistics: any;
   tags: any;
   musicLyrics: any;
+  twitter: any;
 
   title: any;
   singer: any;
@@ -33,7 +34,7 @@ export class WikiboxComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params) => {
-		this.title = this.song = this.singer_abs = this.song_abs = this.genres = this.comments = null;
+		this.musicLyrics = this.title = this.song = this.singer_abs = this.song_abs = this.genres = this.comments = null;
 		this.fetchYTData(params.videoId);
     });
   }
@@ -60,8 +61,12 @@ export class WikiboxComponent implements OnInit {
 
         //~ TODO: Check which is what. The schema is "singer - song" or "song - singer"
         //~ FIXED: The schema is assumed to be BAND NAME/SINGER NAME - SONG TITLE
-        this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
-        this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+        try {
+			this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+			this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+		} catch(error) {
+			console.log("Schema not recognized!");
+		}
 
         this.fetchDBpedia(this.singer, this.song);
         this.fetchMusicXMatch(this.singer, this.song);
@@ -109,20 +114,23 @@ export class WikiboxComponent implements OnInit {
 	}
 
 	//~ Musicxmatch pill
+	//~ TODO: replace space with '-' before attach musicxmatch full lyrics link
 	fetchMusicXMatch(singer: string, song: string){
-		this.mxm.getLyrics(singer, song).subscribe(
-			(data: any) => {
-				this.musicLyrics = data;
-			},
-			error => console.log(error)
-		);
+		if(singer && song) {
+			this.mxm.getLyrics(singer, song).subscribe(
+				(data: any) => {
+					this.musicLyrics = data;
+				},
+				error => console.log(error)
+			);
+		}
 	}
 	
 	//~ Twitter pill
 	fetchTwitter(singer: string, song: string){
 		this.twit.getTweets(singer, song).subscribe(
 			(data: any) => {
-				console.log(data);
+				this.twitter = data.statuses;
 			},
 			error => console.log(error)
 		);

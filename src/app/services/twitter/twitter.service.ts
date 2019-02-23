@@ -6,21 +6,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class TwitterService {
   
-  private consumer = 'bGp3ZrcxcqXgKPLHlgjDm0nat';
-  private secret= '19aF7C5OucXxIUxn7UPYPWvWazUzvikS6HIJupcuw1XyOEsr26';
-  tep = 'https://api.twitter.com';
-  
   constructor(private http: HttpClient) { }
   
-  //~ Temporary suspended
   getTweets(artist: string, song: string){
-    return this.http.get(this.tep + '/1.1/search/tweets.json', {
+    return this.http.get(window.location.origin + '/twitter', {
       params: {
-        q: artist+" "+song,
-        lang: "en",
-        result_type: "popular",
-        count: "12"
-        }
+        q_artist: artist,
+        q_song: song
+       }
     });
 	}
+
 }
