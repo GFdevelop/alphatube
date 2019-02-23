@@ -48,52 +48,66 @@ atlas.use(express.static('alphatube'));
 //~ The db purpouse is to track videos watched by the individual user
 var db = new jsonDB("./db", true, true);
 
-
-//~ Each time the server is started, it tries to read the value of lastID.
-//~ If the value is not present, it means this is the first time the server is up
-//~ so it creates the lastID field in the db and assign the value 0 to it.
-// ~ try {
-	// ~ var lastID = db.getData("/lastID");		//~ Used to store lastID assigned value
-// ~ } catch(error) {
-	// ~ lastID = 0;
-	// ~ db.push("/lastID", lastID);				// save lastID to read on restart
-// ~ };
-
 // ~ atlas.options('*',cors(corsOption));
 
 //~ Routes management
 atlas.get('/globpop', function(req, res) {
-	if (req.query.id) res.send(path);
-	else res.send(__dirname);
+
+	// ~ console.log(req.protocol + '://' + req.headers.host);
+	var response = {
+		site: req.headers.host,
+		recommender: req.query.id,
+		lastWatched: 'Never watched.',
+		recommended: []
+	}
+
+	if (req.query.id) {
+		try {
+			var video = db.getData(`/${req.query.id}`);
+
+			if (video) {
+				response.lastWatched = video.lastWatched;
+				response.recommended = Object.entries(video.recommended).map(
+					([k, v]) => (
+						{
+							videoID: k,
+							prevalentReason: Object.keys(v)[0],
+							timesWatched: Object.values(v)[0].timesWatched,
+							lastSelected: Object.values(v)[0].lastSelected
+						}
+					)
+				);
+				// ~ console.log(response);
+			}
+		} catch(error) {
+			console.log(error);
+			// ~ res.statusCode = 400;
+		}
+	}
+	// ~ else {
+
+	// ~ }
+	res.json( response );
 });
 
-//~ This routes assigns a unique ID for each visitor.
-//~ This ID is stored in the client Local Storage and is used as key for the db.
-// ~ atlas.get('/crazy', function(req, res) {
-	// ~ try {
-		// ~ var uid = db.getData("/" + req.query.user);
-		// ~ uid = req.query.user;
-	// ~ } catch(error) {
-		// ~ lastID = lastID + 1;
-		// ~ db.push("/" + lastID, {list: []});
-		// ~ db.push("/lastID", lastID);
-		// ~ uid = lastID;
-	// ~ }
-	// ~ res.json( { id: uid } );
-// ~ });
-
 atlas.put('/watched', (req, res) => {
+
+	const date = new Date().toUTCString();
+
 	if (req.body.begin) {
 		try {
-			var timesWatched = db.getData(`/${req.body.begin}/related/${req.body.end}/${req.body.reason}`);
+			var timesWatched = db.getData(`/${req.body.begin}/recommended/${req.body.end}/${req.body.reason}`);
 		} catch(error) {
 			timesWatched = 0;
 		}
 
 		var value = {
-			related: {
+			recommended: {
 				[req.body.end]: {
-					[req.body.reason]: timesWatched+1
+					[req.body.reason]: {
+						timesWatched: timesWatched+1,
+						lastSelected: date
+					}
 				}
 			}
 		}
@@ -110,7 +124,7 @@ atlas.put('/watched', (req, res) => {
 
 	value = {
 		timesWatched: timesWatched+1,
-		lastWatched: new Date().toUTCString()
+		lastWatched: date
 	}
 
 	db.push("/" + req.body.end, value, false);

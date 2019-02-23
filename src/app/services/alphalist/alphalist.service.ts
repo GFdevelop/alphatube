@@ -27,7 +27,8 @@ export class AlphalistService {
 
   getGlobpop(siteID:string, videoID: string) {
     if (videoID != ''){
-      return this.http.get(this.head + siteID + this.tail + '/globpop',{
+      // ~ TODO: return this.http.get(this.head + siteID + this.tail + '/globpop',{
+      return this.http.get('http://localhost:8000' + '/globpop',{
         params: {
           id: videoID
         }

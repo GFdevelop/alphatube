@@ -7,7 +7,7 @@
 	{{message}}
 </div>
 
-<div class="row text-center text-xl-left text-md-center text-sm-left px-2" role="main" #list>
+<div class="row text-center text-xl-left text-md-center text-sm-left px-2" role="main" id="list" #list>
 	<div class="container-fluid text-center" *ngIf="searchResults">
 		<h3 class="card-title font-weight-bold">
 			 {{(searchResults?.items.length) ? 'Search ' : 'No '}} results for {{q}}

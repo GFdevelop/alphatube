@@ -58,7 +58,7 @@ export class PlayerComponent implements OnInit {
           this.recentVideoList(this.videoId);
 
           // Invia al server i dati da aggiungere al server
-          this.as.sendWatched(this.videoId,this.reason).subscribe(
+          this.as.sendWatched(this.videoId,this.reason).subscribe(  // TODO: remove lastvideo and reason if == newvideo
             (data: any) => console.log(data),
             error => console.log(error)
           );
