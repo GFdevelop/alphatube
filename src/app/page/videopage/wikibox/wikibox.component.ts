@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DbpediaService } from '../../../services/dbpedia/dbpedia.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
 import { LyricsService } from '../../../services/lyrics/lyrics.service';
+import { TwitterService } from '../../../services/twitter/twitter.service';
 
 import { SimilarityService } from '../../../services/similarity/similarity.service';
 
@@ -22,14 +23,14 @@ export class WikiboxComponent implements OnInit {
   statistics: any;
   tags: any;
   musicLyrics: any;
-  
+
   title: any;
   singer: any;
   song: any;
   album: any;
   genres: any;
 
-  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService, private similarity: SimilarityService) { }
+  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService, private twit: TwitterService, private similarity: SimilarityService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -38,7 +39,7 @@ export class WikiboxComponent implements OnInit {
 		this.fetchYTData(params.videoId);
     });
   }
-  
+
   //~ YouTube pill
   //~ TODO: Continuos scroll for comments
   fetchYTData(videoId: string){
@@ -50,7 +51,7 @@ export class WikiboxComponent implements OnInit {
       },
       error => console.log(error)
      );
-     
+
     // ~ Description/info
     this.yt.getVideo(videoId).subscribe(
 			(data: any) => {
@@ -58,7 +59,7 @@ export class WikiboxComponent implements OnInit {
         this.statistics = data.items[0].statistics;
         this.tags = data.items[0].snippet.tags;
         this.title = data.items[0].snippet.title;
-        
+
         //~ TODO: Check which is what. The schema is "singer - song" or "song - singer"
         //~ FIXED: The schema is assumed to be BAND NAME/SINGER NAME - SONG TITLE
         this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
@@ -73,10 +74,10 @@ export class WikiboxComponent implements OnInit {
       error => console.log(error)
     );
   }
-   
+
 	// ~ DBpedia pill
 	fetchDBpedia(singer: string, song: string){
-			
+
 		//~ Singer
 		this.dbs.getSingerInfo(this.singer).subscribe(
 			(data: any) => {
@@ -94,7 +95,7 @@ export class WikiboxComponent implements OnInit {
 			},
 			error => console.log(error)
 		);
-    
+
 		//~ Song
 		this.dbs.getSongInfo(this.song, this.singer).subscribe(
 			(data: any) => {
@@ -113,7 +114,6 @@ export class WikiboxComponent implements OnInit {
 		);
 	}
 
-	//~ TODO
 	//~ Musicxmatch pill
 	fetchMusicXMatch(singer: string, song: string){
 		this.mxm.getLyrics(singer, song).subscribe(
@@ -123,7 +123,18 @@ export class WikiboxComponent implements OnInit {
 			error => console.log(error)
 		);
 	}
-	
-	//~ TODO
+
 	//~ Twitter pill
+	//~ fetchTwitter(singer: string, song: string){
+		//~ this.twit.getTweets(singer, song).subscribe(
+			//~ (data: any) => {
+			//~ },
+			//~ error => console.log(error)
+		//~ );
+	//~ }
+
+	//~ Utility function
+	getInfo(){
+		return new Array(this.singer, this.song, this.genres);
+	}
 }
