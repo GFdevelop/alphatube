@@ -5,6 +5,8 @@ import { DbpediaService } from '../../../services/dbpedia/dbpedia.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
 import { LyricsService } from '../../../services/lyrics/lyrics.service';
 
+import { SimilarityService } from '../../../services/similarity/similarity.service';
+
 @Component({
   selector: 'app-wikibox',
   templateUrl: './wikibox.component.html',
@@ -27,7 +29,7 @@ export class WikiboxComponent implements OnInit {
   album: any;
   genres: any;
 
-  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService) { }
+  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService, private similarity: SimilarityService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -61,7 +63,10 @@ export class WikiboxComponent implements OnInit {
         //~ FIXED: The schema is assumed to be BAND NAME/SINGER NAME - SONG TITLE
         this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
         this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
-        
+
+        // "solo_singer" "group_or_band"
+        this.similarity.setArtist(this.singer);
+
         this.fetchDBpedia(this.singer, this.song);
         this.fetchMusicXMatch(this.singer, this.song);
       },
@@ -80,6 +85,8 @@ export class WikiboxComponent implements OnInit {
 					this.dbs.getGenreInfo(data.results.bindings[0].genres.value).subscribe(
 						(data: any) => {
 							this.genres = data.results.bindings;
+
+              this.similarity.setGenere(this.genres);
 						},
 						error => console.log(error)
 					);

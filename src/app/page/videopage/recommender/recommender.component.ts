@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AlphalistService } from '../../../services/alphalist/alphalist.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
+import { SimilarityService } from '../../../services/similarity/similarity.service';
 
 // file json con playlist
 // import * as data from '../../../page/videopage/recommender/playlist.json';
@@ -33,9 +34,10 @@ export class RecommenderComponent implements OnInit {
   //~ []    genere similarity: any[],
 
   constructor(
-    private alphalistService: AlphalistService,
     private route: ActivatedRoute,
-    private ytService: YoutubeService
+    private ytService: YoutubeService,
+    private alphalistService: AlphalistService,
+    private similarity: SimilarityService
   ) { }
 
   ngOnInit() {
@@ -116,6 +118,8 @@ export class RecommenderComponent implements OnInit {
         error => console.log(error)
       );
 
+
+      // popularity
       //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
       let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901'];
 
@@ -133,6 +137,30 @@ export class RecommenderComponent implements OnInit {
       //this.popularity('AbsLocalPopularity','', '1826');
       //this.popularity('RelLocalPopularity',params.videoId, '1826');
 
+
+      // artist similarity
+      this.similarity.emptyVar();
+
+      this.similarity.getArtist().subscribe(
+        (data: any) => {
+          this.ytService.getRecommenders({q: data}).subscribe(
+            (obj: any) => this.r10s['ArtistSimilarity'] = this.ytService.fromYT(obj),
+            error => console.log(error)
+          );
+        },
+        error => console.log(error)
+      );
+
+      // genere similarity
+      this.similarity.getGenere().subscribe(
+        (data: any) => {
+          this.ytService.getRecommenders({q: data}).subscribe(
+            (obj: any) => this.r10s['GenereSimilarity'] = this.ytService.fromYT(obj),
+            error => console.log(error)
+          );
+        },
+        error => console.log(error)
+      );
     });
   }
 
