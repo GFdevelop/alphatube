@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { AlphalistService } from '../../services/alphalist/alphalist.service';
 import { YoutubeService } from '../../services/youtube/youtube.service';
-/* import { MErrorComponent } from '../shared/m-error/m-error.component';*/
 
 @Component({
   selector: 'app-home',
@@ -15,28 +14,32 @@ export class HomeComponent implements OnInit {
   videoId: string;
   videos: any;
   nVideo = 20;
+  notFirst: string;
 
   constructor(
     private alphalistService: AlphalistService,
     private ytService: YoutubeService
-    /* private ac: MErrorComponent,
-    private fa: MErrorComponent,*/
   ) { }
 
   ngOnInit() {
-  //  this.fa.ForceAngles();
-
-    /*this.ac.setError();*/
-    /*this.ac.getError();*/
+    try {
+      this.notFirst = JSON.parse(localStorage.getItem('lastWatched'))[0];
+      //console.log(this.notFirst);
+    }
+    catch {
+      this.notFirst = undefined;
+    }
 
     this.alphalistService.getAll().subscribe(
       (data: any) => {
         let idList = [];
-        let cap = data.length;
-        while ((idList.length < this.nVideo + 5) && (idList.length < cap)) {
-          idList.push(data.splice(Math.floor(Math.random() * data.length), 1)[0].videoID); // pop out videos from data and added on the random idList
+        while ((idList.length < 30) && (data.length)) {
+        // prendo un indice a caso e tiro fuori l'id del video, e lo metto dentro a idlist,
+          idList.push(data.splice(Math.floor(Math.random() * data.length), 1)[0].videoID);
         }
-        this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
+        //richiedo le informazioni yt dei vari video
+        this.ytService.getVideo(idList.join()).subscribe(
+        //che viene filtrato e messo nel formato
           (obj: any) => this.videos = this.ytService.fromYT(this.ytService.filterVideo(obj)).splice(0,this.nVideo),
           error => console.log(error)
         );
