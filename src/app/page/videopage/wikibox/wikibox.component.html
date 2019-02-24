@@ -176,5 +176,32 @@
 			<i class="fab fa-twitter"></i><br>
 			Twitter
 		</ng-template>
+		<accordion>
+			<div *ngIf="twitter == 0; else okTwitter">
+				No data available.
+			</div>
+			<ng-template #okTwitter>
+				<accordion-group heading="Tweets" [isOpen]="true">
+					<div class="container-fluid scrollable p-0">
+						<div class="mb-2 card bg-light border-secondary" *ngFor="let twit of twitter">
+							<div class="card-header font-weight-bold">
+								<img class="avatar mr-1" src={{twit.user.profile_image_url}}>
+								{{twit?.user.name}}
+							</div>
+							<div class="card-body">
+								<p class="card-text">
+									{{twit?.text}}
+								</p>
+							<p class="text-right">
+								<i class="fas fa-heart pr-1"></i>{{twit?.favorite_count}}
+								<i class="fas fa-retweet pr-1"></i>{{twit?.retweet_count}}
+							</p>
+							</div>
+						</div>
+					</div>
+				</accordion-group>
+			</ng-template>
+		</accordion>
 	</tab>
+	
 </tabset>

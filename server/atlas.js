@@ -3,6 +3,7 @@ const express = require('express');
 	path = require('path');
 	jsonDB = require('node-json-db');	//~ Module that implements a json based database
 	port = 8000;
+	twitter = require('twit');
 var process = require('process');
 	bodyParser = require('body-parser');
 	atlas = express();
@@ -52,12 +53,12 @@ var db = new jsonDB("./db", true, true);
 //~ Each time the server is started, it tries to read the value of lastID.
 //~ If the value is not present, it means this is the first time the server is up
 //~ so it creates the lastID field in the db and assign the value 0 to it.
-try {
-	var lastID = db.getData("/lastID");		//~ Used to store lastID assigned value
-} catch(error) {
-	lastID = 0;
-	db.push("/lastID", lastID);				// save lastID to read on restart
-};
+// ~ try {
+	// ~ var lastID = db.getData("/lastID");		//~ Used to store lastID assigned value
+// ~ } catch(error) {
+	// ~ lastID = 0;
+	// ~ db.push("/lastID", lastID);				// save lastID to read on restart
+// ~ };
 
 // ~ atlas.options('*',cors(corsOption));
 
@@ -69,34 +70,78 @@ atlas.get('/globpop', function(req, res) {
 
 //~ This routes assigns a unique ID for each visitor.
 //~ This ID is stored in the client Local Storage and is used as key for the db.
-atlas.get('/crazy', function(req, res) {
-	try {
-		var uid = db.getData("/" + req.query.user);
-		uid = req.query.user;
-	} catch(error) {
-		lastID = lastID + 1;
-		db.push("/" + lastID, {list: []});
-		db.push("/lastID", lastID);
-		uid = lastID;
+// ~ atlas.get('/crazy', function(req, res) {
+	// ~ try {
+		// ~ var uid = db.getData("/" + req.query.user);
+		// ~ uid = req.query.user;
+	// ~ } catch(error) {
+		// ~ lastID = lastID + 1;
+		// ~ db.push("/" + lastID, {list: []});
+		// ~ db.push("/lastID", lastID);
+		// ~ uid = lastID;
+	// ~ }
+	// ~ res.json( { id: uid } );
+// ~ });
+
+atlas.put('/watched', (req, res) => {
+	if (req.body.begin) {
+		try {
+			var timesWatched = db.getData(`/${req.body.begin}/related/${req.body.end}/${req.body.reason}`);
+		} catch(error) {
+			timesWatched = 0;
+		}
+
+		var value = {
+			related: {
+				[req.body.end]: {
+					[req.body.reason]: timesWatched+1
+				}
+			}
+		}
+
+		db.push("/" + req.body.begin, value, false);
 	}
-	res.json( { id: uid } );
+
+
+	try {
+		timesWatched = db.getData(`/${req.body.end}/timesWatched`);
+	} catch(error) {
+		timesWatched = 0;
+	}
+
+	value = {
+		timesWatched: timesWatched+1,
+		lastWatched: new Date().toUTCString()
+	}
+
+	db.push("/" + req.body.end, value, false);
+
+
+
+	res.json( { message: 'OK' } );
+
+		// ~ res.statusCode = 400;
+		// ~ res.send('Bad Request');
 });
 
-atlas.put('/update', (req, res) => {
-	try {
-		var userHistory = db.getData('/' + req.body.params.user);
-		if (req.body.params.newId && req.body.params.reason){
-			db.push('/' + req.body.params.user + '/list[]', {
-				newId: req.body.params.newId,
-				reason: req.body.params.reason,
-				oldId: req.body.params.oldId
-			});
-		}
-		res.json( { message: 'OK' } );
-	} catch(error) {
-		res.statusCode = 400;
-		res.send('Bad Request');
-	}
+atlas.get('/twitter', (req, res) => {
+	
+	var T = new twitter({
+		consumer_key: '*************************',
+		consumer_secret: '**************************************************',
+		access_token: '**************************************************',
+		access_token_secret: '*********************************************'
+		
+	});
+	
+	T.get('search/tweets', {
+		q: req.query.q_song + ' ' + req.query.q_artist,
+		lang: 'en',
+		result_type: 'mixed',
+		count: 24
+	}, (err, data, response) => {
+		res.send(data);
+	});	
 });
 
 atlas.get('*', (req, res) => {

@@ -26,14 +26,6 @@ export class AtlasService {
     private http: HttpClient
   ) { }
 
-  getId(id: string) {
-    return this.http.get(window.location.origin + '/crazy', {
-      params: {
-        user: id
-      }
-    });
-  }
-
   sendWatched(currentVideo:string, reason:string){
     let lastVideo = sessionStorage.getItem('lastVideo') ? sessionStorage.getItem('lastVideo') : undefined;
     sessionStorage.setItem('lastVideo', currentVideo);
@@ -52,22 +44,9 @@ export class AtlasService {
     console.log(lastVideo,reason,currentVideo);
 
     return this.http.put(window.location.origin + '/watched', {
-      params: {
-        begin: lastVideo,
-        reason: reason,
-        end: currentVideo
-      }
-    });
-  }
-
-  update(user: any, newId: string, reason: string, oldId: string) {
-    return this.http.put(window.location.origin + '/update', {
-      params: {
-        user: user,
-        newId: newId,
-        reason: reason,
-        oldId: oldId
-      }
+      begin: lastVideo,
+      reason: reason,
+      end: currentVideo
     });
   }
 }

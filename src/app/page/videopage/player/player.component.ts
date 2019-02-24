@@ -50,7 +50,7 @@ export class PlayerComponent implements OnInit {
     updateCurrentTime(playerTime) {
       if (this.status === 1) {
         this.watchedTime = this.watchedTime + (playerTime - this.startTime);
-        if ((!this.watched) && (this.watchedTime >= 0)) {
+        if ((!this.watched) && (this.watchedTime >= 15)) {
           this.watched = true;
           console.log('watched!');
 
@@ -58,7 +58,10 @@ export class PlayerComponent implements OnInit {
           this.recentVideoList(this.videoId);
 
           // Invia al server i dati da aggiungere al server
-          this.as.sendWatched(this.videoId,this.reason);
+          this.as.sendWatched(this.videoId,this.reason).subscribe(
+            (data: any) => console.log(data),
+            error => console.log(error)
+          );
         }
         // ~ console.log(this.watchedTime);
       }

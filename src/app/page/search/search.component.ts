@@ -15,10 +15,11 @@ export class SearchComponent implements OnInit {
   q: string;
   semaphore = false;
 
+  @ViewChild('list') list: ElementRef;
+
   constructor(private route: ActivatedRoute, private yt: YoutubeService) { }
 
   ngOnInit() {
-    this.semaphore = true;
     this.q = undefined;
     this.searchResults = undefined;
 
@@ -31,32 +32,36 @@ export class SearchComponent implements OnInit {
 
   // https://coryrylan.com/blog/rxjs-observables-versus-subjects
   doSearch(q: string, pageToken?: string) {
-    this.yt.getSearch(q, pageToken).subscribe(
-      (data: any) => {
-        if (this.q !== q) {
-          this.searchResults = data;
-          this.q = q;
-        } else {
-          this.searchResults.nextPageToken = data.nextPageToken;
-          this.searchResults.items = this.searchResults.items.concat(data.items);
-        }
-        this.semaphore = false;
-      },
-      error => {
-        if (navigator.onLine === false) { console.error('No internet connection'); }
-      }
-    );
-  }
+    if (!this.semaphore) {
+      this.semaphore = true;
+      this.yt.getSearch(q, pageToken).subscribe(
+        (data: any) => {
+          if (this.q !== q) {
+            this.searchResults = data;
+            this.q = q;
+          } else {
+            this.searchResults.nextPageToken = data.nextPageToken;
+            this.searchResults.items = this.searchResults.items.concat(data.items);
+          }
+          this.semaphore = false;
+        },
+        error => {
+          if (navigator.onLine === false) {
+            window.alert('No internet connection');
+          } else {
+            console.log(error);
+          }
 
-  @ViewChild('list') list: ElementRef;
+          this.semaphore = false;
+        }
+      );
+    }
+  }
 
   @HostListener('window:scroll', ['$event']) onWindowScroll() {
     if (this.searchResults) {
       if ((window.innerHeight + window.pageYOffset) >= this.list.nativeElement.children[this.searchResults.items.length - 3].offsetTop) {
-        if (this.q && !this.semaphore) {
-          this.semaphore = true;
-          this.doSearch(this.q, this.searchResults.nextPageToken);
-        }
+        this.doSearch(this.q, this.searchResults.nextPageToken);
       }
     }
   }
