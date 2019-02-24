@@ -71,15 +71,16 @@ export class WikiboxComponent implements OnInit {
         //~ FIXED: The schema is assumed to be BAND - SONG or BAND -SONG or BAND- SONG or BAND-SONG
         this.title = data.items[0].snippet.title;
         try {
-					this.singer = this.title.split(/\[ -]|[- ]|[ - ]/)[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
-					this.song = this.title.split(/\[ -]|[- ]|[ - ]/)[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+					this.singer = this.title.split(' - ')[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+					this.song = this.title.split(' - ')[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
 				} catch(error) {
 					window.alert("Schema not recognized, some info may be not available!");
+				} finally {
+					this.fetchMusicXMatch(this.singer, this.song);
 				}
 
 				// ~ Once the singer and song values ​​have been determined, search for others wikibox section is launched 
         this.fetchDBpedia(this.singer, this.song);
-        this.fetchMusicXMatch(this.singer, this.song);
         this.fetchTwitter(this.singer, this.song);
       },
       error => console.log(error)
@@ -128,12 +129,12 @@ export class WikiboxComponent implements OnInit {
 	//~ Musicxmatch lyrics code
 	//~ TODO: replace space with '-' before attach MusicXMatch full lyrics link
 	fetchMusicXMatch(singer: string, song: string){
-		if(singer && song) {
-			this.mxm.getLyrics(singer, song).subscribe(
-				(data: any) => this.musicLyrics = data,
-				error => console.log(error)
-			);
-		}
+		this.mxm.getLyrics(singer, song).subscribe(
+			(data: any) => {
+				if (data.message.header.status_code == 200) this.musicLyrics = data;
+			},
+			error => console.log(error)
+		);
 	}
 	
 	//~ Twitter data code
