@@ -1,26 +1,25 @@
 <div class="row justify-content-center">
 	<div class="col-4 col-md-2 col-lg-2 text-center mb-2">
 		<div class="ml-1 mr-1">
-			<img class= "img-fluid" src="assets/img/logo.png" alt= "alphaTube logo">
+			<img class= "img-fluid" src="assets/img/logo.png" aria-hidden="true" alt= "alphaTube logo">
 		</div>
 	</div>
 </div>
-
-	<div class="text-center">
-		<p><b>AlphaTube è un progetto di<a target="_blank" href="http://tw.web.cs.unibo.it/mediawiki-1.30.0/index.php/Technologie_Web_2018-19"> Tecnologie Web</a>, anno
-      accademico 2017-2018, del professore <a target="_blank" href="http://vitali.web.cs.unibo.it/"> Fabio Vitali</a>.
-    <br>
-    Informazioni sul Team:</b></p>
-	</div>
-
+<div class="text-center font-weight-bold">
+	<p>AlphaTube is a <a target="_blank" attr.aria-label= "link al corso di tecnologie web" href="http://tw.web.cs.unibo.it/mediawiki-1.30.0/index.php/Technologie_Web_2018-19">
+	Web Technologies</a> project. Academic year 2017-2018, Prof. <a target="_blank" attr.aria-label="link al sito web del Professore Fabio Vitali" href="http://vitali.web.cs.unibo.it/"> Fabio Vitali</a>.<br>
+  Team information:</p>
+</div>
 
 <div class="card-deck mb-5 content-center">
 	<div class= "card text-center border-primary mb-3" *ngFor="let member of group">
-	  <img class="card-img-top" src="assets/img/{{member.image}}.jpg" alt="{member.name}">
-	   <p (mouseover)="old = member.mail; member.mail = member.mail + '@studio.unibo.it'" (mouseout)="member.mail = old">
-			 <b>{{member.name}}<br>
- 				{{member.matricola}}<br></b>
-			<a href="mailto:{{member.mail}}"><b>Invia un e-mail</b></a>
-	   </p>
+		<img class="card-img-top" src="assets/img/{{member.image}}.jpg" aria-hidden="true" alt="{member.name}">
+			<div class="card-body">
+	   		<div (mouseover)="old = member.mail; member.mail = member.mail + '@studio.unibo.it'" (mouseout)="member.mail = old">
+					<div class="card-text font-weight-bold" attr.aria-label="{{member.name}}">{{member.name}}</div>
+					<div class="card-text font-weight-bold" attr.aria-label="	{{member.matricola}}">{{member.matricola}}</div>
+					<a href="mailto:{{member.mail}}" class="font-weight-bold" attr.aria-label = "invia un e mail a {{member.mail}}">Send e-mail</a>
+				</div>
+	 	 </div>
 	 </div>
 </div>

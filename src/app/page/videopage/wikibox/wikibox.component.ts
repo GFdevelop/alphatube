@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DbpediaService } from '../../../services/dbpedia/dbpedia.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
 import { LyricsService } from '../../../services/lyrics/lyrics.service';
+import { TwitterService } from '../../../services/twitter/twitter.service';
+
+import { SimilarityService } from '../../../services/similarity/similarity.service';
 
 @Component({
   selector: 'app-wikibox',
@@ -20,6 +23,7 @@ export class WikiboxComponent implements OnInit {
   statistics: any;
   tags: any;
   musicLyrics: any;
+  twitter: any;
 
   title: any;
   singer: any;
@@ -27,12 +31,12 @@ export class WikiboxComponent implements OnInit {
   album: any;
   genres: any;
 
-  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService) { }
+  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService, private twit: TwitterService, private similarity: SimilarityService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
       (params) => {
-		this.title = this.song = this.singer_abs = this.song_abs = this.genres = this.comments = null;
+		this.musicLyrics = this.title = this.song = this.singer_abs = this.song_abs = this.genres = this.comments = null;
 		this.fetchYTData(params.videoId);
     });
   }
@@ -52,18 +56,25 @@ export class WikiboxComponent implements OnInit {
     // ~ Description/info
     this.yt.getVideo(videoId).subscribe(
       (data: any) => {
-	this.description = data.items[0].snippet.description;
+	      this.description = data.items[0].snippet.description;
         this.statistics = data.items[0].statistics;
         this.tags = data.items[0].snippet.tags;
         this.title = data.items[0].snippet.title;
 
         //~ TODO: Check which is what. The schema is "singer - song" or "song - singer"
         //~ FIXED: The schema is assumed to be BAND NAME/SINGER NAME - SONG TITLE
-        this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
-        this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+
+        try {
+			    this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+			    this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+		    } catch(error) {
+		    	console.log("Schema not recognized!");
+		    }
+        this.similarity.setArtist(this.singer);
 
         this.fetchDBpedia(this.singer, this.song);
         this.fetchMusicXMatch(this.singer, this.song);
+        this.fetchTwitter(this.singer, this.song);
       },
       error => console.log(error)
     );
@@ -80,6 +91,8 @@ export class WikiboxComponent implements OnInit {
 					this.dbs.getGenreInfo(data.results.bindings[0].genres.value).subscribe(
 						(data: any) => {
 							this.genres = data.results.bindings;
+
+              this.similarity.setGenere(this.genres);
 						},
 						error => console.log(error)
 					);
@@ -106,19 +119,27 @@ export class WikiboxComponent implements OnInit {
 		);
 	}
 
-	//~ TODO
 	//~ Musicxmatch pill
+	//~ TODO: replace space with '-' before attach musicxmatch full lyrics link
 	fetchMusicXMatch(singer: string, song: string){
-	  if (song && singer) {
-		this.mxm.getLyrics(singer, song).subscribe(
+		if(singer && song) {
+			this.mxm.getLyrics(singer, song).subscribe(
+				(data: any) => {
+					this.musicLyrics = data;
+				},
+				error => console.log(error)
+			);
+		}
+	}
+
+	//~ Twitter pill
+	fetchTwitter(singer: string, song: string){
+		this.twit.getTweets(singer, song).subscribe(
 			(data: any) => {
-				this.musicLyrics = data;
+				this.twitter = data.statuses;
 			},
 			error => console.log(error)
 		);
 	  }
 	}
-
-	//~ TODO
-	//~ Twitter pill
 }

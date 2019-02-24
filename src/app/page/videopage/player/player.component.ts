@@ -52,18 +52,14 @@ export class PlayerComponent implements OnInit {
         this.watchedTime = this.watchedTime + (playerTime - this.startTime);
         if ((!this.watched) && (this.watchedTime >= 15)) {
           this.watched = true;
-          console.log('watched!');
 
-          // Aggiunge il video alla lista dei recenti
-          this.recentVideoList(this.videoId);
+          this.recentVideoList(this.videoId);   // add to recent
 
-          // Invia al server i dati da aggiungere al server
-          this.as.sendWatched(this.videoId,this.reason).subscribe(  // TODO: remove lastvideo and reason if == newvideo
+          this.as.sendWatched(this.videoId,this.reason).subscribe(    // send to server
             error => console.log(error),
             () => true
           );
         }
-        // ~ console.log(this.watchedTime);
       }
       this.startTime = playerTime;
     }
