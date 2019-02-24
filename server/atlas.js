@@ -70,7 +70,7 @@ atlas.get('/globpop', function(req, res) {
 				response.recommended = Object.entries(video.recommended).map(
 					([k, v]) => (
 						{
-							videoID: k,
+							videoId: k,
 							prevalentReason: Object.keys(v)[0],
 							timesWatched: Object.values(v)[0].timesWatched,
 							lastSelected: Object.values(v)[0].lastSelected
@@ -101,13 +101,13 @@ atlas.put('/watched', (req, res) => {
 		timesWatched = 0;
 	}
 
-	value = {
+	var current = {
 		timesWatched: timesWatched+1,
 		lastWatched: date,
 		recommended: []
 	}
 
-	db.push("/" + req.body.end, value, false);
+	db.push("/" + req.body.end, current, false);
 
 
 
@@ -117,54 +117,44 @@ atlas.put('/watched', (req, res) => {
 			var oldVideo = db.getData(`/${req.body.begin}`);
 
 			var noReason = {
-				[req.body.reason]: 1
+				prevalentReason: req.body.reason,
+				timesSelected: 1
 			}
 
 			var noVideo = {
-				[req.body.end]: {
-					totalSelected: 1,
-					lastSelected: date,
-					from: [
-						noReason
-					]
-				}
+				videoId: req.body.end,
+				totalSelected: 1,
+				lastSelected: date,
+				from: [
+					noReason
+				]
 			}
 
-			var newVideoIndex = oldVideo.recommended.findIndex(videoId => Object.keys(videoId) == req.body.end);
-
+			var newVideoIndex = oldVideo.recommended.findIndex(id => id.videoId == req.body.end);
 			if (newVideoIndex < 0) oldVideo.recommended.push(noVideo);
 			else {
-				var newVideo = (oldVideo.recommended[newVideoIndex])[req.body.end];
+				var newVideo = (oldVideo.recommended[newVideoIndex]);
 				newVideo.totalSelected += 1;
 				newVideo.lastSelected = date;
 
 
-				var reasonIndex = newVideo.from.findIndex(reasonKey => Object.keys(reasonKey) == req.body.reason);
-
+				var reasonIndex = newVideo.from.findIndex(reason => reason.prevalentReason == req.body.reason);
 				if (reasonIndex < 0) newVideo.from.push(noReason);
-				else {
-					var reasonValue = newVideo.from[reasonIndex];
-					reasonValue[req.body.reason] +=1;
-				}
+				else newVideo.from[reasonIndex].timesSelected += 1;
 
-				newVideo.from.sort(		// sort reason array
-					(a, b) => (Object.values(a)[0] < Object.values(b)[0]) ? 1 : -1
-				);
-				oldVideo.recommended.sort(		// sort video array
-					(a, b) => (Object.values(Object.values(a)[0])[0] < Object.values(Object.values(b)[0])[0]) ? 1 : -1
-					// ~ (a, b) => { console.log(Object.values(Object.values(a)[0])[0],Object.values(Object.values(b)[0])[0]) }
-				);
+				newVideo.from.sort((a, b) => (a.timesSelected < b.timesSelected) ? 1 : -1);			// sort reason array
+				oldVideo.recommended.sort((a, b) => (a.lastSelected < b.lastSelected) ? 1 : -1);	// sort video array
 			}
 		} catch(error) {
-			if (error == 'DataError') res.statusCode = 404;
-			console.log(error);
+			res.statusCode = 404;
+			res.send('Not found');
 		}
 
 		db.push(`/${req.body.begin}`, oldVideo, true);
-
-		res.json( { oldVideo, newVideo } );
 	}
 
+
+	// OLD INSERT
 	// ~ if (req.body.begin) {
 		// ~ try {
 			// ~ var timesWatched = db.getData(`/${req.body.begin}/recommended/${req.body.end}/${req.body.reason}`);
@@ -185,13 +175,6 @@ atlas.put('/watched', (req, res) => {
 
 		// ~ db.push("/" + req.body.begin, value, false);
 	// ~ }
-
-
-
-	// ~ res.json( { message: 'OK' } );
-
-		// ~ res.statusCode = 400;
-		// ~ res.send('Bad Request');
 });
 
 atlas.get('*', (req, res) => {
