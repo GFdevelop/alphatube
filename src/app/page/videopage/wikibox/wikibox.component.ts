@@ -37,7 +37,7 @@ export class WikiboxComponent implements OnInit {
   // ~ Var containing Twitter data
   twitter: any;
 
-  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService, private twit: TwitterService) { }
+  constructor(private route: ActivatedRoute, private dbs: DbpediaService, private yt: YoutubeService, private mxm: LyricsService, private twit: TwitterService, private similarity: SimilarityService) { }
   // ~ On inizialization, vars' values are resetted because old values may lead to error.
   // ~ A new call to YouTube for retrieve info is made.
   ngOnInit() {
@@ -73,6 +73,8 @@ export class WikiboxComponent implements OnInit {
         try {
           this.singer = this.title.split(' - ')[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
           this.song = this.title.split(' - ')[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+
+          this.similarity.setArtist(this.singer);
         } catch(error) {
           window.alert("Schema not recognized, some info may be not available!");
         } finally {
@@ -99,7 +101,10 @@ export class WikiboxComponent implements OnInit {
         // ~ Some artist have no genre specified in his DBpedia page (e.g. http://dbpedia.org/page/Eminem)
         if(data.results.bindings[0] != undefined) {
           this.dbs.getGenreInfo(data.results.bindings[0].genres.value).subscribe(
-            (data: any) => this.genres = data.results.bindings,
+            (data: any) => {
+              this.genres = data.results.bindings;
+              this.similarity.setGenere(this.genres);
+            },
             error => console.log(error)
           );
         }
