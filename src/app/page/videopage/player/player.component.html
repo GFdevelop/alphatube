@@ -1,6 +1,7 @@
 <div class="embed-responsive embed-responsive-16by9">
     <div ytPlayer class="embed-responsive-item border border-primary"
       [videoId]="videoId"
+      [autoPlay]="true"
       [showFullScreenButton]="true"
       (nativeStateChange)="onStateChange($event)"
       (currentTimeChange)="updateCurrentTime($event)"

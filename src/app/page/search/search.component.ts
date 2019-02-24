@@ -46,12 +46,7 @@ export class SearchComponent implements OnInit {
           this.semaphore = false;
         },
         error => {
-          if (navigator.onLine === false) {
-            window.alert('No internet connection');
-          } else {
-            console.log(error);
-          }
-
+          window.alert('There is an error: please reload page!')
           this.semaphore = false;
         }
       );

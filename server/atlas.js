@@ -20,8 +20,8 @@ var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.av
 for (i in whitelist) {
 	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
 }
-// ~ whitelist.push('http://localhost:8000');	// TODO: remove this
-// ~ whitelist.push(undefined);		// in localhost the origin is undefined
+// ~ whitelist.push('http://localhost:8000');	// in localhost the origin is undefined (
+whitelist.push(undefined);		// twitter api
 
 var corsOption = {
 	methods: ['GET','PUT'],
@@ -38,9 +38,9 @@ var corsOption = {
 
 
 //~ Server setup
-atlas.use(cors());
-atlas.use(bodyParser.urlencoded({ extended: false }));
-atlas.use(bodyParser.json());
+atlas.use(cors());										// allowed all by default
+atlas.use(bodyParser.urlencoded({ extended: false }));	// allow urlencoded parsing
+atlas.use(bodyParser.json());							// allow json parsing
 atlas.use(express.static('alphatube'));
 
 
@@ -61,7 +61,6 @@ try {
 atlas.get('/globpop', function(req, res) {
 	var nReturned = 30;
 
-	// ~ console.log(req.protocol + '://' + req.headers.host);
 	var response = {
 		site: req.headers.host,
 		recommender: '',
@@ -88,29 +87,6 @@ atlas.get('/globpop', function(req, res) {
         } catch (error) {
 			res.statusCode = 404;
 		}
-
-	// ~ if (req.query.id) {
-		// ~ response.recommender = req.query.id;
-		// ~ try {
-			// ~ var video = db.getData(`/${req.query.id}`);
-
-			// ~ if (video) {
-				// ~ response.lastWatched = video.lastWatched;
-				// ~ response.recommended = Object.entries(video.recommended).map(
-					// ~ ([k, v]) => (
-						// ~ {
-							// ~ videoId: k,
-							// ~ prevalentReason: Object.keys(v)[0],
-							// ~ timesWatched: Object.values(v)[0].timesWatched,
-							// ~ lastSelected: Object.values(v)[0].lastSelected
-						// ~ }
-					// ~ )
-				// ~ );
-			// ~ }
-		// ~ } catch(error) {
-			// ~ res.statusCode = 404;
-		// ~ }
-	// ~ }
 
 	}else{
 		// Absolute Globpop
@@ -150,21 +126,24 @@ atlas.put('/watched', cors(corsOption), (req, res) => {
 	try {
 		var timesWatched = db.getData(`/${req.body.end}/timesWatched`);
 
-		var popularityIndex = db.getData(`/dbIndex/${timesWatched}`);
+		// Remove from index of old key
+		var popularityIndex = db.getData(`/dbIndex/${timesWatched}`);	// get list of 'timesWatched' indx
 		popularityIndex = popularityIndex.filter(val => val !== req.body.end);
-		if (popularityIndex.length) db.push(`/dbIndex/${timesWatched}`, popularityIndex, true);
-		else db.delete(`/dbIndex/${timesWatched}`);
+		if (popularityIndex.length) db.push(`/dbIndex/${timesWatched}`, popularityIndex, true);		// if there are other overwrite
+		else db.delete(`/dbIndex/${timesWatched}`);		// else delete key of object
 
 	} catch(error) {
 		timesWatched = 0;
 	}
 
+	// update video
 	var current = {
 		timesWatched: timesWatched+1,
 		lastWatched: date,
 		recommended: []
 	}
 
+	// insert id in index list
 	try {
 		popularityIndex = db.getData(`/dbIndex/${current.timesWatched}`);
 		popularityIndex.push(req.body.end);
@@ -183,11 +162,13 @@ atlas.put('/watched', cors(corsOption), (req, res) => {
 		try {
 			var oldVideo = db.getData(`/${req.body.begin}`);
 
+			// reason template
 			var noReason = {
 				prevalentReason: req.body.reason,
 				timesSelected: 1
 			}
 
+			// video related template
 			var noVideo = {
 				videoId: req.body.end,
 				totalSelected: 1,
@@ -219,29 +200,6 @@ atlas.put('/watched', cors(corsOption), (req, res) => {
 			db.push(`/${req.body.begin}`, oldVideo, true);
 		}
 	}
-
-
-	// OLD INSERT
-	// ~ if (req.body.begin) {
-		// ~ try {
-			// ~ var timesWatched = db.getData(`/${req.body.begin}/recommended/${req.body.end}/${req.body.reason}`);
-		// ~ } catch(error) {
-			// ~ timesWatched = 0;
-		// ~ }
-
-		// ~ var value = {
-			// ~ recommended: {
-				// ~ [req.body.end]: {
-					// ~ [req.body.reason]: {
-						// ~ timesWatched: timesWatched+1,
-						// ~ lastSelected: date
-					// ~ }
-				// ~ }
-			// ~ }
-		// ~ }
-
-		// ~ db.push("/" + req.body.begin, value, false);
-	// ~ }
 });
 
 atlas.get('/twitter', cors(corsOption), (req, res) => {
