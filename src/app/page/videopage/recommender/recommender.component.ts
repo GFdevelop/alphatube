@@ -1,14 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, HostListener} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// ~ import { of } from 'rxjs';
 
 import { AlphalistService } from '../../../services/alphalist/alphalist.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
 import { SimilarityService } from '../../../services/similarity/similarity.service';
-
-// file json con playlist
-// import * as data from '../../../page/videopage/recommender/playlist.json';
-
 
 @Component({
   selector: 'app-recommender',
@@ -16,6 +11,7 @@ import { SimilarityService } from '../../../services/similarity/similarity.servi
   styleUrls: ['./recommender.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class RecommenderComponent implements OnInit {
 
   nVideo = 12;
@@ -30,8 +26,8 @@ export class RecommenderComponent implements OnInit {
   //~ []    absoulute local popularity: any[],
   //~ [x]   relative global popularity: any[],
   //~ []    relative local popularity: any[],
-  //~ []    artist similarity: any[],
-  //~ []    genere similarity: any[],
+  //~ [x]    artist similarity: any[],
+  //~ [x]    genere similarity: any[],
 
   constructor(
     private route: ActivatedRoute,
@@ -125,16 +121,15 @@ export class RecommenderComponent implements OnInit {
 
       /*this.alphalistService.getList().subscribe( // Per quando globpopList.json sara' disponibile sul sito
         (data: any) =>{
-          this.popularity('absoulute global popularity','', data.globpop);
+          this.popularity('absoulute global popularity', undefined, data.globpop);
           this.popularity('relative global popularity',params.videoId, data.globpop);
         },
         error => console.log(error)
       );*/
-// TODO: restore comments
-      // ~ this.popularity('AbsGlobalPopularity','', siteCode);
-      // ~ this.popularity('RelGlobalPopularity',params.videoId, siteCode);
+      this.popularity('AbsGlobalPopularity', undefined, siteCode);
+      this.popularity('RelGlobalPopularity', params.videoId, siteCode);
 
-      // ~ this.popularity('AbsLocalPopularity','', ['1826']);''
+      this.popularity('AbsLocalPopularity',undefined, ['1826']);
       this.popularity('RelLocalPopularity',params.videoId, ['1826']);
 
 
@@ -222,7 +217,11 @@ export class RecommenderComponent implements OnInit {
     // Entra a fare la richiesta a YT solo se la lista e completa e contiene le informazioni di tutte le API
     if (nSite <= 0){
       // Ordinamento lista per visualizzazioni
-      videoList = videoList.sort((n1,n2) => {if(n1.timesWatched < n2.timesWatched) return 1; else return -1;});
+      videoList = videoList.sort((n1,n2) => {
+        if (n1.timesWatched < n2.timesWatched) return 1;
+        else if (n1.timesWatched > n2.timesWatched) return -1;
+        return 0;
+      });
 
       let popIdList = [];
       videoList = videoList.splice(0,15);
