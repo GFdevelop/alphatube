@@ -80,8 +80,7 @@ atlas.get('/globpop', function(req, res) {
 				// ~ console.log(response);
 			}
 		} catch(error) {
-			console.log(error);
-			// ~ res.statusCode = 400;
+			res.statusCode = 404;
 		}
 	}
 	// ~ else {
@@ -94,44 +93,102 @@ atlas.put('/watched', (req, res) => {
 
 	const date = new Date().toUTCString();
 
-	if (req.body.begin) {
-		try {
-			var timesWatched = db.getData(`/${req.body.begin}/recommended/${req.body.end}/${req.body.reason}`);
-		} catch(error) {
-			timesWatched = 0;
-		}
 
-		var value = {
-			recommended: {
-				[req.body.end]: {
-					[req.body.reason]: {
-						timesWatched: timesWatched+1,
-						lastSelected: date
-					}
-				}
-			}
-		}
-
-		db.push("/" + req.body.begin, value, false);
-	}
-
-
+	// CURRENT VIDEO
 	try {
-		timesWatched = db.getData(`/${req.body.end}/timesWatched`);
+		var timesWatched = db.getData(`/${req.body.end}/timesWatched`);
 	} catch(error) {
 		timesWatched = 0;
 	}
 
 	value = {
 		timesWatched: timesWatched+1,
-		lastWatched: date
+		lastWatched: date,
+		recommended: []
 	}
 
 	db.push("/" + req.body.end, value, false);
 
 
 
-	res.json( { message: 'OK' } );
+	// OLD VIDEO RELATION
+	if (req.body.begin && req.body.reason) {
+		try {
+			var oldVideo = db.getData(`/${req.body.begin}`);
+
+			var noReason = {
+				[req.body.reason]: 1
+			}
+
+			var noVideo = {
+				[req.body.end]: {
+					totalSelected: 1,
+					lastSelected: date,
+					from: [
+						noReason
+					]
+				}
+			}
+
+			var newVideoIndex = oldVideo.recommended.findIndex(videoId => Object.keys(videoId) == req.body.end);
+
+			if (newVideoIndex < 0) oldVideo.recommended.push(noVideo);
+			else {
+				var newVideo = (oldVideo.recommended[newVideoIndex])[req.body.end];
+				newVideo.totalSelected += 1;
+				newVideo.lastSelected = date;
+
+
+				var reasonIndex = newVideo.from.findIndex(reasonKey => Object.keys(reasonKey) == req.body.reason);
+
+				if (reasonIndex < 0) newVideo.from.push(noReason);
+				else {
+					var reasonValue = newVideo.from[reasonIndex];
+					reasonValue[req.body.reason] +=1;
+				}
+
+				newVideo.from.sort(		// sort reason array
+					(a, b) => (Object.values(a)[0] < Object.values(b)[0]) ? 1 : -1
+				);
+				oldVideo.recommended.sort(		// sort video array
+					(a, b) => (Object.values(Object.values(a)[0])[0] < Object.values(Object.values(b)[0])[0]) ? 1 : -1
+					// ~ (a, b) => { console.log(Object.values(Object.values(a)[0])[0],Object.values(Object.values(b)[0])[0]) }
+				);
+			}
+		} catch(error) {
+			if (error == 'DataError') res.statusCode = 404;
+			console.log(error);
+		}
+
+		db.push(`/${req.body.begin}`, oldVideo, true);
+
+		res.json( { oldVideo, newVideo } );
+	}
+
+	// ~ if (req.body.begin) {
+		// ~ try {
+			// ~ var timesWatched = db.getData(`/${req.body.begin}/recommended/${req.body.end}/${req.body.reason}`);
+		// ~ } catch(error) {
+			// ~ timesWatched = 0;
+		// ~ }
+
+		// ~ var value = {
+			// ~ recommended: {
+				// ~ [req.body.end]: {
+					// ~ [req.body.reason]: {
+						// ~ timesWatched: timesWatched+1,
+						// ~ lastSelected: date
+					// ~ }
+				// ~ }
+			// ~ }
+		// ~ }
+
+		// ~ db.push("/" + req.body.begin, value, false);
+	// ~ }
+
+
+
+	// ~ res.json( { message: 'OK' } );
 
 		// ~ res.statusCode = 400;
 		// ~ res.send('Bad Request');

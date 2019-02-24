@@ -109,12 +109,14 @@ export class WikiboxComponent implements OnInit {
 	//~ TODO
 	//~ Musicxmatch pill
 	fetchMusicXMatch(singer: string, song: string){
+	  if (song && singer) {
 		this.mxm.getLyrics(singer, song).subscribe(
 			(data: any) => {
 				this.musicLyrics = data;
 			},
 			error => console.log(error)
 		);
+	  }
 	}
 
 	//~ TODO
