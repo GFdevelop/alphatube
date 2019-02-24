@@ -264,6 +264,10 @@ atlas.get('/twitter', cors(corsOption), (req, res) => {
 	});
 });
 
+atlas.get('/globpopList', (req, res) => {
+	res.sendFile('./globpopList.json');
+})
+
 atlas.get('*', (req, res) => {
 	res.sendFile(path.join(process.env.PWD, 'alphatube/index.html'));		// sendFile need absolute path
 });

@@ -110,17 +110,17 @@ export class RecommenderComponent implements OnInit {
 
       // popularity
       //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
-      let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901'];
+      //let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901'];
 
-      /*this.alphalistService.getList().subscribe( // Per quando globpopList.json sara' disponibile sul sito
+      this.alphalistService.getList().subscribe( // Per quando globpopList.json sara' disponibile sul sito
         (data: any) =>{
-          this.popularity('absoulute global popularity', undefined, data.globpop);
-          this.popularity('relative global popularity',params.videoId, data.globpop);
+          this.popularity('AbsGlobalPopularity', undefined, data.globpop);
+          this.popularity('RelGlobalPopularity',params.videoId, data.globpop);
         },
         error => console.log(error)
-      );*/
-      this.popularity('AbsGlobalPopularity', undefined, siteCode);
-      this.popularity('RelGlobalPopularity', params.videoId, siteCode);
+      );
+      /*this.popularity('AbsGlobalPopularity', undefined, siteCode);
+      this.popularity('RelGlobalPopularity', params.videoId, siteCode);*/
 
       this.popularity('AbsLocalPopularity',undefined, ['1826']);
       this.popularity('RelLocalPopularity',params.videoId, ['1826']);
