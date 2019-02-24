@@ -48,45 +48,97 @@ atlas.use(express.static('alphatube'));
 //~ If db file is present, conect to it else create it.
 //~ The db purpouse is to track videos watched by the individual user
 var db = new jsonDB("./db", true, true);
+try {
+	db.getData("/dbIndex");	// index (popularity) of keys of database
+} catch {
+	db.push("/dbIndex",{});	// if index don't exists we create it
+}
+
 
 // ~ atlas.options('*',cors(corsOption));
 
 //~ Routes management
 atlas.get('/globpop', cors(), function(req, res) {
+	var nReturned = 30;
 
 	// ~ console.log(req.protocol + '://' + req.headers.host);
 	var response = {
 		site: req.headers.host,
-		recommender: req.query.id,
+		recommender: '',
 		lastWatched: 'Never watched.',
 		recommended: []
 	}
 
-	if (req.query.id) {
-		try {
-			var video = db.getData(`/${req.query.id}`);
-
-			if (video) {
-				response.lastWatched = video.lastWatched;
-				response.recommended = Object.entries(video.recommended).map(
-					([k, v]) => (
-						{
-							videoId: k,
-							prevalentReason: Object.keys(v)[0],
-							timesWatched: Object.values(v)[0].timesWatched,
-							lastSelected: Object.values(v)[0].lastSelected
-						}
-					)
+	if (req.query.id){
+        try{
+            var idData = db.getData('/' + req.query.id);
+            response.recommender =  req.query.id;
+            response.lastWatched = idData.lastWatched;
+            for(let i = 0; i < idData.recommended.length && i < nReturned; i++) {
+				console.log(i);
+				response.recommended.push(
+    		    	{
+						videoId: idData.recommended[i].videoId,
+    		    		timesWatched: idData.recommended[i].totalSelected,
+    		    		lastSelected: idData.recommended[i].lastSelected,
+    		    		prevalentReason: idData.recommended[i].from[0].prevalentReason
+					}
 				);
-				// ~ console.log(response);
 			}
-		} catch(error) {
+        } catch (error) {
+			res.statusCode = 404;
+		}
+
+	// ~ if (req.query.id) {
+		// ~ response.recommender = req.query.id;
+		// ~ try {
+			// ~ var video = db.getData(`/${req.query.id}`);
+
+			// ~ if (video) {
+				// ~ response.lastWatched = video.lastWatched;
+				// ~ response.recommended = Object.entries(video.recommended).map(
+					// ~ ([k, v]) => (
+						// ~ {
+							// ~ videoId: k,
+							// ~ prevalentReason: Object.keys(v)[0],
+							// ~ timesWatched: Object.values(v)[0].timesWatched,
+							// ~ lastSelected: Object.values(v)[0].lastSelected
+						// ~ }
+					// ~ )
+				// ~ );
+			// ~ }
+		// ~ } catch(error) {
+			// ~ res.statusCode = 404;
+		// ~ }
+	// ~ }
+
+	}else{
+		// Absolute Globpop
+    	try {
+    		var order = db.getData(`/dbIndex`);		// Get popularity lists
+
+    		// Navigate popularity keys from most to less popular
+    		for (var i = Object.keys(order).length-1; i>= 0 && response.recommended.length < nReturned; i--){
+			  // Navigate videoId
+    		  for (var e = 0; e < Object.values(order)[i].length && response.recommended.length < nReturned; e++){
+
+				var dbKey = db.getData("/" + Object.values(order)[i][e]);		// Get info about the video
+    		    response.recommended.push(		// push the info into the respoce JSON
+    		    	{
+						videoId: Object.values(order)[i][e],
+    		    		timesWatched: dbKey.timesWatched,
+    		    		lastSelected: dbKey.lastWatched
+					}
+				);
+    		  }
+    		}
+		} catch (error) {
 			res.statusCode = 404;
 		}
 	}
-	// ~ else {
 
-	// ~ }
+
+
 	res.json( response );
 });
 
@@ -97,6 +149,12 @@ atlas.put('/watched', (req, res) => {
 	// CURRENT VIDEO
 	try {
 		var timesWatched = db.getData(`/${req.body.end}/timesWatched`);
+
+		var popularityIndex = db.getData(`/dbIndex/${timesWatched}`);
+		popularityIndex = popularityIndex.filter(val => val !== req.body.end);
+		if (popularityIndex.length) db.push(`/dbIndex/${timesWatched}`, popularityIndex, true);
+		else db.delete(`/dbIndex/${timesWatched}`);
+
 	} catch(error) {
 		timesWatched = 0;
 	}
@@ -106,6 +164,15 @@ atlas.put('/watched', (req, res) => {
 		lastWatched: date,
 		recommended: []
 	}
+
+	try {
+		popularityIndex = db.getData(`/dbIndex/${current.timesWatched}`);
+		popularityIndex.push(req.body.end);
+	}
+	catch {
+		popularityIndex = [req.body.end];
+	}
+	db.push(`/dbIndex/${current.timesWatched}`, popularityIndex);
 
 	db.push("/" + req.body.end, current, false);
 

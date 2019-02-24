@@ -34,7 +34,7 @@ export class AlphalistService {
         }
       });
     }
-    else return this.http.get(this.head + siteID + this.tail + '/globpop');
+    else return this.http.get('http://localhost:8000' + '/globpop');
   }
 
   getList() {

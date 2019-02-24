@@ -134,8 +134,8 @@ export class RecommenderComponent implements OnInit {
       // ~ this.popularity('AbsGlobalPopularity','', siteCode);
       // ~ this.popularity('RelGlobalPopularity',params.videoId, siteCode);
 
-      //this.popularity('AbsLocalPopularity','', '1826');
-      this.popularity('RelLocalPopularity',params.videoId, '1826');
+      // ~ this.popularity('AbsLocalPopularity','', ['1826']);''
+      this.popularity('RelLocalPopularity',params.videoId, ['1826']);
 
 
       // artist similarity
