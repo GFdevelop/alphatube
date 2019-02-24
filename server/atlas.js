@@ -11,8 +11,8 @@ var process = require('process');
 // Fix path
 process.env.PWD = path.join(path.dirname(process.argv[1]), '..');
 process.chdir(process.env.PWD);
-__dirname = process.env.PWD;
-__filename = process.argv[1];
+// ~ __dirname = process.env.PWD;
+// ~ __filename = process.argv[1];
 
 
 // CORS
@@ -20,8 +20,8 @@ var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.av
 for (i in whitelist) {
 	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
 }
-whitelist.push('http://localhost:8000');	// TODO: remove this
-whitelist.push(undefined);		// in localhost the origin is undefined
+// ~ whitelist.push('http://localhost:8000');	// TODO: remove this
+// ~ whitelist.push(undefined);		// in localhost the origin is undefined
 
 var corsOption = {
 	methods: ['GET','PUT'],
@@ -38,7 +38,7 @@ var corsOption = {
 
 
 //~ Server setup
-atlas.use(cors(corsOption));
+atlas.use(cors());
 atlas.use(bodyParser.urlencoded({ extended: false }));
 atlas.use(bodyParser.json());
 atlas.use(express.static('alphatube'));
@@ -58,7 +58,7 @@ try {
 // ~ atlas.options('*',cors(corsOption));
 
 //~ Routes management
-atlas.get('/globpop', cors(), function(req, res) {
+atlas.get('/globpop', function(req, res) {
 	var nReturned = 30;
 
 	// ~ console.log(req.protocol + '://' + req.headers.host);
@@ -142,7 +142,7 @@ atlas.get('/globpop', cors(), function(req, res) {
 	res.json( response );
 });
 
-atlas.put('/watched', (req, res) => {
+atlas.put('/watched', cors(corsOption), (req, res) => {
 
 	const date = new Date().toUTCString();
 
@@ -244,7 +244,7 @@ atlas.put('/watched', (req, res) => {
 	// ~ }
 });
 
-atlas.get('/twitter', (req, res) => {
+atlas.get('/twitter', cors(corsOption), (req, res) => {
 
 	var T = new twitter({
 		consumer_key: '*************************',
