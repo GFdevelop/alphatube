@@ -36,18 +36,18 @@ export class WikiboxComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params) => {
-		this.musicLyrics = this.title = this.song = this.singer_abs = this.song_abs = this.genres = this.comments = null;
-		this.fetchYTData(params.videoId);
+    this.musicLyrics = this.title = this.song = this.singer_abs = this.song_abs = this.genres = this.comments = null;
+    this.fetchYTData(params.videoId);
     });
   }
 
   //~ YouTube pill
   //~ TODO: Continuos scroll for comments
   fetchYTData(videoId: string){
-		// ~ Comments
+    // ~ Comments
     this.yt.getComments(videoId).subscribe(
       (data: any) => {
-		if(data.items.lenght == 0) this.comments = 0;
+    if(data.items.lenght == 0) this.comments = 0;
         else this.comments = data.items;
       },
       error => console.log(error)
@@ -56,7 +56,7 @@ export class WikiboxComponent implements OnInit {
     // ~ Description/info
     this.yt.getVideo(videoId).subscribe(
       (data: any) => {
-	      this.description = data.items[0].snippet.description;
+        this.description = data.items[0].snippet.description;
         this.statistics = data.items[0].statistics;
         this.tags = data.items[0].snippet.tags;
         this.title = data.items[0].snippet.title;
@@ -65,11 +65,11 @@ export class WikiboxComponent implements OnInit {
         //~ FIXED: The schema is assumed to be BAND NAME/SINGER NAME - SONG TITLE
 
         try {
-			    this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
-			    this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
-		    } catch(error) {
-		    	console.log("Schema not recognized!");
-		    }
+          this.singer = this.title.split(" - ")[0].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+          this.song = this.title.split(" - ")[1].replace(/\{(.*?)\}|\[(.*?)\]|\((.*?)\)/g, "").trim();
+        } catch(error) {
+          console.log("Schema not recognized!");
+        }
         this.similarity.setArtist(this.singer);
 
         this.fetchDBpedia(this.singer, this.song);
@@ -80,66 +80,65 @@ export class WikiboxComponent implements OnInit {
     );
   }
 
-	// ~ DBpedia pill
-	fetchDBpedia(singer: string, song: string){
+  // ~ DBpedia pill
+  fetchDBpedia(singer: string, song: string){
 
-		//~ Singer
-		this.dbs.getSingerInfo(this.singer).subscribe(
-			(data: any) => {
-				this.singer_abs = data.results.bindings[0];
-				if(data.results.bindings[0] != undefined) {
-					this.dbs.getGenreInfo(data.results.bindings[0].genres.value).subscribe(
-						(data: any) => {
-							this.genres = data.results.bindings;
+    //~ Singer
+    this.dbs.getSingerInfo(this.singer).subscribe(
+      (data: any) => {
+        this.singer_abs = data.results.bindings[0];
+        if(data.results.bindings[0] != undefined) {
+          this.dbs.getGenreInfo(data.results.bindings[0].genres.value).subscribe(
+            (data: any) => {
+              this.genres = data.results.bindings;
 
               this.similarity.setGenere(this.genres);
-						},
-						error => console.log(error)
-					);
-				}
-			},
-			error => console.log(error)
-		);
+            },
+            error => console.log(error)
+          );
+        }
+      },
+      error => console.log(error)
+    );
 
-		//~ Song
-		this.dbs.getSongInfo(this.song, this.singer).subscribe(
-			(data: any) => {
-				this.song_abs = data.results.bindings[0];
-				if(data.results.bindings[0] != undefined) {
-					this.dbs.getAlbumInfo(data.results.bindings[0].album.value).subscribe(
-						(data: any) => {
-							this.album_abs = data.results.bindings[0].abstract.value;
-							this.album = data.results.bindings[0].name.value;
-						},
-						error => console.log(error)
-					);
-				}
-			},
-			error => console.log(error)
-		);
-	}
+    //~ Song
+    this.dbs.getSongInfo(this.song, this.singer).subscribe(
+      (data: any) => {
+        this.song_abs = data.results.bindings[0];
+        if(data.results.bindings[0] != undefined) {
+          this.dbs.getAlbumInfo(data.results.bindings[0].album.value).subscribe(
+            (data: any) => {
+              this.album_abs = data.results.bindings[0].abstract.value;
+              this.album = data.results.bindings[0].name.value;
+            },
+            error => console.log(error)
+          );
+        }
+      },
+      error => console.log(error)
+    );
+  }
 
-	//~ Musicxmatch pill
-	//~ TODO: replace space with '-' before attach musicxmatch full lyrics link
-	fetchMusicXMatch(singer: string, song: string){
-		if(singer && song) {
-			this.mxm.getLyrics(singer, song).subscribe(
-				(data: any) => {
-					this.musicLyrics = data;
-				},
-				error => console.log(error)
-			);
-		}
-	}
+  //~ Musicxmatch pill
+  //~ TODO: replace space with '-' before attach musicxmatch full lyrics link
+  fetchMusicXMatch(singer: string, song: string){
+    if(singer && song) {
+      this.mxm.getLyrics(singer, song).subscribe(
+        (data: any) => {
+          this.musicLyrics = data;
+        },
+        error => console.log(error)
+      );
+    }
+  }
 
-	//~ Twitter pill
-	fetchTwitter(singer: string, song: string){
-		this.twit.getTweets(singer, song).subscribe(
-			(data: any) => {
-				this.twitter = data.statuses;
-			},
-			error => console.log(error)
-		);
-	  }
-	}
+  //~ Twitter pill
+  fetchTwitter(singer: string, song: string){
+    this.twit.getTweets(singer, song).subscribe(
+      (data: any) => {
+        this.twitter = data.statuses;
+      },
+      error => console.log(error)
+    );
+  }
 }

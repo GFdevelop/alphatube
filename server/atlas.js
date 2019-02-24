@@ -20,7 +20,7 @@ var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.av
 for (i in whitelist) {
 	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
 }
-whitelist.push('http://localhost:8000');
+whitelist.push('http://localhost:8000');	// TODO: remove this
 whitelist.push(undefined);		// in localhost the origin is undefined
 
 var corsOption = {
@@ -52,7 +52,7 @@ var db = new jsonDB("./db", true, true);
 // ~ atlas.options('*',cors(corsOption));
 
 //~ Routes management
-atlas.get('/globpop', function(req, res) {
+atlas.get('/globpop', cors(), function(req, res) {
 
 	// ~ console.log(req.protocol + '://' + req.headers.host);
 	var response = {
@@ -93,7 +93,6 @@ atlas.get('/globpop', function(req, res) {
 atlas.put('/watched', (req, res) => {
 
 	const date = new Date().toUTCString();
-
 
 	// CURRENT VIDEO
 	try {
@@ -149,9 +148,9 @@ atlas.put('/watched', (req, res) => {
 		} catch(error) {
 			res.statusCode = 404;
 			res.send('Not found');
+		} finally {
+			db.push(`/${req.body.begin}`, oldVideo, true);
 		}
-
-		db.push(`/${req.body.begin}`, oldVideo, true);
 	}
 
 
@@ -179,15 +178,15 @@ atlas.put('/watched', (req, res) => {
 });
 
 atlas.get('/twitter', (req, res) => {
-	
+
 	var T = new twitter({
 		consumer_key: '*************************',
 		consumer_secret: '**************************************************',
 		access_token: '**************************************************',
 		access_token_secret: '*********************************************'
-		
+
 	});
-	
+
 	T.get('search/tweets', {
 		q: req.query.q_song + ' ' + req.query.q_artist,
 		lang: 'en',
@@ -195,7 +194,7 @@ atlas.get('/twitter', (req, res) => {
 		count: 24
 	}, (err, data, response) => {
 		res.send(data);
-	});	
+	});
 });
 
 atlas.get('*', (req, res) => {
