@@ -140,7 +140,9 @@ export class RecommenderComponent implements OnInit {
       this.similarity.getArtist().subscribe(
         (data: any) => {
           this.ytService.getRecommenders({q: data}).subscribe(
-            (obj: any) => this.r10s['ArtistSimilarity'] = this.ytService.fromYT(obj),
+            (obj: any) => this.r10s['ArtistSimilarity'] = this.ytService.fromYT(obj).filter(
+              obj => obj.videoID !== params.videoId
+            ),
             error => console.log(error)
           );
         },
@@ -151,7 +153,9 @@ export class RecommenderComponent implements OnInit {
       this.similarity.getGenere().subscribe(
         (data: any) => {
           this.ytService.getRecommenders({q: data}).subscribe(
-            (obj: any) => this.r10s['GenereSimilarity'] = this.ytService.fromYT(obj),
+            (obj: any) => this.r10s['GenereSimilarity'] = this.ytService.fromYT(obj).filter(
+              obj => obj.videoID !== params.videoId
+            ),
             error => console.log(error)
           );
         },
