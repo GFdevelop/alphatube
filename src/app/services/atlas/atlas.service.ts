@@ -41,7 +41,7 @@ export class AtlasService {
     /*let lastVideo = this.lastVideoSvg;
     this.lastVideoSvg = currentVideo;*/
 
-    if (this.reasonList.indexOf(reason) == -1){ lastVideo = reason = undefined;}
+    if ((this.reasonList.indexOf(reason) === -1) || (lastVideo === currentVideo)){ lastVideo = reason = undefined;}
     else if (reason === 'AbsLocalPopularity' || reason === 'RelLocalPopularity'){
       reason = 'LocalPopularity';
     }
