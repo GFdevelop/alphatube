@@ -66,9 +66,12 @@ export class RecommenderComponent implements OnInit {
       // search
       if (localStorage.q) {
         this.ytService.getRecommenders({q: localStorage.q}).subscribe(
-          (data: any) => this.r10s['Search'] = this.ytService.fromYT(data).filter(
-            obj => obj.videoID !== params.videoId
-          ),
+          (data: any) => {
+            var tmpSearch = this.ytService.fromYT(data).filter(
+              obj => obj.videoID !== params.videoId
+            );
+            if (tmpSearch.length) this.r10s['Search'] = tmpSearch;
+          },
           error => console.log(error)
         );
       }
