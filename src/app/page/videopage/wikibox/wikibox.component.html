@@ -12,27 +12,27 @@
 			<accordion-group heading="Description" [isOpen]="true">
 				<div class="container-fluid scrollable p-0">
 					<div class="card">
-						<div class="card-header text-justify">
+						<div class="card-header text-justify" aria-label="Tags section">
 							<span class="badge badge-secondary p-2 m-1" *ngFor="let tag of tags">
 								<a [routerLink]="['/search', tag]" class="text-white">
 									#{{tag || "No data available."}}
 								</a>
 							</span>
 						</div>
-						<div class="card-body">
+						<div class="card-body" aria-label="Video description">
 							<pre style="font-family: Arial;">
 {{description || "No data available."}}
 							</pre>
 						</div>
-						<div class="card-footer text-center">
+						<div class="card-footer text-center" aria-label="Counter">
 							<span class="badge badge-info p-3 m-1 mr-5">
-								<i class="mr-1 fas fa-eye"></i>{{statistics?.viewCount}}
+								<i class="mr-1 fas fa-eye" aria-label="Views"></i>{{statistics?.viewCount}}
 							</span>
 							<span class="badge badge-success p-3 m-1">
-								<i class="mr-1 fas fa-thumbs-up"></i>{{statistics?.likeCount}}
+								<i class="mr-1 fas fa-thumbs-up"  aria-label="Likes"></i>{{statistics?.likeCount}}
 							</span>
 							<span class="badge badge-danger p-3 m-1">
-								<i class="mr-1 fas fa-thumbs-down"></i>{{statistics?.dislikeCount}}
+								<i class="mr-1 fas fa-thumbs-down" aria-label="Dislikes"></i>{{statistics?.dislikeCount}}
 							</span>
 						</div>
 					</div>

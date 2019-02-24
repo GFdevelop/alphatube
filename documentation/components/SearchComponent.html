@@ -1,0 +1,782 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>alphatube documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">alphatube documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>SearchComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/page/search/search.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-search</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./search.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./search.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#list">list</a>
+                            </li>
+                            <li>
+                                <a href="#message">message</a>
+                            </li>
+                            <li>
+                                <a href="#q">q</a>
+                            </li>
+                            <li>
+                                <a href="#searchResults">searchResults</a>
+                            </li>
+                            <li>
+                                <a href="#semaphore">semaphore</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#doSearch">doSearch</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#window:scroll">window:scroll</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, yt: <a href="../injectables/YoutubeService.html">YoutubeService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/page/search/search.component.ts:18</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>yt</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/YoutubeService.html" target="_self" >YoutubeService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section>
+    <h3>HostListeners</h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="window:scroll"></a>
+                        <span class="name">
+                            <b>
+                            window:scroll
+                            </b>
+                            <a href="#window:scroll"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Arguments : </i><code>'$event' </code>
+                        </td>
+                    </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>window:scroll()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/page/search/search.component.ts:61</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="doSearch"></a>
+                        <span class="name">
+                            <b>
+                            doSearch
+                            </b>
+                            <a href="#doSearch"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>doSearch(q: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageToken?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/page/search/search.component.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>q</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>pageToken</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/page/search/search.component.ts:22</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="list"></a>
+                        <span class="name">
+                            <b>
+                            list</b>
+                            <a href="#list"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;list&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/page/search/search.component.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="message"></a>
+                        <span class="name">
+                            <b>
+                            message</b>
+                            <a href="#message"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/page/search/search.component.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="q"></a>
+                        <span class="name">
+                            <b>
+                            q</b>
+                            <a href="#q"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/page/search/search.component.ts:15</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchResults"></a>
+                        <span class="name">
+                            <b>
+                            searchResults</b>
+                            <a href="#searchResults"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/page/search/search.component.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="semaphore"></a>
+                        <span class="name">
+                            <b>
+                            semaphore</b>
+                            <a href="#semaphore"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/page/search/search.component.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, HostListener, ViewChild, ElementRef } from &#x27;@angular/core&#x27;;
+import { ActivatedRoute } from &#x27;@angular/router&#x27;;
+
+import { YoutubeService } from &#x27;../../services/youtube/youtube.service&#x27;;
+
+@Component({
+  selector: &#x27;app-search&#x27;,
+  templateUrl: &#x27;./search.component.html&#x27;,
+  styleUrls: [&#x27;./search.component.css&#x27;]
+})
+export class SearchComponent implements OnInit {
+
+  message: string;
+  searchResults: any;
+  q: string;
+  semaphore &#x3D; false;
+
+  @ViewChild(&#x27;list&#x27;) list: ElementRef;
+
+  constructor(private route: ActivatedRoute, private yt: YoutubeService) { }
+
+  ngOnInit() {
+    this.q &#x3D; undefined;
+    this.searchResults &#x3D; undefined;
+
+    this.route.params.subscribe((urlParams) &#x3D;&gt; {
+      if (localStorage.q !&#x3D;&#x3D; urlParams.q) { localStorage.q &#x3D; urlParams.q; }
+      this.message &#x3D; &#x27;Search results for &#x27; + urlParams.q;
+      this.doSearch(urlParams.q);
+    });
+  }
+
+  // https://coryrylan.com/blog/rxjs-observables-versus-subjects
+  doSearch(q: string, pageToken?: string) {
+    if (!this.semaphore) {
+      this.semaphore &#x3D; true;
+      this.yt.getSearch(q, pageToken).subscribe(
+        (data: any) &#x3D;&gt; {
+          if (this.q !&#x3D;&#x3D; q) {
+            this.searchResults &#x3D; data;
+            this.q &#x3D; q;
+          } else {
+            this.searchResults.nextPageToken &#x3D; data.nextPageToken;
+            this.searchResults.items &#x3D; this.searchResults.items.concat(data.items);
+          }
+          this.semaphore &#x3D; false;
+        },
+        error &#x3D;&gt; {
+          if (navigator.onLine &#x3D;&#x3D;&#x3D; false) {
+            window.alert(&#x27;No internet connection&#x27;);
+          } else {
+            console.log(error);
+          }
+
+          this.semaphore &#x3D; false;
+        }
+      );
+    }
+  }
+
+  @HostListener(&#x27;window:scroll&#x27;, [&#x27;$event&#x27;]) onWindowScroll() {
+    if (this.searchResults) {
+      if ((window.innerHeight + window.pageYOffset) &gt;&#x3D; this.list.nativeElement.children[this.searchResults.items.length - 3].offsetTop) {
+        this.doSearch(this.q, this.searchResults.nextPageToken);
+      }
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!--
+	aria-live		dynamic change region without reload page
+	polite			do not interrupt, read when you want
+	aria-atomic		region is always present, even if only part of the region changes
+--&gt;
+&lt;div class&#x3D;&quot;sr-only&quot; role&#x3D;&quot;status&quot; aria-live&#x3D;&quot;polite&quot; aria-atomic&#x3D;&quot;true&quot;&gt;	&lt;!-- TODO: component??? --&gt;
+	{{message}}
+&lt;/div&gt;
+
+&lt;div class&#x3D;&quot;row text-center text-xl-left text-md-center text-sm-left px-2&quot; role&#x3D;&quot;main&quot; #list&gt;
+	&lt;div class&#x3D;&quot;container-fluid text-center&quot; *ngIf&#x3D;&quot;searchResults&quot;&gt;
+		&lt;h3 class&#x3D;&quot;card-title font-weight-bold&quot;&gt;
+			 {{(searchResults?.items.length) ? &#x27;Search &#x27; : &#x27;No &#x27;}} results for {{q}}
+		&lt;/h3&gt;
+	&lt;/div&gt;
+	&lt;div class&#x3D;&quot;col-12 col-md-6 mb-3 p-0&quot; *ngFor&#x3D;&quot;let result of searchResults?.items; let hovered &#x3D; index&quot;&gt;     &lt;!-- ? Safe Navigation Operator to avoid null or undefined--&gt;
+		&lt;!--	h-100	make two &quot;cards&quot; on same line with same height	--&gt;
+		&lt;div class&#x3D;&quot;row align-items-center h-100 mx-2 py-2 border shadow-sm border-primary {{hovered}}&quot; (mouseover)&#x3D;&quot;this.hovered &#x3D; &#x27;shadow&#x27;&quot; (mouseout)&#x3D;&quot;this.hovered &#x3D; &#x27;&#x27;&quot;&gt;
+			&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
+				&lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;, result.id.videoId, &#x27;Search&#x27;]&quot; aria-hidden&#x3D;&quot;true&quot; tabindex&#x3D;&quot;-1&quot;&gt;
+					&lt;img class&#x3D;&quot;container-fluid&quot; src&#x3D;&quot;{{result.snippet.thumbnails.medium.url}}&quot; alt&#x3D;&quot;{{result.snippet.title}}&quot; title&#x3D;&quot;{{result.snippet.title}}&quot;&gt;
+				&lt;/a&gt;
+			&lt;/div&gt;
+			&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
+				&lt;div class&#x3D;&quot;container-fluid&quot;&gt;
+					&lt;a class&#x3D;&quot;card-link&quot; [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;, result.id.videoId, &#x27;Search&#x27;]&quot; attr.aria-label&#x3D;&quot;{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: &#x27;longDate&#x27; }}&quot;&gt;
+						&lt;h6 class&#x3D;&quot;card-title &lt;!-- font-weight-bold --&gt;&quot;&gt;{{ result.snippet.title }}&lt;/h6&gt;
+					&lt;/a&gt;
+					&lt;p class&#x3D;&quot;card-subtitle text-truncate&quot;&gt;{{result.snippet.channelTitle}}&lt;/p&gt;
+					&lt;small class&#x3D;&quot;text-muted&quot;&gt;{{result.snippet.publishedAt | date: &#x27;longDate&#x27;}}&lt;/small&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./search.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!--	aria-live		dynamic change region without reload page	polite			do not interrupt, read when you want	aria-atomic		region is always present, even if only part of the region changes--><div class="sr-only" role="status" aria-live="polite" aria-atomic="true">	<!-- TODO: component??? -->	{{message}}</div><div class="row text-center text-xl-left text-md-center text-sm-left px-2" role="main" #list>	<div class="container-fluid text-center" *ngIf="searchResults">		<h3 class="card-title font-weight-bold">			 {{(searchResults?.items.length) ? \'Search \' : \'No \'}} results for {{q}}		</h3>	</div>	<div class="col-12 col-md-6 mb-3 p-0" *ngFor="let result of searchResults?.items; let hovered = index">     <!-- ? Safe Navigation Operator to avoid null or undefined-->		<!--	h-100	make two "cards" on same line with same height	-->		<div class="row align-items-center h-100 mx-2 py-2 border shadow-sm border-primary {{hovered}}" (mouseover)="this.hovered = \'shadow\'" (mouseout)="this.hovered = \'\'">			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">				<a [routerLink]="[\'/videopage\', result.id.videoId, \'Search\']" aria-hidden="true" tabindex="-1">					<img class="container-fluid" src="{{result.snippet.thumbnails.medium.url}}" alt="{{result.snippet.title}}" title="{{result.snippet.title}}">				</a>			</div>			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">				<div class="container-fluid">					<a class="card-link" [routerLink]="[\'/videopage\', result.id.videoId, \'Search\']" attr.aria-label="{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: \'longDate\' }}">						<h6 class="card-title <!-- font-weight-bold -->">{{ result.snippet.title }}</h6>					</a>					<p class="card-subtitle text-truncate">{{result.snippet.channelTitle}}</p>					<small class="text-muted">{{result.snippet.publishedAt | date: \'longDate\'}}</small>				</div>			</div>		</div>	</div></div></div>'
+    var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'app-about'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'Page404Component', 'selector': 'app-page404'},{'name': 'PlayerComponent', 'selector': 'app-player'},{'name': 'RecommenderComponent', 'selector': 'app-recommender'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'VideopageComponent', 'selector': 'app-videopage'},{'name': 'WikiboxComponent', 'selector': 'app-wikibox'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'SearchComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SearchComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
