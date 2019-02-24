@@ -11,8 +11,8 @@ var process = require('process');
 // Fix path
 process.env.PWD = path.join(path.dirname(process.argv[1]), '..');
 process.chdir(process.env.PWD);
-__dirname = process.env.PWD;
-__filename = process.argv[1];
+// ~ __dirname = process.env.PWD;
+// ~ __filename = process.argv[1];
 
 
 // CORS
@@ -20,8 +20,8 @@ var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.av
 for (i in whitelist) {
 	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
 }
-whitelist.push('http://localhost:8000');
-whitelist.push(undefined);		// in localhost the origin is undefined
+// ~ whitelist.push('http://localhost:8000');	// TODO: remove this
+// ~ whitelist.push(undefined);		// in localhost the origin is undefined
 
 var corsOption = {
 	methods: ['GET','PUT'],
@@ -38,7 +38,7 @@ var corsOption = {
 
 
 //~ Server setup
-atlas.use(cors(corsOption));
+atlas.use(cors());
 atlas.use(bodyParser.urlencoded({ extended: false }));
 atlas.use(bodyParser.json());
 atlas.use(express.static('alphatube'));
@@ -48,92 +48,212 @@ atlas.use(express.static('alphatube'));
 //~ If db file is present, conect to it else create it.
 //~ The db purpouse is to track videos watched by the individual user
 var db = new jsonDB("./db", true, true);
+try {
+	db.getData("/dbIndex");	// index (popularity) of keys of database
+} catch {
+	db.push("/dbIndex",{});	// if index don't exists we create it
+}
 
-
-//~ Each time the server is started, it tries to read the value of lastID.
-//~ If the value is not present, it means this is the first time the server is up
-//~ so it creates the lastID field in the db and assign the value 0 to it.
-// ~ try {
-	// ~ var lastID = db.getData("/lastID");		//~ Used to store lastID assigned value
-// ~ } catch(error) {
-	// ~ lastID = 0;
-	// ~ db.push("/lastID", lastID);				// save lastID to read on restart
-// ~ };
 
 // ~ atlas.options('*',cors(corsOption));
 
 //~ Routes management
 atlas.get('/globpop', function(req, res) {
-	if (req.query.id) res.send(path);
-	else res.send(__dirname);
-});
+	var nReturned = 30;
 
-//~ This routes assigns a unique ID for each visitor.
-//~ This ID is stored in the client Local Storage and is used as key for the db.
-// ~ atlas.get('/crazy', function(req, res) {
-	// ~ try {
-		// ~ var uid = db.getData("/" + req.query.user);
-		// ~ uid = req.query.user;
-	// ~ } catch(error) {
-		// ~ lastID = lastID + 1;
-		// ~ db.push("/" + lastID, {list: []});
-		// ~ db.push("/lastID", lastID);
-		// ~ uid = lastID;
-	// ~ }
-	// ~ res.json( { id: uid } );
-// ~ });
+	// ~ console.log(req.protocol + '://' + req.headers.host);
+	var response = {
+		site: req.headers.host,
+		recommender: '',
+		lastWatched: 'Never watched.',
+		recommended: []
+	}
 
-atlas.put('/watched', (req, res) => {
-	if (req.body.begin) {
-		try {
-			var timesWatched = db.getData(`/${req.body.begin}/related/${req.body.end}/${req.body.reason}`);
-		} catch(error) {
-			timesWatched = 0;
-		}
-
-		var value = {
-			related: {
-				[req.body.end]: {
-					[req.body.reason]: timesWatched+1
-				}
+	if (req.query.id){
+        try{
+            var idData = db.getData('/' + req.query.id);
+            response.recommender =  req.query.id;
+            response.lastWatched = idData.lastWatched;
+            for(let i = 0; i < idData.recommended.length && i < nReturned; i++) {
+				console.log(i);
+				response.recommended.push(
+    		    	{
+						videoId: idData.recommended[i].videoId,
+    		    		timesWatched: idData.recommended[i].totalSelected,
+    		    		lastSelected: idData.recommended[i].lastSelected,
+    		    		prevalentReason: idData.recommended[i].from[0].prevalentReason
+					}
+				);
 			}
+        } catch (error) {
+			res.statusCode = 404;
 		}
 
-		db.push("/" + req.body.begin, value, false);
+	// ~ if (req.query.id) {
+		// ~ response.recommender = req.query.id;
+		// ~ try {
+			// ~ var video = db.getData(`/${req.query.id}`);
+
+			// ~ if (video) {
+				// ~ response.lastWatched = video.lastWatched;
+				// ~ response.recommended = Object.entries(video.recommended).map(
+					// ~ ([k, v]) => (
+						// ~ {
+							// ~ videoId: k,
+							// ~ prevalentReason: Object.keys(v)[0],
+							// ~ timesWatched: Object.values(v)[0].timesWatched,
+							// ~ lastSelected: Object.values(v)[0].lastSelected
+						// ~ }
+					// ~ )
+				// ~ );
+			// ~ }
+		// ~ } catch(error) {
+			// ~ res.statusCode = 404;
+		// ~ }
+	// ~ }
+
+	}else{
+		// Absolute Globpop
+    	try {
+    		var order = db.getData(`/dbIndex`);		// Get popularity lists
+
+    		// Navigate popularity keys from most to less popular
+    		for (var i = Object.keys(order).length-1; i>= 0 && response.recommended.length < nReturned; i--){
+			  // Navigate videoId
+    		  for (var e = 0; e < Object.values(order)[i].length && response.recommended.length < nReturned; e++){
+
+				var dbKey = db.getData("/" + Object.values(order)[i][e]);		// Get info about the video
+    		    response.recommended.push(		// push the info into the respoce JSON
+    		    	{
+						videoId: Object.values(order)[i][e],
+    		    		timesWatched: dbKey.timesWatched,
+    		    		lastSelected: dbKey.lastWatched
+					}
+				);
+    		  }
+    		}
+		} catch (error) {
+			res.statusCode = 404;
+		}
 	}
 
 
+
+	res.json( response );
+});
+
+atlas.put('/watched', cors(corsOption), (req, res) => {
+
+	const date = new Date().toUTCString();
+
+	// CURRENT VIDEO
 	try {
-		timesWatched = db.getData(`/${req.body.end}/timesWatched`);
+		var timesWatched = db.getData(`/${req.body.end}/timesWatched`);
+
+		var popularityIndex = db.getData(`/dbIndex/${timesWatched}`);
+		popularityIndex = popularityIndex.filter(val => val !== req.body.end);
+		if (popularityIndex.length) db.push(`/dbIndex/${timesWatched}`, popularityIndex, true);
+		else db.delete(`/dbIndex/${timesWatched}`);
+
 	} catch(error) {
 		timesWatched = 0;
 	}
 
-	value = {
+	var current = {
 		timesWatched: timesWatched+1,
-		lastWatched: new Date().toUTCString()
+		lastWatched: date,
+		recommended: []
 	}
 
-	db.push("/" + req.body.end, value, false);
+	try {
+		popularityIndex = db.getData(`/dbIndex/${current.timesWatched}`);
+		popularityIndex.push(req.body.end);
+	}
+	catch {
+		popularityIndex = [req.body.end];
+	}
+	db.push(`/dbIndex/${current.timesWatched}`, popularityIndex);
+
+	db.push("/" + req.body.end, current, false);
 
 
 
-	res.json( { message: 'OK' } );
+	// OLD VIDEO RELATION
+	if (req.body.begin && req.body.reason) {
+		try {
+			var oldVideo = db.getData(`/${req.body.begin}`);
 
-		// ~ res.statusCode = 400;
-		// ~ res.send('Bad Request');
+			var noReason = {
+				prevalentReason: req.body.reason,
+				timesSelected: 1
+			}
+
+			var noVideo = {
+				videoId: req.body.end,
+				totalSelected: 1,
+				lastSelected: date,
+				from: [
+					noReason
+				]
+			}
+
+			var newVideoIndex = oldVideo.recommended.findIndex(id => id.videoId == req.body.end);
+			if (newVideoIndex < 0) oldVideo.recommended.push(noVideo);
+			else {
+				var newVideo = (oldVideo.recommended[newVideoIndex]);
+				newVideo.totalSelected += 1;
+				newVideo.lastSelected = date;
+
+
+				var reasonIndex = newVideo.from.findIndex(reason => reason.prevalentReason == req.body.reason);
+				if (reasonIndex < 0) newVideo.from.push(noReason);
+				else newVideo.from[reasonIndex].timesSelected += 1;
+
+				newVideo.from.sort((a, b) => (a.timesSelected < b.timesSelected) ? 1 : -1);			// sort reason array
+				oldVideo.recommended.sort((a, b) => (a.lastSelected < b.lastSelected) ? 1 : -1);	// sort video array
+			}
+		} catch(error) {
+			res.statusCode = 404;
+			res.send('Not found');
+		} finally {
+			db.push(`/${req.body.begin}`, oldVideo, true);
+		}
+	}
+
+
+	// OLD INSERT
+	// ~ if (req.body.begin) {
+		// ~ try {
+			// ~ var timesWatched = db.getData(`/${req.body.begin}/recommended/${req.body.end}/${req.body.reason}`);
+		// ~ } catch(error) {
+			// ~ timesWatched = 0;
+		// ~ }
+
+		// ~ var value = {
+			// ~ recommended: {
+				// ~ [req.body.end]: {
+					// ~ [req.body.reason]: {
+						// ~ timesWatched: timesWatched+1,
+						// ~ lastSelected: date
+					// ~ }
+				// ~ }
+			// ~ }
+		// ~ }
+
+		// ~ db.push("/" + req.body.begin, value, false);
+	// ~ }
 });
 
-atlas.get('/twitter', (req, res) => {
-	
+atlas.get('/twitter', cors(corsOption), (req, res) => {
+
 	var T = new twitter({
 		consumer_key: '*************************',
 		consumer_secret: '**************************************************',
 		access_token: '**************************************************',
 		access_token_secret: '*********************************************'
-		
+
 	});
-	
+
 	T.get('search/tweets', {
 		q: req.query.q_song + ' ' + req.query.q_artist,
 		lang: 'en',
@@ -141,7 +261,7 @@ atlas.get('/twitter', (req, res) => {
 		count: 24
 	}, (err, data, response) => {
 		res.send(data);
-	});	
+	});
 });
 
 atlas.get('*', (req, res) => {

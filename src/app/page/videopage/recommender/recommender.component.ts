@@ -126,12 +126,11 @@ export class RecommenderComponent implements OnInit {
         },
         error => console.log(error)
       );*/
-
       this.popularity('AbsGlobalPopularity', undefined, siteCode);
       this.popularity('RelGlobalPopularity', params.videoId, siteCode);
 
-      //this.popularity('AbsLocalPopularity','', '1826');
-      //this.popularity('RelLocalPopularity',params.videoId, '1826');
+      this.popularity('AbsLocalPopularity',undefined, ['1826']);
+      this.popularity('RelLocalPopularity',params.videoId, ['1826']);
 
 
       // artist similarity
@@ -194,7 +193,7 @@ export class RecommenderComponent implements OnInit {
     let siteNumber=siteCode.length, popList = [];
     for(let i in siteCode){
       this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
-        (data: any) => {
+        (data: any) => { console.log(data);
           for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
           siteNumber = this.finalizePop(popList,siteNumber,recommender);
         },

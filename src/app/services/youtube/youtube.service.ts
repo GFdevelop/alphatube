@@ -64,7 +64,7 @@ export class YoutubeService {
       {
         params: {
           part: 'snippet',
-          maxResults: '12',
+          maxResults: '24',
           order: 'relevance',
           videoId: videoId,
           fields: 'items(snippet(topLevelComment(snippet(authorDisplayName,authorProfileImageUrl,likeCount,textOriginal))))',
