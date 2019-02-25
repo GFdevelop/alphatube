@@ -41,7 +41,7 @@ export class AtlasService {
       reason = 'GlobalPopularity';
     }
 
-    console.log(lastVideo,reason,currentVideo);
+    /*console.log(lastVideo,reason,currentVideo);*/
 
     return this.http.put(window.location.origin + '/watched', {
       begin: lastVideo,

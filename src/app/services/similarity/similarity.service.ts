@@ -12,7 +12,6 @@ export class SimilarityService {
   private genre = new Subject();
 
   setArtist(artist:any){
-    console.log('hey');
     try {
       this.artist.next(artist);
     } catch {
@@ -22,13 +21,9 @@ export class SimilarityService {
   }
 
   setGenere(genre:any){
-    console.log('Genere: ');
-    console.log(genre);
     try {
-      console.log(genre[0].name.value);
       this.genre.next(genre[0].name.value);
     } catch {
-      console.log(genre); // TODO: remove console
       this.genre.next(undefined);
     }
 
