@@ -304,27 +304,26 @@ export class AboutComponent implements OnInit {
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;row justify-content-center&quot;&gt;
 	&lt;div class&#x3D;&quot;col-4 col-md-2 col-lg-2 text-center mb-2&quot;&gt;
 		&lt;div class&#x3D;&quot;ml-1 mr-1&quot;&gt;
-			&lt;img class&#x3D; &quot;img-fluid&quot; src&#x3D;&quot;assets/img/logo.png&quot; alt&#x3D; &quot;alphaTube logo&quot;&gt;
+			&lt;img class&#x3D; &quot;img-fluid&quot; src&#x3D;&quot;assets/img/logo.png&quot; aria-hidden&#x3D;&quot;true&quot; alt&#x3D; &quot;alphaTube logo&quot;&gt;
 		&lt;/div&gt;
 	&lt;/div&gt;
 &lt;/div&gt;
-
-	&lt;div class&#x3D;&quot;text-center&quot;&gt;
-		&lt;p&gt;&lt;b&gt;AlphaTube è un progetto di&lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;http://tw.web.cs.unibo.it/mediawiki-1.30.0/index.php/Technologie_Web_2018-19&quot;&gt; Tecnologie Web&lt;/a&gt;, anno
-      accademico 2017-2018, del professore &lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;http://vitali.web.cs.unibo.it/&quot;&gt; Fabio Vitali&lt;/a&gt;.
-    &lt;br&gt;
-    Informazioni sul Team:&lt;/b&gt;&lt;/p&gt;
-	&lt;/div&gt;
-
+&lt;div class&#x3D;&quot;text-center font-weight-bold&quot;&gt;
+	&lt;p&gt;AlphaTube is a &lt;a target&#x3D;&quot;_blank&quot; attr.aria-label&#x3D; &quot;link al corso di tecnologie web&quot; href&#x3D;&quot;http://tw.web.cs.unibo.it/mediawiki-1.30.0/index.php/Technologie_Web_2018-19&quot;&gt;
+	Web Technologies&lt;/a&gt; project. Academic year 2017-2018, Prof. &lt;a target&#x3D;&quot;_blank&quot; attr.aria-label&#x3D;&quot;link al sito web del Professore Fabio Vitali&quot; href&#x3D;&quot;http://vitali.web.cs.unibo.it/&quot;&gt; Fabio Vitali&lt;/a&gt;.&lt;br&gt;
+  Team information:&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;div class&#x3D;&quot;card-deck mb-5 content-center&quot;&gt;
 	&lt;div class&#x3D; &quot;card text-center border-primary mb-3&quot; *ngFor&#x3D;&quot;let member of group&quot;&gt;
-	  &lt;img class&#x3D;&quot;card-img-top&quot; src&#x3D;&quot;assets/img/{{member.image}}.jpg&quot; alt&#x3D;&quot;{member.name}&quot;&gt;
-	   &lt;p (mouseover)&#x3D;&quot;old &#x3D; member.mail; member.mail &#x3D; member.mail + &#x27;@studio.unibo.it&#x27;&quot; (mouseout)&#x3D;&quot;member.mail &#x3D; old&quot;&gt;
-			 &lt;b&gt;{{member.name}}&lt;br&gt;
- 				{{member.matricola}}&lt;br&gt;&lt;/b&gt;
-			&lt;a href&#x3D;&quot;mailto:{{member.mail}}&quot;&gt;&lt;b&gt;Invia un e-mail&lt;/b&gt;&lt;/a&gt;
-	   &lt;/p&gt;
+		&lt;img class&#x3D;&quot;card-img-top&quot; src&#x3D;&quot;assets/img/{{member.image}}.jpg&quot; aria-hidden&#x3D;&quot;true&quot; alt&#x3D;&quot;{member.name}&quot;&gt;
+			&lt;div class&#x3D;&quot;card-body&quot;&gt;
+	   		&lt;div (mouseover)&#x3D;&quot;old &#x3D; member.mail; member.mail &#x3D; member.mail + &#x27;@studio.unibo.it&#x27;&quot; (mouseout)&#x3D;&quot;member.mail &#x3D; old&quot;&gt;
+					&lt;div class&#x3D;&quot;card-text font-weight-bold&quot; attr.aria-label&#x3D;&quot;{{member.name}}&quot;&gt;{{member.name}}&lt;/div&gt;
+					&lt;div class&#x3D;&quot;card-text font-weight-bold&quot; attr.aria-label&#x3D;&quot;	{{member.matricola}}&quot;&gt;{{member.matricola}}&lt;/div&gt;
+					&lt;a href&#x3D;&quot;mailto:{{member.mail}}&quot; class&#x3D;&quot;font-weight-bold&quot; attr.aria-label &#x3D; &quot;invia un e mail a {{member.mail}}&quot;&gt;Send e-mail&lt;/a&gt;
+				&lt;/div&gt;
+	 	 &lt;/div&gt;
 	 &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
@@ -362,7 +361,7 @@ export class AboutComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="row justify-content-center">	<div class="col-4 col-md-2 col-lg-2 text-center mb-2">		<div class="ml-1 mr-1">			<img class= "img-fluid" src="assets/img/logo.png" alt= "alphaTube logo">		</div>	</div></div>	<div class="text-center">		<p><b>AlphaTube è un progetto di<a target="_blank" href="http://tw.web.cs.unibo.it/mediawiki-1.30.0/index.php/Technologie_Web_2018-19"> Tecnologie Web</a>, anno      accademico 2017-2018, del professore <a target="_blank" href="http://vitali.web.cs.unibo.it/"> Fabio Vitali</a>.    <br>    Informazioni sul Team:</b></p>	</div><div class="card-deck mb-5 content-center">	<div class= "card text-center border-primary mb-3" *ngFor="let member of group">	  <img class="card-img-top" src="assets/img/{{member.image}}.jpg" alt="{member.name}">	   <p (mouseover)="old = member.mail; member.mail = member.mail + \'@studio.unibo.it\'" (mouseout)="member.mail = old">			 <b>{{member.name}}<br> 				{{member.matricola}}<br></b>			<a href="mailto:{{member.mail}}"><b>Invia un e-mail</b></a>	   </p>	 </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="row justify-content-center">	<div class="col-4 col-md-2 col-lg-2 text-center mb-2">		<div class="ml-1 mr-1">			<img class= "img-fluid" src="assets/img/logo.png" aria-hidden="true" alt= "alphaTube logo">		</div>	</div></div><div class="text-center font-weight-bold">	<p>AlphaTube is a <a target="_blank" attr.aria-label= "link al corso di tecnologie web" href="http://tw.web.cs.unibo.it/mediawiki-1.30.0/index.php/Technologie_Web_2018-19">	Web Technologies</a> project. Academic year 2017-2018, Prof. <a target="_blank" attr.aria-label="link al sito web del Professore Fabio Vitali" href="http://vitali.web.cs.unibo.it/"> Fabio Vitali</a>.<br>  Team information:</p></div><div class="card-deck mb-5 content-center">	<div class= "card text-center border-primary mb-3" *ngFor="let member of group">		<img class="card-img-top" src="assets/img/{{member.image}}.jpg" aria-hidden="true" alt="{member.name}">			<div class="card-body">	   		<div (mouseover)="old = member.mail; member.mail = member.mail + \'@studio.unibo.it\'" (mouseout)="member.mail = old">					<div class="card-text font-weight-bold" attr.aria-label="{{member.name}}">{{member.name}}</div>					<div class="card-text font-weight-bold" attr.aria-label="	{{member.matricola}}">{{member.matricola}}</div>					<a href="mailto:{{member.mail}}" class="font-weight-bold" attr.aria-label = "invia un e mail a {{member.mail}}">Send e-mail</a>				</div>	 	 </div>	 </div></div></div>'
     var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'app-about'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'Page404Component', 'selector': 'app-page404'},{'name': 'PlayerComponent', 'selector': 'app-player'},{'name': 'RecommenderComponent', 'selector': 'app-recommender'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'VideopageComponent', 'selector': 'app-videopage'},{'name': 'WikiboxComponent', 'selector': 'app-wikibox'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'AboutComponent'};

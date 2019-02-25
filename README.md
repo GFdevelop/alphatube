@@ -1,17 +1,15 @@
 # alphaTube
-
+   
 ## FRAMEWORK
 
 ### Server-Side
-- Node.js v8.10 (https://nodejs.org/)
+- Node.js v10.xx (https://nodejs.org)
 
 ### Client-Side
-#### JS
-- Bootstrap v4.1.0 (https://getbootstrap.com/)
-- jQuery JavaScript Library v3.3.1 (https://jquery.com/)
+- Angular v7.xx (https://angular.io)
 
 #### CSS
-- Bootstrap v4.1.0 (https://getbootstrap.com/)
+- Bootstrap v4.x.x (https://getbootstrap.com/)
 
 Legend:
 O:  optional
