@@ -10,7 +10,6 @@ import { YoutubeService } from '../../services/youtube/youtube.service';
 })
 export class SearchComponent implements OnInit {
 
-  message: string;
   searchResults: any;
   q: string;
   semaphore = false;
@@ -25,21 +24,20 @@ export class SearchComponent implements OnInit {
 
     this.route.params.subscribe((urlParams) => {
       if (localStorage.q !== urlParams.q) { localStorage.q = urlParams.q; }
-      this.message = 'Search results for ' + urlParams.q;
       this.doSearch(urlParams.q);
     });
   }
 
-  // https://coryrylan.com/blog/rxjs-observables-versus-subjects
   doSearch(q: string, pageToken?: string) {
     if (!this.semaphore) {
       this.semaphore = true;
-      this.yt.getSearch(q, pageToken).subscribe(
+      this.yt.getSearch(q, pageToken).toPromise().then(
         (data: any) => {
           if (this.q !== q) {
             this.searchResults = data;
             this.q = q;
-          } else {
+          }
+          else if (this.searchResults.nextPageToken) {
             this.searchResults.nextPageToken = data.nextPageToken;
             this.searchResults.items = this.searchResults.items.concat(data.items);
           }
@@ -54,7 +52,7 @@ export class SearchComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onWindowScroll() {
-    if (this.searchResults) {
+    if (this.searchResults && (this.searchResults.items.length > 3)) {
       if ((window.innerHeight + window.pageYOffset) >= this.list.nativeElement.children[this.searchResults.items.length - 3].offsetTop) {
         this.doSearch(this.q, this.searchResults.nextPageToken);
       }

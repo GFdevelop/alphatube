@@ -4,13 +4,13 @@
 	aria-atomic		region is always present, even if only part of the region changes
 -->
 <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
-	{{message}}
+	{{(searchResults?.items.length) ? 'Search ' : 'No '}}results for {{q}}
 </div>
 
 <div class="row text-center text-xl-left text-md-center text-sm-left px-2" role="main" id="list" #list>
 	<div class="container-fluid text-center" *ngIf="searchResults">
 		<h3 class="card-title font-weight-bold">
-			 {{(searchResults?.items.length) ? 'Search ' : 'No '}} results for {{q}}
+			 {{(searchResults?.items.length) ? 'Search ' : 'No '}}results for {{q}}
 		</h3>
 	</div>
 	<div class="col-12 col-md-6 mb-3 p-0" *ngFor="let result of searchResults?.items; let hovered = index">     <!-- ? Safe Navigation Operator to avoid null or undefined-->
