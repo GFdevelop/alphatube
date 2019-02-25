@@ -91,6 +91,12 @@
 
 
 
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                            <code>{ provide: CarouselConfig, useValue: { interval: , noPause: false, showIndicators: true } }</code>
+                </td>
+            </tr>
 
 
             <tr>
@@ -192,7 +198,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -297,7 +303,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="206" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:206</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:207</a></div>
                             </td>
                         </tr>
 
@@ -378,7 +384,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="240" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:240</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="241" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:241</a></div>
                             </td>
                         </tr>
 
@@ -447,7 +453,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:219</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="220" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:220</a></div>
                             </td>
                         </tr>
 
@@ -540,7 +546,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:166</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:167</a></div>
                             </td>
                         </tr>
 
@@ -633,7 +639,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -671,7 +677,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="192" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:192</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:193</a></div>
                             </td>
                         </tr>
 
@@ -774,7 +780,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -801,7 +807,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -816,6 +822,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, ViewEncapsulation, HostListener} from &#x27;@angular/core&#x27;;
 import { ActivatedRoute } from &#x27;@angular/router&#x27;;
+import { CarouselConfig } from &#x27;ngx-bootstrap/carousel&#x27;;
 
 import { AlphalistService } from &#x27;../../../services/alphalist/alphalist.service&#x27;;
 import { YoutubeService } from &#x27;../../../services/youtube/youtube.service&#x27;;
@@ -825,7 +832,11 @@ import { SimilarityService } from &#x27;../../../services/similarity/similarity.
   selector: &#x27;app-recommender&#x27;,
   templateUrl: &#x27;./recommender.component.html&#x27;,
   styleUrls: [&#x27;./recommender.component.css&#x27;],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: CarouselConfig, useValue: { interval: 10000, noPause: false, showIndicators: true } }
+  ]
+
 })
 
 export class RecommenderComponent implements OnInit {
@@ -881,14 +892,14 @@ export class RecommenderComponent implements OnInit {
 
       // search
       if (localStorage.q) {
-        this.ytService.getRecommenders({q: localStorage.q}).subscribe(
+        this.ytService.getRecommenders({q: localStorage.q, maxResults: 10}).subscribe(  // as requested results are &lt; 10
           (data: any) &#x3D;&gt; {
             var tmpSearch &#x3D; this.ytService.fromYT(data).filter(
               obj &#x3D;&gt; obj.videoID !&#x3D;&#x3D; params.videoId
             );
             if (tmpSearch.length) this.r10s[&#x27;Search&#x27;] &#x3D; tmpSearch;
           },
-          error &#x3D;&gt; console.log(error)
+          error &#x3D;&gt; window.alert(&#x27;There is an error: please reload page!&#x27;)
         );
       }
 
@@ -928,8 +939,6 @@ export class RecommenderComponent implements OnInit {
 
 
       // popularity
-      //let siteCode &#x3D; [&#x27;1822&#x27;,&#x27;1823&#x27;,&#x27;1824&#x27;,&#x27;1827&#x27;,&#x27;1828&#x27;,&#x27;1829&#x27;,&#x27;1830&#x27;,&#x27;1831&#x27;,&#x27;1834&#x27;,&#x27;1836&#x27;,&#x27;1838&#x27;,&#x27;1839&#x27;,&#x27;1846&#x27;,&#x27;1847&#x27;,&#x27;1848&#x27;,&#x27;1849&#x27;,&#x27;1850&#x27;,&#x27;1851&#x27;,&#x27;1859&#x27;,&#x27;1861&#x27;,&#x27;1862&#x27;,&#x27;1863&#x27;,&#x27;1901&#x27;,&#x27;1904&#x27;,&#x27;1906&#x27;];
-      //let siteCode &#x3D; [&#x27;1823&#x27;,&#x27;1827&#x27;,&#x27;1828&#x27;,&#x27;1831&#x27;,&#x27;1834&#x27;,&#x27;1838&#x27;,&#x27;1839&#x27;,&#x27;1846&#x27;,&#x27;1847&#x27;,&#x27;1863&#x27;,&#x27;1901&#x27;];
 
       this.alphalistService.getList().subscribe( // Per quando globpopList.json sara&#x27; disponibile sul sito
         (data: any) &#x3D;&gt;{
@@ -938,8 +947,6 @@ export class RecommenderComponent implements OnInit {
         },
         error &#x3D;&gt; console.log(error)
       );
-      /*this.popularity(&#x27;AbsGlobalPopularity&#x27;, undefined, siteCode);
-      this.popularity(&#x27;RelGlobalPopularity&#x27;, params.videoId, siteCode);*/
 
       this.popularity(&#x27;AbsLocalPopularity&#x27;,undefined, [&#x27;1826&#x27;]);
       this.popularity(&#x27;RelLocalPopularity&#x27;,params.videoId, [&#x27;1826&#x27;]);
@@ -1013,7 +1020,7 @@ export class RecommenderComponent implements OnInit {
           for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
           siteNumber &#x3D; this.finalizePop(popList,siteNumber,recommender);
         },
-        error &#x3D;&gt; { console.log(error); siteNumber &#x3D; this.finalizePop(popList,siteNumber,recommender);}
+        error &#x3D;&gt; { /*console.log(error);*/ siteNumber &#x3D; this.finalizePop(popList,siteNumber,recommender);}
       );
     }
   }
@@ -1073,15 +1080,15 @@ export class RecommenderComponent implements OnInit {
         &lt;div class&#x3D;&quot;card border-primary&quot; *ngIf&#x3D;&quot;r9r.value!&#x3D;0&quot;&gt;
             &lt;carousel&gt;
                 &lt;div *ngFor&#x3D;&quot;let video of r9r.value; let i&#x3D;index&quot;&gt;
-                    &lt;slide *ngIf&#x3D;&quot;i&lt;nVideo&quot;&gt;
-                        &lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;,video.videoID,r9r.key]&quot; style&#x3D;&quot;text-decoration:none;&quot;&gt;
-                            &lt;div class&#x3D;&quot;card-body p-2&quot;&gt;
+                    &lt;slide *ngIf&#x3D;&quot;i&lt;nVideo&quot; aria-hidden&#x3D;&quot;false&quot;&gt;
+                        &lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;,video.videoID,r9r.key]&quot; style&#x3D;&quot;text-decoration:none;&quot; attr.aria-label&#x3D;&quot;{{video.title}}&quot;&gt;
+                            &lt;div class&#x3D;&quot;card-body p-2&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
                                 &lt;h5 class&#x3D;&quot;card-title text-truncate text-right text-dark font-weight-bold mb-0&quot;&gt;From {{r9r.key}}&lt;/h5&gt;
                                 &lt;p class&#x3D;&quot;card-text text-truncate text-right h6&quot;&gt;&lt;small class&#x3D;&quot;text-muted&quot;&gt;{{video.reason?video.reason:&#x27;No resason available&#x27;}}&lt;/small&gt;&lt;/p&gt;
                                 &lt;p class&#x3D;&quot;card-text text-truncate mb-1 h6&quot;&gt;{{video.title}}&lt;/p&gt;
                                 &lt;p class&#x3D;&quot;card-text text-truncate h6&quot;&gt;&lt;small class&#x3D;&quot;text-muted&quot;&gt;{{video.artist}}&lt;/small&gt;&lt;/p&gt;
                             &lt;/div&gt;
-                            &lt;img class&#x3D;&quot;card-img-bottom&quot; src&#x3D;&quot;{{video.img}}&quot; alt&#x3D;&quot;Card image of {{video.title}}&quot;&gt;
+                            &lt;img class&#x3D;&quot;card-img-bottom&quot; src&#x3D;&quot;{{video.img}}&quot; alt&#x3D;&quot;Card image of {{video.title}}&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
                         &lt;/a&gt;
                     &lt;/slide&gt;
                 &lt;/div&gt;
@@ -1133,7 +1140,7 @@ export class RecommenderComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><h3 class="text-center">Consigliati</h3><div class="card-deck">    <div class="col-sm-6 col-md-12 col-lg-6 mb-1 p-0" *ngFor="let r9r of r10s | keyvalue"> <!-- keyvalue transforms Object or Map into an array of key value pairs -->        <div class="card border-primary" *ngIf="r9r.value!=0">            <carousel>                <div *ngFor="let video of r9r.value; let i=index">                    <slide *ngIf="i<nVideo">                        <a [routerLink]="[\'/videopage\',video.videoID,r9r.key]" style="text-decoration:none;">                            <div class="card-body p-2">                                <h5 class="card-title text-truncate text-right text-dark font-weight-bold mb-0">From {{r9r.key}}</h5>                                <p class="card-text text-truncate text-right h6"><small class="text-muted">{{video.reason?video.reason:\'No resason available\'}}</small></p>                                <p class="card-text text-truncate mb-1 h6">{{video.title}}</p>                                <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist}}</small></p>                            </div>                            <img class="card-img-bottom" src="{{video.img}}" alt="Card image of {{video.title}}">                        </a>                    </slide>                </div>            </carousel>        </div>    </div> </div></div>'
+        var COMPONENT_TEMPLATE = '<div><h3 class="text-center">Consigliati</h3><div class="card-deck">    <div class="col-sm-6 col-md-12 col-lg-6 mb-1 p-0" *ngFor="let r9r of r10s | keyvalue"> <!-- keyvalue transforms Object or Map into an array of key value pairs -->        <div class="card border-primary" *ngIf="r9r.value!=0">            <carousel>                <div *ngFor="let video of r9r.value; let i=index">                    <slide *ngIf="i<nVideo" aria-hidden="false">                        <a [routerLink]="[\'/videopage\',video.videoID,r9r.key]" style="text-decoration:none;" attr.aria-label="{{video.title}}">                            <div class="card-body p-2" aria-hidden="true">                                <h5 class="card-title text-truncate text-right text-dark font-weight-bold mb-0">From {{r9r.key}}</h5>                                <p class="card-text text-truncate text-right h6"><small class="text-muted">{{video.reason?video.reason:\'No resason available\'}}</small></p>                                <p class="card-text text-truncate mb-1 h6">{{video.title}}</p>                                <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist}}</small></p>                            </div>                            <img class="card-img-bottom" src="{{video.img}}" alt="Card image of {{video.title}}" aria-hidden="true">                        </a>                    </slide>                </div>            </carousel>        </div>    </div> </div></div>'
     var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'app-about'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'Page404Component', 'selector': 'app-page404'},{'name': 'PlayerComponent', 'selector': 'app-player'},{'name': 'RecommenderComponent', 'selector': 'app-recommender'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'VideopageComponent', 'selector': 'app-videopage'},{'name': 'WikiboxComponent', 'selector': 'app-wikibox'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'RecommenderComponent'};

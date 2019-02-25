@@ -299,6 +299,8 @@ export class VideopageComponent implements OnInit {
 
         this.ytService.getVideo(params.videoId).subscribe(
           (data: any) &#x3D;&gt; {
+            let a&#x3D;data;
+            console.log(a);
             data &#x3D; this.ytService.filterVideo(data);
             if (data.items.length &#x3D;&#x3D; 0){
               this.route.navigate([&#x27;404&#x27;], { replaceUrl: true, skipLocationChange: true });

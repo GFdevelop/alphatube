@@ -182,7 +182,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/services/lyrics/lyrics.service.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/services/lyrics/lyrics.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -326,11 +326,12 @@ import { HttpClient } from &#x27;@angular/common/http&#x27;;
 })
 export class LyricsService {
 
-	apiRef &#x3D; &#x27;https://api.musixmatch.com/ws/1.1&#x27;;
+  apiRef &#x3D; &#x27;https://api.musixmatch.com/ws/1.1&#x27;;
   devKey &#x3D; &#x27;d13666cbfa0695c12c31616bc57dc7e0&#x27;;
   
   constructor(private http: HttpClient) {	}
   
+  // ~ JSONP is required by MusicXMatch
   getLyrics(artist: string, song: string) {
 		return this.http.jsonp(this.apiRef + &#x60;
 			/matcher.lyrics.get?
