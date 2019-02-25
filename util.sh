@@ -29,10 +29,12 @@ site=${username}
 hostname=@${hosts[${USER}]}.cs.unibo.it
 login=${username}${hostname}
 frontname=`grep -Po '"name": "\K[^"]+' package.json`
+docname=documentation
 backname=server
 webdir=/home/web/${site}/html
 dist=${PWD}/dist
 frontdir=${dist}/${frontname}
+docdir=${dist}/${docname}
 backdir=${dist}/${backname}
 sshctl=~/.ssh/ctl
 sshopts="-C -o ControlPath=${sshctl}/%L-%r@%h:%p"
@@ -117,6 +119,9 @@ fi
 if [[ ${front} == 1 ]] && [ ! -d ${frontdir} ]; then
 	${PWD}/node_modules/@angular/cli/bin/ng build
 fi
+if [[ ${front} == 1 ]] && [ ! -d ${docdir} ]; then
+	ln -s ${PWD}/${docname} ${dist}
+fi
 if [[ ${back} == 1 ]] && [ ! -d ${backdir} ]; then
 	ln -s ${PWD}/${backname} ${dist}
 fi
@@ -133,6 +138,7 @@ fi
 if [[ ${clean} == 1 ]]; then
 	if [[ ${front} == 1 ]]; then
 		ssh ${sshopts} ${login} "rm -rf ${webdir}/${frontname}"
+		ssh ${sshopts} ${login} "rm -rf ${webdir}/${docname}"
 	fi
 	if [[ ${back} == 1 ]]; then
 		ssh ${sshopts} ${login} "rm -rf ${webdir}/${backname}"
@@ -144,6 +150,10 @@ if [[ ${front} == 1 ]]; then
 	echo "FRONT-END:"
 	chmod -R g+w ${frontdir}
 	scp ${sshopts} -p -r ${frontdir} ${login}:${webdir}/${frontname}
+	echo ""
+	echo "DOCS:"
+	chmod -R g+w ${docdir}
+	scp ${sshopts} -p -r ${docdir} ${login}:${webdir}/${docname}
 fi
 if [[ ${back} == 1 ]]; then
 	echo ""

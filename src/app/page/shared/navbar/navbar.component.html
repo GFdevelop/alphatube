@@ -9,6 +9,7 @@
 	<div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">    <!-- https://github.com/valor-software/ngx-bootstrap/issues/540#issuecomment-365267992 -->
 		<div class="navbar-nav flex-row mr-md-auto d-md-flex" role="navigation">
 			<a class="nav-item navbar-link nav-link font-weight-bold" routerLink="/about">About</a>
+			<a class="nav-item navbar-link nav-link font-weight-bold" href="/docs">DocSite</a>		<!-- "external" url -->
 		</div>
 		<form class="form-inline" (ngSubmit)="search()" #form="ngForm">
 			<div class="input-group" role="form" aria-label="Search form">
