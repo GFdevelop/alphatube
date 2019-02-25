@@ -52,7 +52,7 @@ export class RecommenderComponent implements OnInit {
 
       // id playlist casuale da playlists
       let idPlaytmp = idPlay.playlists[Math.floor(Math.random() * idPlay.playlists.length)].playlistId;
-      this.ytService.getPlaylist(idPlaytmp).subscribe(
+      this.ytService.getPlaylist(idPlaytmp).toPromise().then(
         // data sono i 30 video presi dalla playlist, tramite getPlaylist da youtube.service
         (data: any) => {
             let randomListVideoId = [];
@@ -70,7 +70,7 @@ export class RecommenderComponent implements OnInit {
 
       // search
       if (localStorage.q) {
-        this.ytService.getRecommenders({q: localStorage.q, maxResults: 10}).subscribe(  // as requested results are < 10
+        this.ytService.getRecommenders({q: localStorage.q, maxResults: 10}).toPromise().then(  // as requested results are < 10
           (data: any) => {
             var tmpSearch = this.ytService.fromYT(data).filter(
               obj => obj.videoID !== params.videoId
@@ -82,7 +82,7 @@ export class RecommenderComponent implements OnInit {
       }
 
       // related
-      this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
+      this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).toPromise().then(
         (data: any) => {
            let tmpRel = this.ytService.fromYT(data).filter(
              obj => obj.videoID !== params.videoId
@@ -103,7 +103,7 @@ export class RecommenderComponent implements OnInit {
 
 
       // fvitali
-      this.alphalistService.getFV(params.videoId).subscribe(
+      this.alphalistService.getFV(params.videoId).toPromise().then(
         (data: any) => {
           let idList = [];
           for (let i in data.recommended.slice(0,30)){
@@ -117,8 +117,7 @@ export class RecommenderComponent implements OnInit {
 
 
       // popularity
-
-      this.alphalistService.getList().subscribe( // Per quando globpopList.json sara' disponibile sul sito
+      this.alphalistService.getList().toPromise().then( // Per quando globpopList.json sara' disponibile sul sito
         (data: any) =>{
           this.popularity('AbsGlobalPopularity', undefined, data.globpop);
           this.popularity('RelGlobalPopularity',params.videoId, data.globpop);
@@ -135,7 +134,7 @@ export class RecommenderComponent implements OnInit {
       this.similarity.getArtist().subscribe(
         (data: any) => {
           if (data) {
-            this.ytService.getRecommenders({q: data}).subscribe(
+            this.ytService.getRecommenders({q: data}).toPromise().then(
               (obj: any) => {
                 let tmpArtist = this.ytService.fromYT(obj).filter(
                   obj => obj.videoID !== params.videoId)
@@ -152,7 +151,7 @@ export class RecommenderComponent implements OnInit {
       this.similarity.getGenere().subscribe(
         (data: any) => {
           if (data){
-            this.ytService.getRecommenders({q: data}).subscribe(
+            this.ytService.getRecommenders({q: data}).toPromise().then(
               (obj: any) => {
                  let tmpSim = this.ytService.fromYT(obj).filter(
                    obj => obj.videoID !== params.videoId);
@@ -168,7 +167,7 @@ export class RecommenderComponent implements OnInit {
   }
 
   getVideoInfo(recommender: string, idList: any, reasonList:any){
-    this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
+    this.ytService.getVideo(idList.join()).toPromise().then( // joins all the elements of an array into a string
       (data: any) => {
         data = this.ytService.fromYT(this.ytService.filterVideo(data));
         // E' possibile che getVideo e filterVideo tolgano alcuni video perchè non riproducibili, quindi la posizione nell'array non corrirsponde alla vecchia posizione
@@ -196,7 +195,7 @@ export class RecommenderComponent implements OnInit {
   popularity(recommender:string, query:string, siteCode:any){
     let siteNumber=siteCode.length, popList = [];
     for(let i in siteCode){
-      this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
+      this.alphalistService.getGlobpop(siteCode[i],query).toPromise().then(
         (data: any) => {
           for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
           siteNumber = this.finalizePop(popList,siteNumber,recommender);
