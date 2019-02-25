@@ -69,13 +69,17 @@ atlas.get('/globpop', function(req, res) {
 		recommended: []
 	}
 
+	//~ This is Relative Global Popularity implementation.
+	//~ This part of code is axecuted only when a valid YouTube ID is specified in the URI site1826.tw.cs.unibo.it/globpop?id=YYYYYY
 	if (req.query.id){
         try{
+			//~ This database access will throw an error if specified key is not present
             var idData = db.getData('/' + req.query.id);
+            //~ Response JSON is builded up fields by fields
             response.recommender =  req.query.id;
             response.lastWatched = idData.lastWatched;
+            //~ Recommended array is buildedup using an empty array an pushing the video to keep the order
             for(let i = 0; i < idData.recommended.length && i < nReturned; i++) {
-				console.log(i);
 				response.recommended.push(
     		    	{
 						videoId: idData.recommended[i].videoId,
@@ -203,8 +207,11 @@ atlas.put('/watched', cors(corsOption), (req, res) => {
 	}
 });
 
-atlas.get('/twitter', cors(corsOption), (req, res) => {
 
+atlas.get('/twitter', cors(corsOption), (req, res) => {
+	
+	//~ Twitter requests need to pass through the server due to OAuth policy adopted by Twitter
+	//~ Using twit npm package I'm able to build a complete request specifying keys and params
 	var T = new twitter({
 		consumer_key: '*************************',
 		consumer_secret: '**************************************************',
@@ -213,6 +220,8 @@ atlas.get('/twitter', cors(corsOption), (req, res) => {
 
 	});
 
+	//~ Performing a GET request to Twitter for retrive 24 tweets containg specified song title and artist name
+	//~ ...and sending back to client
 	T.get('search/tweets', {
 		q: req.query.q_song + ' ' + req.query.q_artist,
 		lang: 'en',
