@@ -121,85 +121,91 @@ atlas.get('/globpop', function(req, res) {
 
 atlas.put('/watched', cors(corsOption), (req, res) => {
 
-	const date = new Date().toUTCString();
+	if (req.body.end) {
+		const date = new Date().toUTCString();
 
-	// CURRENT VIDEO
-	try {
-		var timesWatched = db.getData(`/${req.body.end}/timesWatched`);
-
-		// Remove from index of old key
-		var popularityIndex = db.getData(`/dbIndex/${timesWatched}`);	// get list of 'timesWatched' indx
-		popularityIndex = popularityIndex.filter(val => val !== req.body.end);
-		if (popularityIndex.length) db.push(`/dbIndex/${timesWatched}`, popularityIndex, true);		// if there are other overwrite
-		else db.delete(`/dbIndex/${timesWatched}`);		// else delete key of object
-
-	} catch(error) {
-		timesWatched = 0;
-	}
-
-	// update video
-	var current = {
-		timesWatched: timesWatched+1,
-		lastWatched: date,
-		recommended: []
-	}
-
-	// insert id in index list
-	try {
-		popularityIndex = db.getData(`/dbIndex/${current.timesWatched}`);
-		popularityIndex.push(req.body.end);
-	}
-	catch {
-		popularityIndex = [req.body.end];
-	}
-	db.push(`/dbIndex/${current.timesWatched}`, popularityIndex);
-
-	db.push("/" + req.body.end, current, false);
-
-
-
-	// OLD VIDEO RELATION
-	if (req.body.begin && req.body.reason) {
+		// CURRENT VIDEO
 		try {
-			var oldVideo = db.getData(`/${req.body.begin}`);
+			var timesWatched = db.getData(`/${req.body.end}/timesWatched`);
 
-			// reason template
-			var noReason = {
-				prevalentReason: req.body.reason,
-				timesSelected: 1
-			}
+			// Remove from index of old key
+			var popularityIndex = db.getData(`/dbIndex/${timesWatched}`);	// get list of 'timesWatched' indx
+			popularityIndex = popularityIndex.filter(val => val !== req.body.end);
+			if (popularityIndex.length) db.push(`/dbIndex/${timesWatched}`, popularityIndex, true);		// if there are other overwrite
+			else db.delete(`/dbIndex/${timesWatched}`);		// else delete key of object
 
-			// video related template
-			var noVideo = {
-				videoId: req.body.end,
-				totalSelected: 1,
-				lastSelected: date,
-				from: [
-					noReason
-				]
-			}
-
-			var newVideoIndex = oldVideo.recommended.findIndex(id => id.videoId == req.body.end);
-			if (newVideoIndex < 0) oldVideo.recommended.push(noVideo);
-			else {
-				var newVideo = (oldVideo.recommended[newVideoIndex]);
-				newVideo.totalSelected += 1;
-				newVideo.lastSelected = date;
-
-
-				var reasonIndex = newVideo.from.findIndex(reason => reason.prevalentReason == req.body.reason);
-				if (reasonIndex < 0) newVideo.from.push(noReason);
-				else newVideo.from[reasonIndex].timesSelected += 1;
-
-				newVideo.from.sort((a, b) => (a.timesSelected < b.timesSelected) ? 1 : -1);			// sort reason array
-				oldVideo.recommended.sort((a, b) => (a.lastSelected < b.lastSelected) ? 1 : -1);	// sort video array
-			}
 		} catch(error) {
-			res.statusCode = 404;
-			res.send('Not found');
-		} finally {
-			db.push(`/${req.body.begin}`, oldVideo, true);
+			timesWatched = 0;
 		}
+
+		// update video
+		var current = {
+			timesWatched: timesWatched+1,
+			lastWatched: date,
+			recommended: []
+		}
+
+		// insert id in index list
+		try {
+			popularityIndex = db.getData(`/dbIndex/${current.timesWatched}`);
+			popularityIndex.push(req.body.end);
+		}
+		catch {
+			popularityIndex = [req.body.end];
+		}
+		db.push(`/dbIndex/${current.timesWatched}`, popularityIndex);
+
+		db.push("/" + req.body.end, current, false);
+
+
+
+		// OLD VIDEO RELATION
+		if (req.body.begin && req.body.reason) {
+			try {
+				var oldVideo = db.getData(`/${req.body.begin}`);
+
+				// reason template
+				var noReason = {
+					prevalentReason: req.body.reason,
+					timesSelected: 1
+				}
+
+				// video related template
+				var noVideo = {
+					videoId: req.body.end,
+					totalSelected: 1,
+					lastSelected: date,
+					from: [
+						noReason
+					]
+				}
+
+				var newVideoIndex = oldVideo.recommended.findIndex(id => id.videoId == req.body.end);
+				if (newVideoIndex < 0) oldVideo.recommended.push(noVideo);
+				else {
+					var newVideo = (oldVideo.recommended[newVideoIndex]);
+					newVideo.totalSelected += 1;
+					newVideo.lastSelected = date;
+
+
+					var reasonIndex = newVideo.from.findIndex(reason => reason.prevalentReason == req.body.reason);
+					if (reasonIndex < 0) newVideo.from.push(noReason);
+					else newVideo.from[reasonIndex].timesSelected += 1;
+
+					newVideo.from.sort((a, b) => (a.timesSelected < b.timesSelected) ? 1 : -1);			// sort reason array
+					oldVideo.recommended.sort((a, b) => (a.lastSelected < b.lastSelected) ? 1 : -1);	// sort video array
+				}
+			} catch(error) {
+				res.statusCode = 404;
+				res.send('Not found');
+			} finally {
+				db.push(`/${req.body.begin}`, oldVideo, true);
+			}
+		}
+	}
+	else {
+		res.statusCode = 400;
+		res.send('Bad request');
 	}
 });
 
