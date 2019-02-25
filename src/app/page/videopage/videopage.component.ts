@@ -20,8 +20,8 @@ export class VideopageComponent implements OnInit {
     this.activeRoute.params.subscribe(
       (params) => {
         // per la gestione dell'invio di tuple al server
-        let lw = JSON.parse(localStorage.getItem('lastWatched')).filter( a => a == params.videoId);
-        if (lw.length) sessionStorage.setItem('lastVideo', params.videoId);
+        /*let lw = JSON.parse(localStorage.getItem('lastWatched')).filter( a => a == params.videoId);
+        if (lw.length) sessionStorage.setItem('lastVideo', params.videoId);*/
 
         this.ytService.getVideo(params.videoId).subscribe(
           (data: any) => {

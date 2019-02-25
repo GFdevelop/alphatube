@@ -8,8 +8,9 @@
 
 <h2 *ngIf="!notFirst" class="text-center" aria-labelledby="Welcome to AlphaTube">Welcome to AlphaTube</h2>
 <h2 *ngIf="notFirst" class="text-center" aria-labelledby="Welcome back to Alphatube">Welcome back to AlphaTube</h2>
-<h4 *ngIf="notFirst" class="text-center" attr.aria-label="Do you want to see the last video watched?">
-Do you want to see the last <a [routerLink]="['/videopage',notFirst]" >video</a> watched?</h4>
+<h4 *ngIf="notFirst"  class="text-center"  aria-labelledby="Do you want to see the last video watched">
+	<a [routerLink] ="['/videopage',notFirst]"> Do you want to see the last video watched?</a>
+</h4>
 <h5 class="text-center font-italic" text-align="center" attr.aria-label="Proposed by Bagnacavallo Team">Proposed by Bagnacavallo Team</h5>
 <div class="row text-center text-sm-left" role="main">
 	<div class="col-12 col-lg-6 col-md-6 my-2 p-0" *ngFor="let video of videos">

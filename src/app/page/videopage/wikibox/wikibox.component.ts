@@ -43,6 +43,8 @@ export class WikiboxComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params) => {
+        this.similarity.emptyVar(); // For refresh artist & genre sim
+
         this.musicLyrics = this.title = this.song = this.singer_abs = this.song_abs = this.genres = this.comments = null;
         this.fetchYTData(params.videoId);
       });
