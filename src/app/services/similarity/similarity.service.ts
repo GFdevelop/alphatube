@@ -8,15 +8,24 @@ export class SimilarityService {
 
   constructor() { }
 
-  private artist = new Subject();
+  private artist = new Subject();;
   private genre = new Subject();
 
-  setArtist(artist:string){
-    this.artist.next(artist);
+  setArtist(artist:any){
+    console.log('hey');
+    try {
+      this.artist.next(artist);
+    } catch {
+      this.artist.next(undefined);
+    }
+
   }
 
   setGenere(genre:any){
+    console.log('Genere: ');
+    console.log(genre);
     try {
+      console.log(genre[0].name.value);
       this.genre.next(genre[0].name.value);
     } catch {
       console.log(genre); // TODO: remove console
@@ -34,7 +43,7 @@ export class SimilarityService {
   }
 
   emptyVar(){
-    this.artist.next(undefined);
-    this.genre.next(undefined);
+    this.setGenere(undefined);
+    this.setArtist(undefined);
   }
 }

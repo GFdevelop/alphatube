@@ -30,8 +30,8 @@ export class RecommenderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.r10s = {};
     this.route.params.subscribe( params => {
+      this.r10s = {};
 
       // random
       const idPlay = { // playlist possibili
@@ -131,18 +131,19 @@ export class RecommenderComponent implements OnInit {
 
 
       // artist similarity
-      this.similarity.emptyVar();
 
       this.similarity.getArtist().subscribe(
         (data: any) => {
-          this.ytService.getRecommenders({q: data}).subscribe(
-            (obj: any) => {
-              let tmpArtist = this.ytService.fromYT(obj).filter(
-                obj => obj.videoID !== params.videoId)
-              if (tmpArtist.length != 0) this.r10s['ArtistSimilarity'] = tmpArtist;
-            },
-            error => console.log(error)
-          );
+          if (data) {
+            this.ytService.getRecommenders({q: data}).subscribe(
+              (obj: any) => {
+                let tmpArtist = this.ytService.fromYT(obj).filter(
+                  obj => obj.videoID !== params.videoId)
+                if (tmpArtist.length != 0) this.r10s['ArtistSimilarity'] = tmpArtist;
+              },
+              error => console.log(error)
+            );
+          }
         },
         error => console.log(error)
       );
@@ -150,14 +151,16 @@ export class RecommenderComponent implements OnInit {
       // genere similarity
       this.similarity.getGenere().subscribe(
         (data: any) => {
-          this.ytService.getRecommenders({q: data}).subscribe(
-            (obj: any) => {
-               let tmpSim = this.ytService.fromYT(obj).filter(
-                 obj => obj.videoID !== params.videoId);
-               if(tmpSim.length != 0) this.r10s['GenereSimilarity'] = tmpSim;
-            },
-            error => console.log(error)
-          );
+          if (data){
+            this.ytService.getRecommenders({q: data}).subscribe(
+              (obj: any) => {
+                 let tmpSim = this.ytService.fromYT(obj).filter(
+                   obj => obj.videoID !== params.videoId);
+                 if(tmpSim.length != 0) this.r10s['GenereSimilarity'] = tmpSim;
+              },
+              error => console.log(error)
+            );
+          }
         },
         error => console.log(error)
       );
