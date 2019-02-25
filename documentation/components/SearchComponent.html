@@ -280,7 +280,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/page/search/search.component.ts:61</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/page/search/search.component.ts:56</a></div>
                             </td>
                         </tr>
 
@@ -617,12 +617,7 @@ export class SearchComponent implements OnInit {
           this.semaphore &#x3D; false;
         },
         error &#x3D;&gt; {
-          if (navigator.onLine &#x3D;&#x3D;&#x3D; false) {
-            window.alert(&#x27;No internet connection&#x27;);
-          } else {
-            console.log(error);
-          }
-
+          window.alert(&#x27;There is an error: please reload page!&#x27;)
           this.semaphore &#x3D; false;
         }
       );
@@ -646,11 +641,11 @@ export class SearchComponent implements OnInit {
 	polite			do not interrupt, read when you want
 	aria-atomic		region is always present, even if only part of the region changes
 --&gt;
-&lt;div class&#x3D;&quot;sr-only&quot; role&#x3D;&quot;status&quot; aria-live&#x3D;&quot;polite&quot; aria-atomic&#x3D;&quot;true&quot;&gt;	&lt;!-- TODO: component??? --&gt;
+&lt;div class&#x3D;&quot;sr-only&quot; role&#x3D;&quot;status&quot; aria-live&#x3D;&quot;polite&quot; aria-atomic&#x3D;&quot;true&quot;&gt;
 	{{message}}
 &lt;/div&gt;
 
-&lt;div class&#x3D;&quot;row text-center text-xl-left text-md-center text-sm-left px-2&quot; role&#x3D;&quot;main&quot; #list&gt;
+&lt;div class&#x3D;&quot;row text-center text-xl-left text-md-center text-sm-left px-2&quot; role&#x3D;&quot;main&quot; id&#x3D;&quot;list&quot; #list&gt;
 	&lt;div class&#x3D;&quot;container-fluid text-center&quot; *ngIf&#x3D;&quot;searchResults&quot;&gt;
 		&lt;h3 class&#x3D;&quot;card-title font-weight-bold&quot;&gt;
 			 {{(searchResults?.items.length) ? &#x27;Search &#x27; : &#x27;No &#x27;}} results for {{q}}
@@ -660,14 +655,14 @@ export class SearchComponent implements OnInit {
 		&lt;!--	h-100	make two &quot;cards&quot; on same line with same height	--&gt;
 		&lt;div class&#x3D;&quot;row align-items-center h-100 mx-2 py-2 border shadow-sm border-primary {{hovered}}&quot; (mouseover)&#x3D;&quot;this.hovered &#x3D; &#x27;shadow&#x27;&quot; (mouseout)&#x3D;&quot;this.hovered &#x3D; &#x27;&#x27;&quot;&gt;
 			&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
-				&lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;, result.id.videoId, &#x27;Search&#x27;]&quot; aria-hidden&#x3D;&quot;true&quot; tabindex&#x3D;&quot;-1&quot;&gt;
+				&lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;, result.id.videoId]&quot; aria-hidden&#x3D;&quot;true&quot; tabindex&#x3D;&quot;-1&quot;&gt;
 					&lt;img class&#x3D;&quot;container-fluid&quot; src&#x3D;&quot;{{result.snippet.thumbnails.medium.url}}&quot; alt&#x3D;&quot;{{result.snippet.title}}&quot; title&#x3D;&quot;{{result.snippet.title}}&quot;&gt;
 				&lt;/a&gt;
 			&lt;/div&gt;
 			&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
 				&lt;div class&#x3D;&quot;container-fluid&quot;&gt;
-					&lt;a class&#x3D;&quot;card-link&quot; [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;, result.id.videoId, &#x27;Search&#x27;]&quot; attr.aria-label&#x3D;&quot;{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: &#x27;longDate&#x27; }}&quot;&gt;
-						&lt;h6 class&#x3D;&quot;card-title &lt;!-- font-weight-bold --&gt;&quot;&gt;{{ result.snippet.title }}&lt;/h6&gt;
+					&lt;a class&#x3D;&quot;card-link&quot; [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;, result.id.videoId]&quot; attr.aria-label&#x3D;&quot;{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: &#x27;longDate&#x27; }}&quot;&gt;
+						&lt;h6 class&#x3D;&quot;card-title&quot;&gt;{{ result.snippet.title }}&lt;/h6&gt;
 					&lt;/a&gt;
 					&lt;p class&#x3D;&quot;card-subtitle text-truncate&quot;&gt;{{result.snippet.channelTitle}}&lt;/p&gt;
 					&lt;small class&#x3D;&quot;text-muted&quot;&gt;{{result.snippet.publishedAt | date: &#x27;longDate&#x27;}}&lt;/small&gt;
@@ -711,7 +706,7 @@ export class SearchComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!--	aria-live		dynamic change region without reload page	polite			do not interrupt, read when you want	aria-atomic		region is always present, even if only part of the region changes--><div class="sr-only" role="status" aria-live="polite" aria-atomic="true">	<!-- TODO: component??? -->	{{message}}</div><div class="row text-center text-xl-left text-md-center text-sm-left px-2" role="main" #list>	<div class="container-fluid text-center" *ngIf="searchResults">		<h3 class="card-title font-weight-bold">			 {{(searchResults?.items.length) ? \'Search \' : \'No \'}} results for {{q}}		</h3>	</div>	<div class="col-12 col-md-6 mb-3 p-0" *ngFor="let result of searchResults?.items; let hovered = index">     <!-- ? Safe Navigation Operator to avoid null or undefined-->		<!--	h-100	make two "cards" on same line with same height	-->		<div class="row align-items-center h-100 mx-2 py-2 border shadow-sm border-primary {{hovered}}" (mouseover)="this.hovered = \'shadow\'" (mouseout)="this.hovered = \'\'">			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">				<a [routerLink]="[\'/videopage\', result.id.videoId, \'Search\']" aria-hidden="true" tabindex="-1">					<img class="container-fluid" src="{{result.snippet.thumbnails.medium.url}}" alt="{{result.snippet.title}}" title="{{result.snippet.title}}">				</a>			</div>			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">				<div class="container-fluid">					<a class="card-link" [routerLink]="[\'/videopage\', result.id.videoId, \'Search\']" attr.aria-label="{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: \'longDate\' }}">						<h6 class="card-title <!-- font-weight-bold -->">{{ result.snippet.title }}</h6>					</a>					<p class="card-subtitle text-truncate">{{result.snippet.channelTitle}}</p>					<small class="text-muted">{{result.snippet.publishedAt | date: \'longDate\'}}</small>				</div>			</div>		</div>	</div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!--	aria-live		dynamic change region without reload page	polite			do not interrupt, read when you want	aria-atomic		region is always present, even if only part of the region changes--><div class="sr-only" role="status" aria-live="polite" aria-atomic="true">	{{message}}</div><div class="row text-center text-xl-left text-md-center text-sm-left px-2" role="main" id="list" #list>	<div class="container-fluid text-center" *ngIf="searchResults">		<h3 class="card-title font-weight-bold">			 {{(searchResults?.items.length) ? \'Search \' : \'No \'}} results for {{q}}		</h3>	</div>	<div class="col-12 col-md-6 mb-3 p-0" *ngFor="let result of searchResults?.items; let hovered = index">     <!-- ? Safe Navigation Operator to avoid null or undefined-->		<!--	h-100	make two "cards" on same line with same height	-->		<div class="row align-items-center h-100 mx-2 py-2 border shadow-sm border-primary {{hovered}}" (mouseover)="this.hovered = \'shadow\'" (mouseout)="this.hovered = \'\'">			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">				<a [routerLink]="[\'/videopage\', result.id.videoId]" aria-hidden="true" tabindex="-1">					<img class="container-fluid" src="{{result.snippet.thumbnails.medium.url}}" alt="{{result.snippet.title}}" title="{{result.snippet.title}}">				</a>			</div>			<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">				<div class="container-fluid">					<a class="card-link" [routerLink]="[\'/videopage\', result.id.videoId]" attr.aria-label="{{ result.snippet.title }} by {{ result.snippet.channelTitle }} published {{ result.snippet.publishedAt | date: \'longDate\' }}">						<h6 class="card-title">{{ result.snippet.title }}</h6>					</a>					<p class="card-subtitle text-truncate">{{result.snippet.channelTitle}}</p>					<small class="text-muted">{{result.snippet.publishedAt | date: \'longDate\'}}</small>				</div>			</div>		</div>	</div></div></div>'
     var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'app-about'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'Page404Component', 'selector': 'app-page404'},{'name': 'PlayerComponent', 'selector': 'app-player'},{'name': 'RecommenderComponent', 'selector': 'app-recommender'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'VideopageComponent', 'selector': 'app-videopage'},{'name': 'WikiboxComponent', 'selector': 'app-wikibox'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'SearchComponent'};

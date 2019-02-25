@@ -396,7 +396,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/page/videopage/player/player.component.ts:71</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/page/videopage/player/player.component.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -796,18 +796,14 @@ export class PlayerComponent implements OnInit {
         this.watchedTime &#x3D; this.watchedTime + (playerTime - this.startTime);
         if ((!this.watched) &amp;&amp; (this.watchedTime &gt;&#x3D; 15)) {
           this.watched &#x3D; true;
-          console.log(&#x27;watched!&#x27;);
 
-          // Aggiunge il video alla lista dei recenti
-          this.recentVideoList(this.videoId);
+          this.recentVideoList(this.videoId);   // add to recent
 
-          // Invia al server i dati da aggiungere al server
-          this.as.sendWatched(this.videoId,this.reason).subscribe(
-            (data: any) &#x3D;&gt; console.log(data),
-            error &#x3D;&gt; console.log(error)
+          this.as.sendWatched(this.videoId,this.reason).subscribe(    // send to server
+            error &#x3D;&gt; console.log(error),
+            () &#x3D;&gt; true
           );
         }
-        // ~ console.log(this.watchedTime);
       }
       this.startTime &#x3D; playerTime;
     }
@@ -836,6 +832,7 @@ export class PlayerComponent implements OnInit {
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;embed-responsive embed-responsive-16by9&quot;&gt;
     &lt;div ytPlayer class&#x3D;&quot;embed-responsive-item border border-primary&quot;
       [videoId]&#x3D;&quot;videoId&quot;
+      [autoPlay]&#x3D;&quot;true&quot;
       [showFullScreenButton]&#x3D;&quot;true&quot;
       (nativeStateChange)&#x3D;&quot;onStateChange($event)&quot;
       (currentTimeChange)&#x3D;&quot;updateCurrentTime($event)&quot;
@@ -877,7 +874,7 @@ export class PlayerComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="embed-responsive embed-responsive-16by9">    <div ytPlayer class="embed-responsive-item border border-primary"      [videoId]="videoId"      [showFullScreenButton]="true"      (nativeStateChange)="onStateChange($event)"      (currentTimeChange)="updateCurrentTime($event)"      ></div>    </div><h3 class="text-truncate">{{videoName}}</h3></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="embed-responsive embed-responsive-16by9">    <div ytPlayer class="embed-responsive-item border border-primary"      [videoId]="videoId"      [autoPlay]="true"      [showFullScreenButton]="true"      (nativeStateChange)="onStateChange($event)"      (currentTimeChange)="updateCurrentTime($event)"      ></div>    </div><h3 class="text-truncate">{{videoName}}</h3></div>'
     var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'app-about'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'Page404Component', 'selector': 'app-page404'},{'name': 'PlayerComponent', 'selector': 'app-player'},{'name': 'RecommenderComponent', 'selector': 'app-recommender'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'VideopageComponent', 'selector': 'app-videopage'},{'name': 'WikiboxComponent', 'selector': 'app-wikibox'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'PlayerComponent'};

@@ -130,6 +130,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#notFirst">notFirst</a>
+                            </li>
+                            <li>
                                 <a href="#nVideo">nVideo</a>
                             </li>
                             <li>
@@ -257,7 +260,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/page/home/home.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/page/home/home.component.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -284,6 +287,33 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="notFirst"></a>
+                        <span class="name">
+                            <b>
+                            notFirst</b>
+                            <a href="#notFirst"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/page/home/home.component.ts:17</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="nVideo"></a>
                         <span class="name">
                             <b>
@@ -305,7 +335,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/page/home/home.component.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/page/home/home.component.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -332,7 +362,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/page/home/home.component.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/page/home/home.component.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -359,7 +389,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/page/home/home.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/page/home/home.component.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -377,7 +407,6 @@ import { HttpClient } from &#x27;@angular/common/http&#x27;;
 import { ActivatedRoute } from &#x27;@angular/router&#x27;;
 import { AlphalistService } from &#x27;../../services/alphalist/alphalist.service&#x27;;
 import { YoutubeService } from &#x27;../../services/youtube/youtube.service&#x27;;
-/* import { MErrorComponent } from &#x27;../shared/m-error/m-error.component&#x27;;*/
 
 @Component({
   selector: &#x27;app-home&#x27;,
@@ -389,28 +418,32 @@ export class HomeComponent implements OnInit {
   videoId: string;
   videos: any;
   nVideo &#x3D; 20;
+  notFirst: string;
 
   constructor(
     private alphalistService: AlphalistService,
     private ytService: YoutubeService
-    /* private ac: MErrorComponent,
-    private fa: MErrorComponent,*/
   ) { }
 
   ngOnInit() {
-  //  this.fa.ForceAngles();
-
-    /*this.ac.setError();*/
-    /*this.ac.getError();*/
+    try {
+      this.notFirst &#x3D; JSON.parse(localStorage.getItem(&#x27;lastWatched&#x27;))[0];
+      //console.log(this.notFirst);
+    }
+    catch {
+      this.notFirst &#x3D; undefined;
+    }
 
     this.alphalistService.getAll().subscribe(
       (data: any) &#x3D;&gt; {
         let idList &#x3D; [];
-        let cap &#x3D; data.length;
-        while ((idList.length &lt; this.nVideo + 5) &amp;&amp; (idList.length &lt; cap)) {
-          idList.push(data.splice(Math.floor(Math.random() * data.length), 1)[0].videoID); // pop out videos from data and added on the random idList
+        while ((idList.length &lt; 30) &amp;&amp; (data.length)) {
+        // prendo un indice a caso e tiro fuori l&#x27;id del video, e lo metto dentro a idlist,
+          idList.push(data.splice(Math.floor(Math.random() * data.length), 1)[0].videoID);
         }
-        this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
+        //richiedo le informazioni yt dei vari video
+        this.ytService.getVideo(idList.join()).subscribe(
+        //che viene filtrato e messo nel formato
           (obj: any) &#x3D;&gt; this.videos &#x3D; this.ytService.fromYT(this.ytService.filterVideo(obj)).splice(0,this.nVideo),
           error &#x3D;&gt; console.log(error)
         );
@@ -424,37 +457,36 @@ export class HomeComponent implements OnInit {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">	&lt;div class&#x3D;&quot;row justify-content-center&quot;&gt;
-		&lt;div class&#x3D;&quot;col-4 col-md-2 col-lg-2 text-center mb-4&quot;&gt;
-			&lt;div class&#x3D;&quot;ml-1 mr-1&quot;&gt;
-				&lt;img class&#x3D; &quot;img-fluid&quot; src&#x3D;&quot;assets/img/logo.png&quot; alt&#x3D; &quot;alphaTube logo&quot;&gt;
- 			&lt;/div&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;row justify-content-center&quot;&gt;
+	&lt;div class&#x3D;&quot;col-4 col-md-2 col-lg-2 text-center mb-4&quot;&gt;
+		&lt;div class&#x3D;&quot;ml-1 mr-1&quot;&gt;
+			&lt;img class&#x3D; &quot;img-fluid&quot; src&#x3D;&quot;assets/img/logo_l.gif&quot; alt&#x3D; &quot;alphaTube logo&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
 		&lt;/div&gt;
 	&lt;/div&gt;
-	&lt;div class&#x3D;&quot;text-center&quot;&gt;
-		&lt;h1 class&#x3D;&quot;text-center&quot;&gt;Benvenuto su AlphaTube&lt;/h1&gt;
-		&lt;h5 class&#x3D;&quot;text-center&quot; text-align&#x3D;&quot;center&quot;&gt;Consigliati dalla regia di Bagnacavallo&lt;/h5&gt;
-	&lt;/div&gt;
+&lt;/div&gt;
 
-	&lt;div class&#x3D;&quot;row text-center text-xl-left text-md-center text-sm-left&quot; role&#x3D;&quot;list&quot;&gt;
-
-		&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-6 my-2 p-0&quot; role&#x3D;&quot;listitem&quot; *ngFor&#x3D;&quot;let video of videos&quot;&gt;
-			&lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;,video.videoID]&quot; aria-hidden&#x3D;&quot;true&quot; tabindex&#x3D;&quot;-1&quot;&gt;
-				&lt;div class&#x3D;&quot;row shadow-sm mx-2 py-2 border-primary bg-white border h-100 align-items-center&quot;&gt;
-					&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
-							&lt;img class&#x3D;&quot;container-fluid&quot; src&#x3D;&quot;https://i.ytimg.com/vi/{{video.videoID}}/mqdefault.jpg&quot; alt&#x3D;&quot;Card image cap&quot;&gt;
-					&lt;/div&gt;
-	        &lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
-						&lt;div class&#x3D;&quot;container-fluid&quot;&gt;
-							&lt;h6 class&#x3D;&quot;card-title font-weight-bold text-truncate&quot; title&#x3D;&quot;{{video.title}}&quot;&gt;{{video.title}}&lt;/h6&gt;
-							&lt;p class&#x3D;&quot;card-subtitle&quot;&gt;{{video.artist}}&lt;/p&gt;
-						&lt;/div&gt;
+&lt;h2 *ngIf&#x3D;&quot;!notFirst&quot; class&#x3D;&quot;text-center&quot; aria-labelledby&#x3D;&quot;Welcome to AlphaTube&quot;&gt;Welcome to AlphaTube&lt;/h2&gt;
+&lt;h2 *ngIf&#x3D;&quot;notFirst&quot; class&#x3D;&quot;text-center&quot; aria-labelledby&#x3D;&quot;Welcome back to Alphatube&quot;&gt;Welcome back to AlphaTube&lt;/h2&gt;
+&lt;h4 *ngIf&#x3D;&quot;notFirst&quot; class&#x3D;&quot;text-center&quot; attr.aria-label&#x3D;&quot;Do you want to see the last video watched?&quot;&gt;
+Do you want to see the last &lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;,notFirst]&quot; &gt;video&lt;/a&gt; watched?&lt;/h4&gt;
+&lt;h5 class&#x3D;&quot;text-center font-italic&quot; text-align&#x3D;&quot;center&quot; attr.aria-label&#x3D;&quot;Proposed by Bagnacavallo Team&quot;&gt;Proposed by Bagnacavallo Team&lt;/h5&gt;
+&lt;div class&#x3D;&quot;row text-center text-sm-left&quot; role&#x3D;&quot;main&quot;&gt;
+	&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-6 my-2 p-0&quot; *ngFor&#x3D;&quot;let video of videos&quot;&gt;
+		&lt;a [routerLink]&#x3D;&quot;[&#x27;/videopage&#x27;,video.videoID]&quot;&gt;
+			&lt;div class&#x3D;&quot;row shadow-sm mx-2 py-2 border-primary bg-white border h-100 align-items-center&quot;&gt;
+				&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
+					&lt;img class&#x3D;&quot;container-fluid&quot; aria-hidden&#x3D;&quot;true&quot; src&#x3D;&quot;https://i.ytimg.com/vi/{{video.videoID}}/mqdefault.jpg&quot; alt&#x3D;&quot;Card image cap&quot;&gt;
+				&lt;/div&gt;
+				&lt;div class&#x3D;&quot;col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0&quot;&gt;
+					&lt;div class&#x3D;&quot;container-fluid&quot; &gt;
+						&lt;h6 class&#x3D;&quot;card-title&quot; attr.aria-label&#x3D;&quot;{{video.title}}&quot;&gt;{{video.title}}&lt;/h6&gt;
+						&lt;p class&#x3D;&quot;card-subtitle&quot; attr.aria-label&#x3D;&quot;{{video.artist}}&quot;&gt;{{video.artist}}&lt;/p&gt;
 					&lt;/div&gt;
 				&lt;/div&gt;
-			&lt;/a&gt;
-		&lt;/div&gt;
-
+			&lt;/div&gt;
+		&lt;/a&gt;
 	&lt;/div&gt;
+&lt;/div&gt;
 </code></pre>
     </div>
 
@@ -491,7 +523,7 @@ export class HomeComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div>	<div class="row justify-content-center">		<div class="col-4 col-md-2 col-lg-2 text-center mb-4">			<div class="ml-1 mr-1">				<img class= "img-fluid" src="assets/img/logo.png" alt= "alphaTube logo"> 			</div>		</div>	</div>	<div class="text-center">		<h1 class="text-center">Benvenuto su AlphaTube</h1>		<h5 class="text-center" text-align="center">Consigliati dalla regia di Bagnacavallo</h5>	</div>	<div class="row text-center text-xl-left text-md-center text-sm-left" role="list">		<div class="col-12 col-lg-6 col-md-6 my-2 p-0" role="listitem" *ngFor="let video of videos">			<a [routerLink]="[\'/videopage\',video.videoID]" aria-hidden="true" tabindex="-1">				<div class="row shadow-sm mx-2 py-2 border-primary bg-white border h-100 align-items-center">					<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">							<img class="container-fluid" src="https://i.ytimg.com/vi/{{video.videoID}}/mqdefault.jpg" alt="Card image cap">					</div>	        <div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">						<div class="container-fluid">							<h6 class="card-title font-weight-bold text-truncate" title="{{video.title}}">{{video.title}}</h6>							<p class="card-subtitle">{{video.artist}}</p>						</div>					</div>				</div>			</a>		</div>	</div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="row justify-content-center">	<div class="col-4 col-md-2 col-lg-2 text-center mb-4">		<div class="ml-1 mr-1">			<img class= "img-fluid" src="assets/img/logo_l.gif" alt= "alphaTube logo" aria-hidden="true">		</div>	</div></div><h2 *ngIf="!notFirst" class="text-center" aria-labelledby="Welcome to AlphaTube">Welcome to AlphaTube</h2><h2 *ngIf="notFirst" class="text-center" aria-labelledby="Welcome back to Alphatube">Welcome back to AlphaTube</h2><h4 *ngIf="notFirst" class="text-center" attr.aria-label="Do you want to see the last video watched?">Do you want to see the last <a [routerLink]="[\'/videopage\',notFirst]" >video</a> watched?</h4><h5 class="text-center font-italic" text-align="center" attr.aria-label="Proposed by Bagnacavallo Team">Proposed by Bagnacavallo Team</h5><div class="row text-center text-sm-left" role="main">	<div class="col-12 col-lg-6 col-md-6 my-2 p-0" *ngFor="let video of videos">		<a [routerLink]="[\'/videopage\',video.videoID]">			<div class="row shadow-sm mx-2 py-2 border-primary bg-white border h-100 align-items-center">				<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">					<img class="container-fluid" aria-hidden="true" src="https://i.ytimg.com/vi/{{video.videoID}}/mqdefault.jpg" alt="Card image cap">				</div>				<div class="col-12 col-lg-6 col-md-12 col-sm-6 mx-0 px-0">					<div class="container-fluid" >						<h6 class="card-title" attr.aria-label="{{video.title}}">{{video.title}}</h6>						<p class="card-subtitle" attr.aria-label="{{video.artist}}">{{video.artist}}</p>					</div>				</div>			</div>		</a>	</div></div></div>'
     var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'app-about'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'Page404Component', 'selector': 'app-page404'},{'name': 'PlayerComponent', 'selector': 'app-player'},{'name': 'RecommenderComponent', 'selector': 'app-recommender'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'VideopageComponent', 'selector': 'app-videopage'},{'name': 'WikiboxComponent', 'selector': 'app-wikibox'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'HomeComponent'};
