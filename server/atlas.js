@@ -228,7 +228,7 @@ atlas.get('/globpopList', (req, res) => {
 });
 
 atlas.get('/docs', (req, res) => {
-	res.sendFile('../documentation/index.html');
+	res.sendFile(path.join(process.env.PWD, 'documentation/index.html'));
 });
 
 atlas.get('*', (req, res) => {
