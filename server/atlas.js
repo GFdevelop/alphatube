@@ -224,7 +224,7 @@ atlas.get('/twitter', cors(corsOption), (req, res) => {
 });
 
 atlas.get('/globpopList', (req, res) => {
-	res.sendFile('./globpopList.json');
+	res.sendFile(path.join(process.env.PWD, 'server/globpopList.json'));
 });
 
 atlas.get('/docs', (req, res) => {
