@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, HostListener} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CarouselConfig } from 'ngx-bootstrap/carousel';
 
 import { AlphalistService } from '../../../services/alphalist/alphalist.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
@@ -9,7 +10,11 @@ import { SimilarityService } from '../../../services/similarity/similarity.servi
   selector: 'app-recommender',
   templateUrl: './recommender.component.html',
   styleUrls: ['./recommender.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: CarouselConfig, useValue: { interval: 10000, noPause: false, showIndicators: true } }
+  ]
+
 })
 
 export class RecommenderComponent implements OnInit {
