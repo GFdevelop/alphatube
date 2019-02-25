@@ -37,6 +37,6 @@ export class AlphalistService {
   }
 
   getList() {
-    return this.http.get(this.head + '1826' + this.tail + '/globpopList');
+    return this.http.get(window.location.origin + '/globpopList');
   }
 }

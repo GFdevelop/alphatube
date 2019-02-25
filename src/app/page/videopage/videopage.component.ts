@@ -25,6 +25,8 @@ export class VideopageComponent implements OnInit {
 
         this.ytService.getVideo(params.videoId).subscribe(
           (data: any) => {
+            let a=data;
+            console.log(a);
             data = this.ytService.filterVideo(data);
             if (data.items.length == 0){
               this.route.navigate(['404'], { replaceUrl: true, skipLocationChange: true });

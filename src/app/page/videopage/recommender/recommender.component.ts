@@ -117,8 +117,6 @@ export class RecommenderComponent implements OnInit {
 
 
       // popularity
-      //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
-      //let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901'];
 
       this.alphalistService.getList().subscribe( // Per quando globpopList.json sara' disponibile sul sito
         (data: any) =>{
@@ -127,8 +125,6 @@ export class RecommenderComponent implements OnInit {
         },
         error => console.log(error)
       );
-      /*this.popularity('AbsGlobalPopularity', undefined, siteCode);
-      this.popularity('RelGlobalPopularity', params.videoId, siteCode);*/
 
       this.popularity('AbsLocalPopularity',undefined, ['1826']);
       this.popularity('RelLocalPopularity',params.videoId, ['1826']);
@@ -202,7 +198,7 @@ export class RecommenderComponent implements OnInit {
           for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
           siteNumber = this.finalizePop(popList,siteNumber,recommender);
         },
-        error => { console.log(error); siteNumber = this.finalizePop(popList,siteNumber,recommender);}
+        error => { /*console.log(error);*/ siteNumber = this.finalizePop(popList,siteNumber,recommender);}
       );
     }
   }
