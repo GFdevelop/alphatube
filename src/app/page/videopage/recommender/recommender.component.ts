@@ -65,7 +65,7 @@ export class RecommenderComponent implements OnInit {
 
       // search
       if (localStorage.q) {
-        this.ytService.getRecommenders({q: localStorage.q}).subscribe(
+        this.ytService.getRecommenders({q: localStorage.q, maxResults: 10}).subscribe(  // as requested results are < 10
           (data: any) => {
             var tmpSearch = this.ytService.fromYT(data).filter(
               obj => obj.videoID !== params.videoId
