@@ -123,7 +123,7 @@ export class RecommenderComponent implements OnInit {
           this.popularity('AbsGlobalPopularity', undefined, data.globpop);
           this.popularity('RelGlobalPopularity',params.videoId, data.globpop);
         },
-        error => console.log(error)
+        error => {/*console.log(error)*/}
       );
 
       this.popularity('AbsLocalPopularity',undefined, ['1826']);
