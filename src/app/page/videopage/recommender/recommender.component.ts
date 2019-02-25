@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, HostListener} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CarouselConfig } from 'ngx-bootstrap/carousel';
 
 import { AlphalistService } from '../../../services/alphalist/alphalist.service';
 import { YoutubeService } from '../../../services/youtube/youtube.service';
@@ -9,7 +10,11 @@ import { SimilarityService } from '../../../services/similarity/similarity.servi
   selector: 'app-recommender',
   templateUrl: './recommender.component.html',
   styleUrls: ['./recommender.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: CarouselConfig, useValue: { interval: 10000, noPause: false, showIndicators: true } }
+  ]
+
 })
 
 export class RecommenderComponent implements OnInit {
@@ -112,8 +117,6 @@ export class RecommenderComponent implements OnInit {
 
 
       // popularity
-      //let siteCode = ['1822','1823','1824','1827','1828','1829','1830','1831','1834','1836','1838','1839','1846','1847','1848','1849','1850','1851','1859','1861','1862','1863','1901','1904','1906'];
-      //let siteCode = ['1823','1827','1828','1831','1834','1838','1839','1846','1847','1863','1901'];
 
       this.alphalistService.getList().subscribe( // Per quando globpopList.json sara' disponibile sul sito
         (data: any) =>{
@@ -122,8 +125,6 @@ export class RecommenderComponent implements OnInit {
         },
         error => console.log(error)
       );
-      /*this.popularity('AbsGlobalPopularity', undefined, siteCode);
-      this.popularity('RelGlobalPopularity', params.videoId, siteCode);*/
 
       this.popularity('AbsLocalPopularity',undefined, ['1826']);
       this.popularity('RelLocalPopularity',params.videoId, ['1826']);
@@ -197,7 +198,7 @@ export class RecommenderComponent implements OnInit {
           for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
           siteNumber = this.finalizePop(popList,siteNumber,recommender);
         },
-        error => { console.log(error); siteNumber = this.finalizePop(popList,siteNumber,recommender);}
+        error => { /*console.log(error);*/ siteNumber = this.finalizePop(popList,siteNumber,recommender);}
       );
     }
   }

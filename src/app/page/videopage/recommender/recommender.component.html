@@ -4,15 +4,15 @@
         <div class="card border-primary" *ngIf="r9r.value!=0">
             <carousel>
                 <div *ngFor="let video of r9r.value; let i=index">
-                    <slide *ngIf="i<nVideo">
-                        <a [routerLink]="['/videopage',video.videoID,r9r.key]" style="text-decoration:none;">
-                            <div class="card-body p-2">
+                    <slide *ngIf="i<nVideo" aria-hidden="false">
+                        <a [routerLink]="['/videopage',video.videoID,r9r.key]" style="text-decoration:none;" attr.aria-label="{{video.title}}">
+                            <div class="card-body p-2" aria-hidden="true">
                                 <h5 class="card-title text-truncate text-right text-dark font-weight-bold mb-0">From {{r9r.key}}</h5>
                                 <p class="card-text text-truncate text-right h6"><small class="text-muted">{{video.reason?video.reason:'No resason available'}}</small></p>
                                 <p class="card-text text-truncate mb-1 h6">{{video.title}}</p>
                                 <p class="card-text text-truncate h6"><small class="text-muted">{{video.artist}}</small></p>
                             </div>
-                            <img class="card-img-bottom" src="{{video.img}}" alt="Card image of {{video.title}}">
+                            <img class="card-img-bottom" src="{{video.img}}" alt="Card image of {{video.title}}" aria-hidden="true">
                         </a>
                     </slide>
                 </div>
