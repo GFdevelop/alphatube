@@ -152,8 +152,9 @@ if [[ ${front} == 1 ]]; then
 	scp ${sshopts} -p -r ${frontdir} ${login}:${webdir}/${frontname}
 	echo ""
 	echo "DOCS:"
+	ssh ${sshopts} ${login} "mkdir -p ${webdir}/${docname}"
 	chmod -R g+w ${docdir}
-	scp ${sshopts} -p -r ${docdir} ${login}:${webdir}/${docname}
+	scp ${sshopts} -p -r ${docdir} ${login}:${webdir}/${docname}/docs
 fi
 if [[ ${back} == 1 ]]; then
 	echo ""

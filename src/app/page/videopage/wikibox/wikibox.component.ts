@@ -76,7 +76,7 @@ export class WikiboxComponent implements OnInit {
 
           this.similarity.setArtist(this.singer);
         } catch(error) {
-          window.alert("Schema not recognized, some info may be not available!");
+          //window.alert("Schema not recognized, some info may be not available!");
         } finally {
           this.fetchMusicXMatch(this.singer, this.song);
         }
