@@ -46,7 +46,7 @@ export class SearchComponent implements OnInit {
           this.semaphore = false;
         },
         error => {
-          window.alert('There is an error: please reload page!')
+          window.alert('There is an error: please reload page!');
           this.semaphore = false;
         }
       );

@@ -72,7 +72,7 @@ export class RecommenderComponent implements OnInit {
             );
             if (tmpSearch.length) this.r10s['Search'] = tmpSearch;
           },
-          error => console.log(error)
+          error => window.alert('There is an error: please reload page!')
         );
       }
 
