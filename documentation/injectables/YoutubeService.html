@@ -269,7 +269,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/app/services/youtube/youtube.service.ts:103</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/services/youtube/youtube.service.ts:102</a></div>
                             </td>
                         </tr>
 
@@ -816,7 +816,7 @@ export class YoutubeService {
       {
         params: {
           part: &#x27;snippet&#x27;,
-          maxResults: &#x27;12&#x27;,
+          maxResults: &#x27;24&#x27;,
           order: &#x27;relevance&#x27;,
           videoId: videoId,
           fields: &#x27;items(snippet(topLevelComment(snippet(authorDisplayName,authorProfileImageUrl,likeCount,textOriginal))))&#x27;,
@@ -843,11 +843,10 @@ export class YoutubeService {
    filterVideo(data: any) {
      for(let i&#x3D;0; i &lt; data.items.length; i++){
        try {
-         if (!data.items[0].status.embeddable || // se è possibile metterlo nell&#x27;iframe
-              data.items[i].contentDetails.regionRestriction.blocked.filter( obj &#x3D;&gt; obj &#x3D;&#x3D; &#x27;IT&#x27;)) // se è possibile essere visualizzato in questo paese
-        { data.items.splice(i,1); i--;} // TODO: check based on country
-       }
-       catch{}
+         if (!data.items[i].status.embeddable || // se è possibile metterlo nell&#x27;iframe
+             data.items[i].contentDetails.regionRestriction.blocked.filter( obj &#x3D;&gt; obj &#x3D;&#x3D; &#x27;IT&#x27;).length &#x3D;&#x3D; 1) // se è possibile essere visualizzato in questo paese
+         { data.items.splice(i,1); i--;} // TODO: check based on country
+       } catch{}
      }
      return data;
    }

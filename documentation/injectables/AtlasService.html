@@ -364,7 +364,7 @@ export class AtlasService {
     /*let lastVideo &#x3D; this.lastVideoSvg;
     this.lastVideoSvg &#x3D; currentVideo;*/
 
-    if (this.reasonList.indexOf(reason) &#x3D;&#x3D; -1){ lastVideo &#x3D; reason &#x3D; undefined;}
+    if ((this.reasonList.indexOf(reason) &#x3D;&#x3D;&#x3D; -1) || (lastVideo &#x3D;&#x3D;&#x3D; currentVideo)){ lastVideo &#x3D; reason &#x3D; undefined;}
     else if (reason &#x3D;&#x3D;&#x3D; &#x27;AbsLocalPopularity&#x27; || reason &#x3D;&#x3D;&#x3D; &#x27;RelLocalPopularity&#x27;){
       reason &#x3D; &#x27;LocalPopularity&#x27;;
     }

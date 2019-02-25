@@ -230,6 +230,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/DbpediaService.html" data-type="entity-link">DbpediaService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/SimilarityService.html" data-type="entity-link">SimilarityService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/TwitterService.html" data-type="entity-link">TwitterService</a>
                                 </li>
                                 <li class="link">
