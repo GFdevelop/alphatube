@@ -15,7 +15,17 @@ process.chdir(process.env.PWD);
 // ~ __filename = process.argv[1];
 
 
-require('dotenv').config({ path: process.env.PWD + '/server/.env' });	// after fix path get tokens and secrets
+
+/* read twitter keys from environment variables
+ * create a file '.env' in './server/' directory
+ * put your keys as this
+ *
+ * CONSUMER_KEY=*************************
+ * CONSUMER_SECRET=**************************************************
+ * ACCESS_TOKEN=**************************************************
+ * ACCESS_TOKEN_SECRET=*********************************************
+*/
+require('dotenv').config({ path: process.env.PWD + '/server/.env' });	// after fix path
 
 
 // CORS
