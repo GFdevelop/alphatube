@@ -303,7 +303,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:207</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="209" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:209</a></div>
                             </td>
                         </tr>
 
@@ -384,7 +384,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="241" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:241</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="243" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:243</a></div>
                             </td>
                         </tr>
 
@@ -453,7 +453,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="220" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:220</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="222" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:222</a></div>
                             </td>
                         </tr>
 
@@ -546,7 +546,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:167</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:169</a></div>
                             </td>
                         </tr>
 
@@ -677,7 +677,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:193</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="195" class="link-to-prism">src/app/page/videopage/recommender/recommender.component.ts:195</a></div>
                             </td>
                         </tr>
 
@@ -852,8 +852,8 @@ export class RecommenderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.r10s &#x3D; {};
     this.route.params.subscribe( params &#x3D;&gt; {
+      this.r10s &#x3D; {};
 
       // random
       const idPlay &#x3D; { // playlist possibili
@@ -874,7 +874,7 @@ export class RecommenderComponent implements OnInit {
 
       // id playlist casuale da playlists
       let idPlaytmp &#x3D; idPlay.playlists[Math.floor(Math.random() * idPlay.playlists.length)].playlistId;
-      this.ytService.getPlaylist(idPlaytmp).subscribe(
+      this.ytService.getPlaylist(idPlaytmp).toPromise().then(
         // data sono i 30 video presi dalla playlist, tramite getPlaylist da youtube.service
         (data: any) &#x3D;&gt; {
             let randomListVideoId &#x3D; [];
@@ -892,7 +892,7 @@ export class RecommenderComponent implements OnInit {
 
       // search
       if (localStorage.q) {
-        this.ytService.getRecommenders({q: localStorage.q, maxResults: 10}).subscribe(  // as requested results are &lt; 10
+        this.ytService.getRecommenders({q: localStorage.q, maxResults: 10}).toPromise().then(  // as requested results are &lt; 10
           (data: any) &#x3D;&gt; {
             var tmpSearch &#x3D; this.ytService.fromYT(data).filter(
               obj &#x3D;&gt; obj.videoID !&#x3D;&#x3D; params.videoId
@@ -904,7 +904,7 @@ export class RecommenderComponent implements OnInit {
       }
 
       // related
-      this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).subscribe(
+      this.ytService.getRecommenders({relatedToVideoId: params.videoId, maxResults: this.nVideo}).toPromise().then(
         (data: any) &#x3D;&gt; {
            let tmpRel &#x3D; this.ytService.fromYT(data).filter(
              obj &#x3D;&gt; obj.videoID !&#x3D;&#x3D; params.videoId
@@ -925,7 +925,7 @@ export class RecommenderComponent implements OnInit {
 
 
       // fvitali
-      this.alphalistService.getFV(params.videoId).subscribe(
+      this.alphalistService.getFV(params.videoId).toPromise().then(
         (data: any) &#x3D;&gt; {
           let idList &#x3D; [];
           for (let i in data.recommended.slice(0,30)){
@@ -939,13 +939,12 @@ export class RecommenderComponent implements OnInit {
 
 
       // popularity
-
-      this.alphalistService.getList().subscribe( // Per quando globpopList.json sara&#x27; disponibile sul sito
+      this.alphalistService.getList().toPromise().then( // Per quando globpopList.json sara&#x27; disponibile sul sito
         (data: any) &#x3D;&gt;{
           this.popularity(&#x27;AbsGlobalPopularity&#x27;, undefined, data.globpop);
           this.popularity(&#x27;RelGlobalPopularity&#x27;,params.videoId, data.globpop);
         },
-        error &#x3D;&gt; console.log(error)
+        error &#x3D;&gt; {/*console.log(error)*/}
       );
 
       this.popularity(&#x27;AbsLocalPopularity&#x27;,undefined, [&#x27;1826&#x27;]);
@@ -953,18 +952,19 @@ export class RecommenderComponent implements OnInit {
 
 
       // artist similarity
-      this.similarity.emptyVar();
 
       this.similarity.getArtist().subscribe(
         (data: any) &#x3D;&gt; {
-          this.ytService.getRecommenders({q: data}).subscribe(
-            (obj: any) &#x3D;&gt; {
-              let tmpArtist &#x3D; this.ytService.fromYT(obj).filter(
-                obj &#x3D;&gt; obj.videoID !&#x3D;&#x3D; params.videoId)
-              if (tmpArtist.length !&#x3D; 0) this.r10s[&#x27;ArtistSimilarity&#x27;] &#x3D; tmpArtist;
-            },
-            error &#x3D;&gt; console.log(error)
-          );
+          if (data) {
+            this.ytService.getRecommenders({q: data}).toPromise().then(
+              (obj: any) &#x3D;&gt; {
+                let tmpArtist &#x3D; this.ytService.fromYT(obj).filter(
+                  obj &#x3D;&gt; obj.videoID !&#x3D;&#x3D; params.videoId)
+                if (tmpArtist.length !&#x3D; 0) this.r10s[&#x27;ArtistSimilarity&#x27;] &#x3D; tmpArtist;
+              },
+              error &#x3D;&gt; console.log(error)
+            );
+          }
         },
         error &#x3D;&gt; console.log(error)
       );
@@ -972,14 +972,16 @@ export class RecommenderComponent implements OnInit {
       // genere similarity
       this.similarity.getGenere().subscribe(
         (data: any) &#x3D;&gt; {
-          this.ytService.getRecommenders({q: data}).subscribe(
-            (obj: any) &#x3D;&gt; {
-               let tmpSim &#x3D; this.ytService.fromYT(obj).filter(
-                 obj &#x3D;&gt; obj.videoID !&#x3D;&#x3D; params.videoId);
-               if(tmpSim.length !&#x3D; 0) this.r10s[&#x27;GenereSimilarity&#x27;] &#x3D; tmpSim;
-            },
-            error &#x3D;&gt; console.log(error)
-          );
+          if (data){
+            this.ytService.getRecommenders({q: data}).toPromise().then(
+              (obj: any) &#x3D;&gt; {
+                 let tmpSim &#x3D; this.ytService.fromYT(obj).filter(
+                   obj &#x3D;&gt; obj.videoID !&#x3D;&#x3D; params.videoId);
+                 if(tmpSim.length !&#x3D; 0) this.r10s[&#x27;GenereSimilarity&#x27;] &#x3D; tmpSim;
+              },
+              error &#x3D;&gt; console.log(error)
+            );
+          }
         },
         error &#x3D;&gt; console.log(error)
       );
@@ -987,7 +989,7 @@ export class RecommenderComponent implements OnInit {
   }
 
   getVideoInfo(recommender: string, idList: any, reasonList:any){
-    this.ytService.getVideo(idList.join()).subscribe( // joins all the elements of an array into a string
+    this.ytService.getVideo(idList.join()).toPromise().then( // joins all the elements of an array into a string
       (data: any) &#x3D;&gt; {
         data &#x3D; this.ytService.fromYT(this.ytService.filterVideo(data));
         // E&#x27; possibile che getVideo e filterVideo tolgano alcuni video perchè non riproducibili, quindi la posizione nell&#x27;array non corrirsponde alla vecchia posizione
@@ -1015,7 +1017,7 @@ export class RecommenderComponent implements OnInit {
   popularity(recommender:string, query:string, siteCode:any){
     let siteNumber&#x3D;siteCode.length, popList &#x3D; [];
     for(let i in siteCode){
-      this.alphalistService.getGlobpop(siteCode[i],query).subscribe(
+      this.alphalistService.getGlobpop(siteCode[i],query).toPromise().then(
         (data: any) &#x3D;&gt; {
           for(let i in data.recommended){ this.addList(popList, data.recommended[i]);}
           siteNumber &#x3D; this.finalizePop(popList,siteNumber,recommender);

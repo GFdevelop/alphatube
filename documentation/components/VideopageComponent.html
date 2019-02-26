@@ -294,13 +294,11 @@ export class VideopageComponent implements OnInit {
     this.activeRoute.params.subscribe(
       (params) &#x3D;&gt; {
         // per la gestione dell&#x27;invio di tuple al server
-        let lw &#x3D; JSON.parse(localStorage.getItem(&#x27;lastWatched&#x27;)).filter( a &#x3D;&gt; a &#x3D;&#x3D; params.videoId);
-        if (lw.length) sessionStorage.setItem(&#x27;lastVideo&#x27;, params.videoId);
+        /*let lw &#x3D; JSON.parse(localStorage.getItem(&#x27;lastWatched&#x27;)).filter( a &#x3D;&gt; a &#x3D;&#x3D; params.videoId);
+        if (lw.length) sessionStorage.setItem(&#x27;lastVideo&#x27;, params.videoId);*/
 
         this.ytService.getVideo(params.videoId).subscribe(
           (data: any) &#x3D;&gt; {
-            let a&#x3D;data;
-            console.log(a);
             data &#x3D; this.ytService.filterVideo(data);
             if (data.items.length &#x3D;&#x3D; 0){
               this.route.navigate([&#x27;404&#x27;], { replaceUrl: true, skipLocationChange: true });
@@ -309,7 +307,7 @@ export class VideopageComponent implements OnInit {
           error &#x3D;&gt; console.log(error)
         );
       }
-    );   // TODO: remove this and html
+    );
   }
 }
 </code></pre>

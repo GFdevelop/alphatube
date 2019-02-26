@@ -166,7 +166,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/similarity/similarity.service.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/similarity/similarity.service.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -204,7 +204,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/similarity/similarity.service.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/similarity/similarity.service.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -242,7 +242,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/similarity/similarity.service.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/similarity/similarity.service.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -273,7 +273,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>setArtist(artist: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>setArtist(artist: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
 
@@ -302,7 +302,7 @@
                                                 <tr>
                                                         <td>artist</td>
                                                         <td>
-                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                     
                                                     <td>
@@ -349,7 +349,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/similarity/similarity.service.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/services/similarity/similarity.service.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -473,18 +473,22 @@ export class SimilarityService {
 
   constructor() { }
 
-  private artist &#x3D; new Subject();
+  private artist &#x3D; new Subject();;
   private genre &#x3D; new Subject();
 
-  setArtist(artist:string){
-    this.artist.next(artist);
+  setArtist(artist:any){
+    try {
+      this.artist.next(artist);
+    } catch {
+      this.artist.next(undefined);
+    }
+
   }
 
   setGenere(genre:any){
     try {
       this.genre.next(genre[0].name.value);
     } catch {
-      console.log(genre); // TODO: remove console
       this.genre.next(undefined);
     }
 
@@ -499,8 +503,8 @@ export class SimilarityService {
   }
 
   emptyVar(){
-    this.artist.next(undefined);
-    this.genre.next(undefined);
+    this.setGenere(undefined);
+    this.setArtist(undefined);
   }
 }
 </code></pre>

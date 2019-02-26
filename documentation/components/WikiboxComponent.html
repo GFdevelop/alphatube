@@ -350,7 +350,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:93</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:95</a></div>
                             </td>
                         </tr>
 
@@ -431,7 +431,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:136</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:138</a></div>
                             </td>
                         </tr>
 
@@ -512,7 +512,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:146</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:148</a></div>
                             </td>
                         </tr>
 
@@ -593,7 +593,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:53</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/page/videopage/wikibox/wikibox.component.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -1114,6 +1114,8 @@ export class WikiboxComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params) &#x3D;&gt; {
+        this.similarity.emptyVar(); // For refresh artist &amp; genre sim
+
         this.musicLyrics &#x3D; this.title &#x3D; this.song &#x3D; this.singer_abs &#x3D; this.song_abs &#x3D; this.genres &#x3D; this.comments &#x3D; null;
         this.fetchYTData(params.videoId);
       });
@@ -1147,7 +1149,7 @@ export class WikiboxComponent implements OnInit {
 
           this.similarity.setArtist(this.singer);
         } catch(error) {
-          window.alert(&quot;Schema not recognized, some info may be not available!&quot;);
+          //window.alert(&quot;Schema not recognized, some info may be not available!&quot;);
         } finally {
           this.fetchMusicXMatch(this.singer, this.song);
         }

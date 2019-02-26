@@ -15,13 +15,16 @@ process.chdir(process.env.PWD);
 // ~ __filename = process.argv[1];
 
 
+require('dotenv').config({ path: process.env.PWD + '/server/.env' });	// after fix path get tokens and secrets
+
+
 // CORS
 var whitelist = ['site1826', 'gabriele.fulgaro', 'mattia.polverini', 'arianna.avoni', 'francesco.fornari2'];
 for (i in whitelist) {
 	whitelist[i] = 'http://' + whitelist[i] + '.tw.cs.unibo.it'
 }
-// ~ whitelist.push('http://localhost:8000');	// in localhost the origin is undefined (
-whitelist.push(undefined);		// twitter api
+whitelist.push('http://localhost:8000');	// in localhost the origin is undefined (
+whitelist.push(undefined);					// twitter api
 
 var corsOption = {
 	methods: ['GET','PUT'],
@@ -215,15 +218,14 @@ atlas.put('/watched', cors(corsOption), (req, res) => {
 
 
 atlas.get('/twitter', cors(corsOption), (req, res) => {
-	
+
 	//~ Twitter requests need to pass through the server due to OAuth policy adopted by Twitter
 	//~ Using twit npm package I'm able to build a complete request specifying keys and params
 	var T = new twitter({
-		consumer_key: '*************************',
-		consumer_secret: '**************************************************',
-		access_token: '**************************************************',
-		access_token_secret: '*********************************************'
-
+		consumer_key: process.env.CONSUMER_KEY,
+		consumer_secret: process.env.CONSUMER_SECRET,
+		access_token: process.env.ACCESS_TOKEN,
+		access_token_secret: process.env.ACCESS_TOKEN_SECRET
 	});
 
 	//~ Performing a GET request to Twitter for retrive 24 tweets containg specified song title and artist name
